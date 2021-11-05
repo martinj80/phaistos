@@ -445,8 +445,7 @@ public:
                ring_current_corrections = get_ring_current_corrections(res1, chain);
                shieldings = get_shieldings(res1);
 
-               if (res1->residue_type == SER ||
-                   res1->residue_type == SEP )
+               if (res1->residue_type == SEP )
                {
                    std::cout << "DEBUG:" << std::endl;
                    std::cout << res1 << std::endl;

@@ -48,41 +48,42 @@ const static double atom_p_weight = 30.9738;
 //! H1, H2, H3: 	N-terminal
 //! OXT:         C-terminal
 //! XX, XX_S, XX_O, XX_N, XX_C, XX_H: Wild card atom types
-enum AtomEnum                                      {N=0,   CA,   C,   O,   CB,   SG,   OG,   OG1,   CG,   CG1,   CG2,   SD,   OD1,   OD2,   ND1,   ND2,   CD,   CD1,   CD2,   OE1,   OE2,   NE,   NE1,   NE2,   CE,   CE1,   CE2,   CE3,   NZ,   CZ,   CZ2,   CZ3,   OH,   NH1,   NH2,   CH2,   PS,   H,   HA,   HA1,   HA2,   HA3,   HB,   HB1,   HB2,   HB3,   HG,   HG1,   HG2,   HG3,   HG11,   HG12,   HG13,   HG21,   HG22,   HG23,   HD1,   HD2,   HD3,   HD11,   HD12,   HD13,   HD21,   HD22,   HD23,   HE,   HE1,   HE2,   HE3,   HE21,   HE22,   HH,   HH2,   HH11,   HH12,   HH21,   HH22,   HZ,   HZ1,   HZ2,   HZ3,   H1,   H2,   H3,   OXT,   XX,   XS,   XO,   XN,   XC,   XH,   P,   O1P,   O2P,   O3P, ATOM_ENUM_SIZE};
+enum AtomEnum                                      {N=0,   CA,   C,   O,   CB,   SG,   OG,   OG1,   CG,   CG1,   CG2,   SD,   OD1,   OD2,   ND1,   ND2,   CD,   CD1,   CD2,   OE1,   OE2,   NE,   NE1,   NE2,   CE,   CE1,   CE2,   CE3,   NZ,   CZ,   CZ2,   CZ3,   OH,   NH1,   NH2,   CH2,   PS, P, O1P, O2P, O3P, H,   HA,   HA1,   HA2,   HA3,   HB,   HB1,   HB2,   HB3,   HG,   HG1,   HG2,   HG3,   HG11,   HG12,   HG13,   HG21,   HG22,   HG23,   HD1,   HD2,   HD3,   HD11,   HD12,   HD13,   HD21,   HD22,   HD23,   HE,   HE1,   HE2,   HE3,   HE21,   HE22,   HH,   HH2,   HH11,   HH12,   HH21,   HH22,   HZ,   HZ1,   HZ2,   HZ3,   H1,   H2,   H3,   OXT,   XX,   XS,   XO,   XN,   XC,   XH, ATOM_ENUM_SIZE};
 
 //! Atom names
-const static char *atom_name[ATOM_ENUM_SIZE]  =    {"N", "CA", "C", "O", "CB", "SG", "OG", "OG1", "CG", "CG1", "CG2", "SD", "OD1", "OD2", "ND1", "ND2", "CD", "CD1", "CD2", "OE1", "OE2", "NE", "NE1", "NE2", "CE", "CE1", "CE2", "CE3", "NZ", "CZ", "CZ2", "CZ3", "OH", "NH1", "NH2", "CH2", "CM", "H", "HA", "HA1", "HA2", "HA3", "HB", "HB1", "HB2", "HB3", "HG", "HG1", "HG2", "HG3", "HG11", "HG12", "HG13", "HG21", "HG22", "HG23", "HD1", "HD2", "HD3", "HD11", "HD12", "HD13", "HD21", "HD22", "HD23", "HE", "HE1", "HE2", "HE3", "HE21", "HE22", "HH", "HH2", "HH11", "HH12", "HH21", "HH22", "HZ", "HZ1", "HZ2", "HZ3", "H1", "H2", "H3", "OXT", "XX", "XS", "XO", "XN", "XC", "XH", "P", "O1P", "O2P", "O3P" };
+const static char *atom_name[ATOM_ENUM_SIZE]  =    {"N", "CA",  "C", "O", "CB", "SG", "OG", "OG1", "CG", "CG1", "CG2", "SD", "OD1", "OD2", "ND1", "ND2", "CD", "CD1", "CD2","OE1", "OE2", "NE", "NE1", "NE2", "CE", "CE1", "CE2", "CE3", "NZ", "CZ", "CZ2", "CZ3", "OH", "NH1", "NH2", "CH2",  "CM", "P",  "O1P",  "O2P",  "O3P", "H", "HA", "HA1", "HA2", "HA3", "HB", "HB1", "HB2", "HB3", "HG", "HG1", "HG2", "HG3", "HG11", "HG12", "HG13", "HG21", "HG22", "HG23", "HD1", "HD2", "HD3", "HD11", "HD12", "HD13", "HD21", "HD22", "HD23", "HE", "HE1", "HE2", "HE3", "HE21", "HE22", "HH", "HH2", "HH11", "HH12", "HH21", "HH22", "HZ", "HZ1", "HZ2", "HZ3", "H1", "H2", "H3", "OXT", "XX", "XS", "XO", "XN", "XC", "XH"};
 
 //! Atom type wildcards - Sulfur
-const static bool atom_type_XS[ATOM_ENUM_SIZE] =   {  0,    0,   0,   0,    0,    1,    0,     0,    0,     0,     0,    1,     0,     0,     0,     0,    0,     0,     0,     0,     0,    0,     0,     0,    0,     0,     0,     0,    0,    0,     0,     0,    0,     0,     0,     0,    0,   0,    0,     0,     0,     0,    0,     0,     0,     0,    0,     0,     0,     0,      0,    0,      0,      0,      0,      0,     0,     0,     0,      0,      0,      0,      0,      0,      0,    0,     0,     0,     0,      0,      0,    0,     0,      0,      0,      0,      0,    0,     0,     0,     0,    0,    0,    0,     0,    0,    1,    0,    0,    0,    0,   0,   0,   0,   0};
+const static bool atom_type_XS[ATOM_ENUM_SIZE] = {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0};
 
 //! Atom type wildcards - Oxygen
-const static bool atom_type_XO[ATOM_ENUM_SIZE] =   {  0,    0,   0,   1,    0,    0,    1,     1,    0,     0,     0,    0,     1,     1,     0,     0,    0,     0,     0,     1,     1,    0,     0,     0,    0,     0,     0,     0,    0,    0,     0,     0,    1,     0,     0,     0,    0,   0,    0,     0,     0,     0,    0,     0,     0,     0,    0,     0,     0,     0,      0,      0,      0,      0,      0,      0,     0,     0,     0,      0,      0,      0,      0,      0,      0,    0,     0,     0,     0,      0,      0,    0,     0,      0,      0,      0,      0,    0,     0,     0,     0,    0,    0,    0,     1,    0,    0,    1,    0,    0,    0,   0,   1,   1,   1 };
+const static bool atom_type_XO[ATOM_ENUM_SIZE] = {0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0};
 
 //! Atom type wildcards - Nitrogen
-const static bool atom_type_XN[ATOM_ENUM_SIZE] =   {  1,    0,   0,   0,    0,    0,    0,     0,    0,     0,     0,    0,     0,     0,     1,     1,    0,     0,     0,     0,     0,    1,     1,     1,    0,     0,     0,     0,    1,    0,     0,     0,    0,     1,     1,     0,    0,   0,    0,     0,     0,     0,    0,     0,     0,     0,    0,     0,     0,     0,      0,      0,      0,      0,      0,      0,     0,     0,     0,      0,      0,      0,      0,      0,      0,    0,     0,     0,     0,      0,      0,    0,     0,      0,      0,      0,      0,    0,     0,     0,     0,    0,    0,    0,     0,    0,    0,    0,    1,    0,    0,   0,   0,   0,   0 };
+const static bool atom_type_XN[ATOM_ENUM_SIZE] =  {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0};
 
 //! Atom type wildcards - Carbon
-const static bool atom_type_XC[ATOM_ENUM_SIZE] =   {  0,    1,   1,   0,    1,    0,    0,     0,    1,     1,     1,    0,     0,     0,     0,     0,    1,     1,     1,     0,     0,    0,     0,     0,    1,     1,     1,     1,    0,    1,     1,     1,    0,     0,     0,     1,    0,   0,    0,     0,     0,     0,    0,     0,     0,     0,    0,     0,     0,     0,      0,      0,      0,      0,      0,      0,     0,     0,     0,      0,      0,      0,      0,      0,      0,    0,     0,     0,     0,      0,      0,    0,     0,      0,      0,      0,      0,    0,     0,     0,     0,    0,    0,    0,     0,    0,    0,    0,    0,    1,    0,   0,   0,   0,   0 };
+const static bool atom_type_XC[ATOM_ENUM_SIZE] =  {0, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0};
 
 //! Atom type wildcards - Hydrogen
-const static bool atom_type_XH[ATOM_ENUM_SIZE] =   {  0,    0,   0,   0,    0,    0,    0,     0,    0,     0,     0,    0,     0,     0,     0,     0,    0,     0,     0,     0,     0,    0,     0,     0,    0,     0,     0,     0,    0,    0,     0,     0,    0,     0,     0,     0,    0,   1,    1,     1,     1,     1,    1,     1,     1,     1,    1,     1,     1,     1,      1,      1,      1,      1,      1,      1,     1,     1,     1,      1,      1,      1,      1,      1,      1,    1,     1,     1,     1,      1,      1,    1,     1,      1,      1,      1,      1,    1,     1,     1,     1,    1,    1,    1,     0,    0,    0,    0,    0,    0,    1,   0,   0,   0,   0 };
+const static bool atom_type_XH[ATOM_ENUM_SIZE] =  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1};
 
 //! Atom type wildcards - Phosphorus
-const static bool atom_type_XP[ATOM_ENUM_SIZE] = { 0,    0,   0,   0,    0,    0,    0,     0,    0,     0,     0,    0,     0,     0,     0,     0,    0,     0,     0,     0,     0,    0,     0,     0,    0,     0,     0,     0,    0,    0,     0,     0,    0,     0,     0,     0,    0,   0,    0,     0,     0,     0,    0,     0,     0,     0,    0,     0,     0,     0,      0,    0,      0,      0,      0,      0,     0,     0,     0,      0,      0,      0,      0,      0,      0,    0,     0,     0,     0,      0,      0,    0,     0,      0,      0,      0,      0,    0,     0,     0,     0,    0,    0,    0,     0,    0,    0,    0,    0,    0,    0,   1,   0,   0,   0 };
+const static bool atom_type_XP[ATOM_ENUM_SIZE] =  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 //! Atom type wildcards - Any
-const static bool atom_type_X[ATOM_ENUM_SIZE]  =   {  0,    0,   0,   0,    0,    0,    0,     0,    0,     0,     0,    0,     0,     0,     0,     0,    0,     0,     0,     0,     0,    0,     0,     0,    0,     0,     0,     0,    0,    0,     0,     0,    0,     0,     0,     0,    0,   0,    0,     0,     0,     0,    0,     0,     0,     0,    0,     0,     0,     0,      0,      0,      0,      0,      0,      0,     0,     0,     0,      0,      0,      0,      0,      0,      0,    0,     0,     0,     0,      0,      0,    0,     0,      0,      0,      0,      0,    0,     0,     0,     0,    0,    0,    0,     0,    1,    1,    1,    1,    1,    1,   0,   0,   0,   0 };
+const static bool atom_type_X[ATOM_ENUM_SIZE]  =  { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1};
 
 //! Size of atom_type_wildcards
 const static int atom_type_wildcards_size = 46;
 
 //! Atoms covered by each type of wildcard
-const static AtomEnum atom_type_wildcards[6][atom_type_wildcards_size] = {{ SG,  SD,  XS,  XS,  XS,  XS,  XS,  XS,  XS,  XS,  XS,  XS,   XS,   XS,   XS,   XS,   XS,   XS,  XS,  XS,  XS,   XS,   XS,   XS,   XS,   XS,   XS, XS,  XS,  XS,  XS,   XS,   XS, XS,  XS,   XS,   XS,   XS,   XS, XS,  XS,  XS,  XS, XS, XS, XS},
-                                                                     {  O,  OG, OG1, OD1, OD2, OE1, OE2,  OH, OXT,  XO,  XO,  XO,   XO,   XO,   XO,   XO,   XO,   XO,  XO,  XO,  XO,   XO,   XO,   XO,   XO,   XO,   XO, XO,  XO,  XO,  XO,   XO,   XO, XO,  XO,   XO,   XO,   XO,   XO, XO,  XO,  XO,  XO, XO, XO, XO},
-                                                                     {  N, ND1, ND2,  NE, NE1, NE2,  NZ, NH1, NH2,  XN,  XN,  XN,   XN,   XN,   XN,   XN,   XN,   XN,  XN,  XN,  XN,   XN,   XN,   XN,   XN,   XN,   XN, XN,  XN,  XN,  XN,   XN,   XN, XN,  XN,   XN,   XN,   XN,   XN, XN,  XN,  XN,  XN, XN, XN, XN},
-                                                                     { CA,   C,  CB,  CG, CG1, CG2,  CD, CD1, CD2,  CE, CE1, CE2,  CE3,   CZ,  CZ2,  CZ3,  CH2,   XC,  XC,  XC,  XC,   XC,   XC,   XC,   XC,   XC,   XC, XC,  XC,  XC,  XC,   XC,   XC, XC,  XC,   XC,   XC,   XC,   XC, XC,  XC,  XC,  XC, XC, XC, XC},
-                                                                     {  H,  HA, HA2, HA3,  HB, HB1, HB2, HB3,  HG, HG1, HG2, HG3, HG11, HG12, HG13, HG21, HG22, HG23, HD1, HD2, HD3, HD11, HD12, HD13, HD21, HD22, HD23, HE, HE1, HE2, HE3, HE21, HE22, HH, HH2, HH11, HH12, HH21, HH22, HZ, HZ1, HZ2, HZ3, H1, H2, H3}};
+const static AtomEnum atom_type_wildcards[6][atom_type_wildcards_size] = {
+    { SG,  SD,  XS,  XS,  XS,  XS,  XS,  XS,  XS,  XS,  XS,  XS,   XS,   XS,   XS,   XS,   XS,   XS,  XS,  XS,  XS,   XS,   XS,   XS,   XS,   XS,   XS, XS,  XS,  XS,  XS,   XS,   XS, XS,  XS,   XS,   XS,   XS,   XS, XS,  XS,  XS,  XS, XS, XS, XS},
+    {  O,  OG, OG1, OD1, OD2, OE1, OE2,  OH, OXT,  XO,  XO,  XO,   XO,   XO,   XO,   XO,   XO,   XO,  XO,  XO,  XO,   XO,   XO,   XO,   XO,   XO,   XO, XO,  XO,  XO,  XO,   XO,   XO, XO,  XO,   XO,   XO,   XO,   XO, XO,  XO,  XO,  XO, XO, XO, XO},
+    {  N, ND1, ND2,  NE, NE1, NE2,  NZ, NH1, NH2,  XN,  XN,  XN,   XN,   XN,   XN,   XN,   XN,   XN,  XN,  XN,  XN,   XN,   XN,   XN,   XN,   XN,   XN, XN,  XN,  XN,  XN,   XN,   XN, XN,  XN,   XN,   XN,   XN,   XN, XN,  XN,  XN,  XN, XN, XN, XN},
+    { CA,   C,  CB,  CG, CG1, CG2,  CD, CD1, CD2,  CE, CE1, CE2,  CE3,   CZ,  CZ2,  CZ3,  CH2,   XC,  XC,  XC,  XC,   XC,   XC,   XC,   XC,   XC,   XC, XC,  XC,  XC,  XC,   XC,   XC, XC,  XC,   XC,   XC,   XC,   XC, XC,  XC,  XC,  XC, XC, XC, XC},
+    {  H,  HA, HA2, HA3,  HB, HB1, HB2, HB3,  HG, HG1, HG2, HG3, HG11, HG12, HG13, HG21, HG22, HG23, HD1, HD2, HD3, HD11, HD12, HD13, HD21, HD22, HD23, HE, HE1, HE2, HE3, HE21, HE22, HH, HH2, HH11, HH12, HH21, HH22, HZ, HZ1, HZ2, HZ3, H1, H2, H3}};
 
 //! Translation table to translate from different naming conventions
 const std::map<std::string, std::map<std::string,std::string> > atom_name_translation_map = 
@@ -211,17 +212,11 @@ inline bool is_backbone_atom_type(AtomEnum atom_type) {
      return (atom_type == N || atom_type == CA || atom_type == C);
 }
 
-//Added by MJ: options for side_chain recognition of >=P
 //! Determine whether atom_type corresponds to a sidechain atom
 //!
 //! \param atom_type Type of atom
 //! \return True if atom is a sidechain type
 inline bool is_sidechain_atom_type(AtomEnum atom_type) {
-    if (atom_type >= P) {
-        //std::cout << "checking is_sidechain_atom_type for >=P:" << atom_type
-        //    << "\nreturning: " << (atom_type >= P) << std::endl;
-        return (atom_type >= P);
-    }
      return (atom_type >= CB && atom_type <= HZ3 && atom_type != H);
 }
 
