@@ -68,8 +68,11 @@ const static bool atom_type_XC[ATOM_ENUM_SIZE] =   {  0,    1,   1,   0,    1,  
 //! Atom type wildcards - Hydrogen
 const static bool atom_type_XH[ATOM_ENUM_SIZE] =   {  0,    0,   0,   0,    0,    0,    0,     0,    0,     0,     0,    0,     0,     0,     0,     0,    0,     0,     0,     0,     0,    0,     0,     0,    0,     0,     0,     0,    0,    0,     0,     0,    0,     0,     0,     0,    0,   1,    1,     1,     1,     1,    1,     1,     1,     1,    1,     1,     1,     1,      1,      1,      1,      1,      1,      1,     1,     1,     1,      1,      1,      1,      1,      1,      1,    1,     1,     1,     1,      1,      1,    1,     1,      1,      1,      1,      1,    1,     1,     1,     1,    1,    1,    1,     0,    0,    0,    0,    0,    0,    1,   0,   0,   0,   0 };
 
+//! Atom type wildcards - Phosphorus
+const static bool atom_type_XP[ATOM_ENUM_SIZE] = { 0,    0,   0,   0,    0,    0,    0,     0,    0,     0,     0,    0,     0,     0,     0,     0,    0,     0,     0,     0,     0,    0,     0,     0,    0,     0,     0,     0,    0,    0,     0,     0,    0,     0,     0,     0,    0,   0,    0,     0,     0,     0,    0,     0,     0,     0,    0,     0,     0,     0,      0,    0,      0,      0,      0,      0,     0,     0,     0,      0,      0,      0,      0,      0,      0,    0,     0,     0,     0,      0,      0,    0,     0,      0,      0,      0,      0,    0,     0,     0,     0,    0,    0,    0,     0,    0,    0,    0,    0,    0,    0,   1,   0,   0,   0 };
+
 //! Atom type wildcards - Any
-const static bool atom_type_X[ATOM_ENUM_SIZE]  =   {  0,    0,   0,   0,    0,    0,    0,     0,    0,     0,     0,    0,     0,     0,     0,     0,    0,     0,     0,     0,     0,    0,     0,     0,    0,     0,     0,     0,    0,    0,     0,     0,    0,     0,     0,     0,    0,   0,    0,     0,     0,     0,    0,     0,     0,     0,    0,     0,     0,     0,      0,      0,      0,      0,      0,      0,     0,     0,     0,      0,      0,      0,      0,      0,      0,    0,     0,     0,     0,      0,      0,    0,     0,      0,      0,      0,      0,    0,     0,     0,     0,    0,    0,    0,     0,    1,    1,    1,    1,    1,    1,   1,   0,   0,   0 };
+const static bool atom_type_X[ATOM_ENUM_SIZE]  =   {  0,    0,   0,   0,    0,    0,    0,     0,    0,     0,     0,    0,     0,     0,     0,     0,    0,     0,     0,     0,     0,    0,     0,     0,    0,     0,     0,     0,    0,    0,     0,     0,    0,     0,     0,     0,    0,   0,    0,     0,     0,     0,    0,     0,     0,     0,    0,     0,     0,     0,      0,      0,      0,      0,      0,      0,     0,     0,     0,      0,      0,      0,      0,      0,      0,    0,     0,     0,     0,      0,      0,    0,     0,      0,      0,      0,      0,    0,     0,     0,     0,    0,    0,    0,     0,    1,    1,    1,    1,    1,    1,   0,   0,   0,   0 };
 
 //! Size of atom_type_wildcards
 const static int atom_type_wildcards_size = 46;
@@ -184,6 +187,14 @@ inline bool is_atom_XH(AtomEnum atom_type) {
      return atom_type_XH[atom_type];
 }
 
+//! Check if atom is a phosphorus
+//!
+//! \param atom_type Type of atom
+//! \return True if atom is of type phosphorus
+inline bool is_atom_XP(AtomEnum atom_type) {
+    return atom_type_XP[atom_type];
+}
+
 //! Check if atom is a wildcard atom
 //!
 //! \param atom_type Type of atom
@@ -206,7 +217,12 @@ inline bool is_backbone_atom_type(AtomEnum atom_type) {
 //! \param atom_type Type of atom
 //! \return True if atom is a sidechain type
 inline bool is_sidechain_atom_type(AtomEnum atom_type) {
-     return (atom_type >= CB && atom_type <= HZ3 && atom_type != H && atom_type >= P);
+    if (atom_type >= P) {
+        //std::cout << "checking is_sidechain_atom_type for >=P:" << atom_type
+        //    << "\nreturning: " << (atom_type >= P) << std::endl;
+        return (atom_type >= P);
+    }
+     return (atom_type >= CB && atom_type <= HZ3 && atom_type != H);
 }
 
 //! Overload output operator for AtomEnum

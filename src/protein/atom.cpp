@@ -1586,7 +1586,7 @@ void Atom::init(AtomEnum atom_type, Residue *residue, int index) {
              residue->set_minor_dof_atom(this, ANGLE);
 
              covalent_neighbours.push_back(std::pair<AtomEnum, int>(CB, 0));
-             covalent_neighbours.push_back(std::pair<AtomEnum, int>(HG, 0));
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(P, 0));
              this->mass = definitions::atom_o_weight;
              break;
          case HB2:
@@ -1614,9 +1614,46 @@ void Atom::init(AtomEnum atom_type, Residue *residue, int index) {
              covalent_neighbours.push_back(std::pair<AtomEnum, int>(O3P, 0));
              this->mass = definitions::atom_p_weight;
              break;
+
+         case O1P:
+             //// Chi 3
+             residue->set_chi_atom(this, 2);
+             residue->sidechain_status = true;
+             residue->set_minor_dof_atom(this, ANGLE);
+             //residue->set_minor_dof_atom(this, ANGLE);
+             //residue->set_minor_dof_atom(this, DIHEDRAL);
+
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(P, 0));
+             this->mass = definitions::atom_o_weight;
+             break;
+
+         case O2P:
+             //// Chi 4
+             //residue->set_chi_atom(this, 3);
+             //residue->sidechain_status = true;
+             //residue->set_minor_dof_atom(this, ANGLE);
+             residue->set_minor_dof_atom(this, ANGLE);
+             residue->set_minor_dof_atom(this, DIHEDRAL);
+
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(P, 0));
+             this->mass = definitions::atom_o_weight;
+             break;
+
+         case O3P:
+             //// Chi 5
+             //residue->set_chi_atom(this, 4);
+             //residue->sidechain_status = true;
+             //residue->set_minor_dof_atom(this, ANGLE);
+             residue->set_minor_dof_atom(this, ANGLE);
+             residue->set_minor_dof_atom(this, DIHEDRAL);
+
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(P, 0));
+             this->mass = definitions::atom_o_weight;
+             break;
          
          default:
              break;
+
          }
          break;
 

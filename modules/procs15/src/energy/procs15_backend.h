@@ -1323,7 +1323,8 @@ public:
                list_of_tables[102] = new ArrayWrapperInterpolate(cnpy::npy_load(path+"VAL_ca.npy").get_4d_array(),gridsize4d); loaded_tables[102] = true;
                list_of_tables[108] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TRP_ca.npy").get_5d_array(),gridsize5d); loaded_tables[108] = true;
                list_of_tables[114] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TYR_ca.npy").get_5d_array(),gridsize5d); loaded_tables[114] = true;
-               list_of_tables[120] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_ca.npy").get_4d_array()); loaded_tables[120] = true;
+               list_of_tables[120] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_ca.npy").get_4d_array()); loaded_tables[120] = true; //should be 4d_ or 5d_array
+               //list_of_tables[120] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "SEP_ca.npy").get_5d_array(),gridsize5d); loaded_tables[120] = true; //test with 5d_array
           }
           if (load_cb){
                std::cout << "CB " << std::flush;               
