@@ -1,0 +1,67 @@
+
+\section{Sidechain DBN moves}
+\label{sec:sidechain-move-dbn}
+
+The sidechain DBN moves (\texttt{sidechain-basilisk} and \texttt{sidechain-compas})
+allow you to sample amino acid side chain conformations from one of
+the included probabilistic models of side chain geometry, namely
+COMPAS or BASILISK \cite{harder2010beyond}.  These moves will propose
+a new set of angles for a randomly selected stretch of residues. We
+recommend only using a stretch of length one, or in other words, to
+only resample a single side chain at a time. Changing multiple
+sidechains in one go will increase the likelihood of introducing
+clashes, leading to a significantly higher rejection rate.
+
+Both moves use an external model file. Please remember to set the
+\texttt{PHAISTOS\_ROOT} environmental variable to avoid problems
+accessing these files (see section \ref{sec:locating-data-files}).
+
+\subsection{General settings}
+
+The behavior of the two moves is identical in terms of
+parameters. However, the moves applies to different side chain
+representation: BASILISK requires full atomic details, whereas COMPAS
+only requires a pseudo atom at the side chain center of mass.  Both
+sidechain DBN moves have the following options.
+
+\begin{optiontable}
+\option{move-length-min}{int}{1.}{Minimum move length.}
+\option{move-length-max}{int}{1.}{Maximum move length.}
+\option{mocapy-dbn-dir}{string}{../data/mocapy\_dbns}{Path to mocapy model file directory.}
+\option{implicit-energy}{bool}{\emph{true}}{Whether the dbn bias (implicit energy) should be divided out (=false) or not (=true).}
+
+\option{ignore-bb}{bool}{\emph{false}}{Whether to use the backbone independent version instead.}
+\option{check-move}{bool}{\emph{true}}{Check that the move produced consisted atom positions.}
+\option{sample-hydrogen-chis}{bool}{\emph{false}}{Sample sidechain residual dofs.}
+\option{sample-hydrogen-chis-normal}{real}{1.}{Resampling constrained to a Gaussian around the current state.}
+\option{sample-hydrogen-chis-sigma}{real}{0.035}{Standard deviation of Gaussian for resampling residual dofs.}  
+\option{model-filename}{string}{basilisk.dbn/compas.dbn}{Model filename.}
+\end{optiontable}
+
+\notification{IMPORTANT: Both variants of the move introduce a bias (implicit energy) to the 
+simulation that is possible to compensate by setting \texttt{implicit-energy}=false.}
+
+\subsection{BASILISK move (\texttt{sidechain-basilisk})}
+\label{sec:basilisk-move}
+
+BASILISK assumes a full atom representation of the protein
+sidechain. There are several variants of this move available:
+
+\begin{flushleft}
+\texttt{sidechain-basilisk}, \texttt{sidechain-basilisk-local}, and \texttt{sidechain-basilisk-multi}.
+\end{flushleft}
+
+\noindent The \texttt{local} version samples the hidden node state
+based on the current angle values and subsequently samples angles
+corresponding to this state, which generally has the effect of small
+angle variations. The \texttt{multi} variant will do a sidechain move
+in two disjunct regions of the protein chain.  See appendix
+\ref{cha:sidechain-dbns-module} for details.
+
+
+\subsection{COMPAS move (\texttt{sidechain-compas})}
+\label{sec:compas-move}
+
+COMPAS uses a pseudo-sidechain representation, with one atom per
+sidechain. See appendix \ref{cha:sidechain-dbns-module} for details.
+

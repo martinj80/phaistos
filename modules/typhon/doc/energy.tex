@@ -1,0 +1,63 @@
+
+\section{Distance constraints (\texttt{constrain-distances})}
+\label{sec:constr-dist-term}
+
+The \texttt{constrain-distances} term can be used to restraint
+distances between arbitrary atom in a simulation. Usually starting
+from a compact, near native conformation, this term allows to set up a
+network of distance restraints that will then be kept fixed over the
+course of the simulation. The individual distances are modeled by
+Gaussian distributions.
+
+
+% \subsection{Command line options (constrain-distances)}
+% The term can both be used in a regular and in a cached version. 
+% For performance reasons, the cached version should be used. Only
+% in specific case (usual for debugging purposes) the full evaluation
+% may be useful as well though. 
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{network-filename}		{string}{optional} {Restore network from a file.}
+  \option{pdb-file}                     {string}{}{Path to PDB input file (see below).}
+  \option{include-bb-hbond}		{bool}	{true} {Include H bonds in the network.}
+  \option{include-sc-hbond}		{bool}	{true} {Include sidechain-sidechain hydrogen bonds in the network.}
+  \option{include-bb-sc-hbond}		{bool}	{true} {Include sidechain-sidechain hydrogen bonds in the network.}
+  \option{include-ca-contacts}	{bool}	{true} {Include CA-CA contacts in the network.}
+  \option{include-fixed-point-contacts}	{bool}	{false} {Include contacts between atoms and fixed points in space.}
+  \option{include-ss-bond}		{bool}	{true} {Include disulfide bonds (SS bonds) in the network.}
+  \option{init-hbond-from-native}	{bool}	{false} { Whether to initialize ideal H bond distances from PDB file (rather than averages from the Top500 database).}
+  \option{prune-network}			{bool}	{true} {Whether to prune/optimize the hbond network.}
+  \option{dehydron-bb-cutoff}{int} {14}{Cutoff below which backbone-backbone hydrogen bonds are considered as dehydrated aka weak/broken.}
+  \option{dehydron-bb-sc-cutoff}{int}{9}{Cutoff below which backbone-sidechain hydrogen bonds are considered as dehydrated aka weak/broken.}
+  \option{dehydron-sc-cutoff}{int}{7}{Cutoff below which sidechain-sidechain hydrogen bonds are considered as dehydrated aka weak/broken.}
+  \option{ca-distance}			{real}	{5} {Default CA-CA cutoff distance.}
+  \option{ss-distance}			{real}	{3} {Default CYS(SG)-CYS(SG) cutoff distance.}
+  \option{ca-skip }				{int}	{4} {How many residues to skip along the chain before considering a Calpha contact.}
+  \option{distances-bb-hbond-skip}{int}{1}{How many residues to skip along the chain before considering a backbone-backbone hydrogen bond contact.}
+  \option{distances-sc-hbond-skip}{int}{1}{How many residues to skip along the chain before considering a sidechain-sidechain hydrogen bond contact.}
+  \option{distances-bb-sc-hbond-skip}{int}{1}{How many residues to skip along the chain before considering a backbone-sidechain hydrogen bond contact.}
+  \option{ss-skip}				{int}	{1} {How many residues to skip along the chain before considering a disulfide contact.}
+  \option{generate-pymol}{bool}{false}{Whether to generate a Python script that will visualize the network in PyMOL.}
+  \option{use-caching}{bool}{true}{Whether to cache interations (recommended).}
+  \option{verbose}{bool}{false}{Whether to print out additional information (recommended).}
+\end{optiontable}
+
+
+\section{Distance disulfide constraints\\(\texttt{constrain-disulfide-bonds})}
+\label{sec:constr-dist-ss-term}
+
+This is a simplified front-end to the \texttt{constrain-distances}
+energy term. It is an easy way to fix (as in unbreakable) the disulfide bonds in a
+structure during a simulation.
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{network-filename}		{string}{optional} {Restore network from a file.}
+  \option{include-ss-bond}		{bool}	{true} {Include disulfide bonds (SS bonds) in the network.}
+  \option{ss-distance}			{real}	{3} {Default CYS(SG)-CYS(SG) cutoff distance.}
+  \option{ss-skip}				{int}	{1} {How many residues to skip along the chain before considering a disulfide contact.}
+  \option{generate-pymol}{bool}{false}{Whether to generate a Python script that will visualize the network in PyMOL.}
+  \option{use-caching}{bool}{true}{Whether to cache interations (recommended).}
+  \option{verbose}{bool}{false}{Whether to print out additional information (recommended).}
+\end{optiontable}

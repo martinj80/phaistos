@@ -1,0 +1,33 @@
+\section{Visible volume}
+The visible volume measure of L. L. Conte and T. F. Smith \cite{conte97visvol} is calculated using an algorithm by K. E. Johansson. Two additional measures based on this algorithm, called angular exposure and first shell coordination number, are also implemented. All three measures can be dumped as observables and a simple solvation energy can be calculated using the angular exposure in combination with hydrophobic solvation parameters from FoldX \cite{schymkowitz05foldx}.
+
+\subsection{Visible volume}
+Visible volume is a residual measure of the volume that is accessible for a side chain. Observing from the side chain geometrical center, the volume behind neighboring atoms is excluded as invisible and the remaining volume gives the space available for the side chain. A sphere of radius \texttt{sphere-radius} is considered and this setting determines the maximum volume available. The algorithm probes the space in a number of descrete \emph{angle points} dependent on the setting of \texttt{min-sphere-points}.
+
+%\includegraphics[width=.7\textwidth]{shading_disks.png}
+
+\subsection{Angular exposure}
+The fraction of the sphere surface not covered by neighbors is calculated as a measure of the solvent exposure of the side chain. This measure is highly correlated with relative solvent accessible surface area (SASA). 
+
+\subsection{First shell coordination number}
+The conventional coordination number used in the context of protein structure counts the number of atoms within some cutoff distance of a central atom. The visible volume algorithm gives information on which neighbors within the sphere are visible and which are occluded by closer neighbors. 
+
+The visible neighbors constitutes the first shell of coordinated atoms. However, the first shell of neighbors does not constitute a solid shade and more distant neighbors may be visible between them. Because of this, it is often useful to set a threshold for a first shell neighbor. The algorithm considers angular space in discrete points and the option \texttt{fscn-threshold} sets the number minimum number of visible angle points from a single neighbor to define it as coordinated.
+
+\subsection{Options}
+All three measures can be dumped to stdout using
+\begin{flushleft}
+\texttt{./evaluate\_observable --pdb-file xxxx.pdb --observable-visible-volume volume=1 angexp=1 fscn=1}
+\end{flushleft}
+or to the B-factor field in a PDB file by adding \texttt{output-target=pdb-b-factor}. The latter usage requires that the user select a single measure. When used as an energy, only the angular exposure is used and the others may be disabled for enhanced performance. Residual energies cannot be outputted. When printed to a text file, all enabled measures are printed to a single line.
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{sphere-radius}{real}{11}{Neighbors within this distance are considered (angstroms)}
+  \option{min-sphere-points}{int}{1000}{Minimum number of angle points used in the algorithm. The actual number of angle points used by the algorithm is rounded up to constitute a regular mesh.}
+  \option{atom-radius}{real}{1.8}{Radius of the disk representing atom neighbors in angstroms.}
+  \option{volume}{bool}{1}{Toggle calculation of visible volume when used as observable.}
+  \option{angexp}{bool}{0}{Toggle calculation of angular exposure when used as observable.}
+  \option{fscn}{bool}{0}{Toggle calculation of first shell coordination number when used as observable.}
+  \option{fscn-threshold}{int}{35}{Threshold value used in the calculation of first shell coordination number. At least this many angle points must be visible to consider a neighbor as coordinated. This should be adjusted to the total number of angle points used in the algorithm (dependent on \texttt{min-sphere-points}).}
+\end{optiontable}

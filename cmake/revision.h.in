@@ -1,0 +1,7 @@
+#ifndef __REVISION_H
+#define __REVISION_H
+#define SVN_REVISION "${SUBVERSION_REVISION}"
+#define PHAISTOS_VERSION "@VERSION@"
+#endif
+
+

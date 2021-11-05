@@ -1,0 +1,120 @@
+\section{Implicit solvent model}
+
+Phaistos includes an implementation of the Generalized Born/solvent
+accessible surface area (GBSA) implicit solvent model
+\cite{qiu1997gbsa}. It exists in two versions: a basic implementation
+and an implementation that uses the Phaistos' ChainTree datastructure
+\cite{lotan2004algorithm} to speed up the calculation and cache
+contributions between iterations.
+
+\subsection{GBSA standard implementation (\texttt{gbsa})}
+
+This standard implementation is extremely computationally intensive,
+and is primarily intended for debugging purposes.
+
+\subsection{GBSA cached implementation (\texttt{gbsa-cached})}
+
+This version has been optimized so that it exploits the ChainTree
+data structure both when determining Born radii and for the subsequent
+calculation of solvation energies. Due to the inherent structure of
+the GBSA expression, it is difficult to obtain great speedups using
+caching. However, this version is typically around a factor 10 faster
+than the standard version mentioned above. The parameters below
+determine how aggressively to reuse calculations between iterations.
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{maximum-deviation-cutoff}{real}{0.1}{Maximum deviation allowed in born radii in two subtrees of the chaintree before it is recalculated.}
+  \option{cutoff-distance-phase1}{real}{inf}{Distance beyond which contributions are set to zero in phase1.}
+  \option{cached-cutoff-distance-phase2}{real}{inf}{Distance beyond which contributions are set to zero in phase2.}
+\end{optiontable}
+
+
+
+\section{OPLS all-atom energy}
+
+This implementation of the OPLS-AA/L all atom force field
+\cite{jorgensen1996development} is based on the TINKER molecular
+modeling suite version 4.2 \cite{ponder2010}.
+
+The OPLS-AA/L energy is composed of 6 terms: A Lennard-Jones potential
+term (attractive van der Waals forces plus steric repulsion), a
+partial charge interaction term, a torsional angle energy
+term, a bond angle bending energy term, a bond stretching energy
+term and a term for out-of-plane bending of trivalent atoms (improper
+torsion). The non-bonded terms have been merged into a single loop for optimized
+performance. This non-bonded term has furthermore been implemented in a
+cached version that uses the Phaistos ChainTree to rapidly locate the
+parts of the chain that needs updating (see section \ref{sec:opls-non-bonded}).
+
+To include all the OPLS and GBSA energy terms in a simulation, you can
+use the short-hand command line options:
+
+\begin{flushleft}
+\texttt{--energy opls}\hspace{1ex} or\hspace{1ex} \texttt{--energy opls-cached}
+\end{flushleft}
+
+\subsection{Torsional angle energy  \\(\texttt{opls-torsion | opls-torsion-cached})}
+
+This term calculates the energy contribution from the local backbone
+configuration (dihedral angles). The cached version only recalculates
+the segment that has been resampled in a given iteration.
+
+
+\subsection{Angle bend energy  \\(\texttt{opls-angle-bend | opls-angle-bend-cached})}
+
+This term calculates the contribution from bond angles
+fluctuations. The cached version only recalculates the segment that
+has been resampled in a given iteration.
+
+\subsection{Bond stretch energy \\(\texttt{opls-bond-stretch})}
+
+This term evaluates the deviation of bond lengths from their ideal
+values. Note that this is rarely a degree of freedom in Monte Carlo
+moves.
+
+\subsection{Improper torsion energy \\(\texttt{opls-improper-torsion})}
+
+This term implements an expression for out-of-plane bending of
+trivalent atoms. Note that this is rarely a degree of freedom in Monte
+Carlo moves.
+
+\subsection{Partial charge interaction energy \\(\texttt{opls-charge | opls-charge-cached})}
+
+This term evaluates partial charge interactions. The cached version
+uses the ChainTree to cache previously calculated contributions.
+
+\optiontitle{Settings (for the cached version)}
+\begin{optiontable}
+  \option{cutoff-distance}{real}{inf}{Distance beyond which contributions are set to zero.}
+\end{optiontable}
+
+\subsection{van der Waals interaction energy \\(\texttt{opls-vdw | opls-vdw-cached})}
+
+Van der Waals interactions (Lennard-Jones potential) are evaluated by
+this term. The cached version uses the ChainTree to cache previously
+calculated contributions.
+
+\optiontitle{Settings (for the cached version)}
+\begin{optiontable}
+  \option{cutoff-distance}{real}{inf}{Distance beyond which contributions are set to zero.}
+\end{optiontable}
+
+\subsection{Non-bonded interaction energy \\(\texttt{opls-non-bonded | opls-non-bonded-cached})}
+\label{sec:opls-non-bonded}
+
+This term gathers all non-bonded OPLS terms and the GBSA solvent
+calculation into a single term, thereby speeding up calculations.  The
+cached version of this term is the recommended way to run OPLS+GBSA
+simulations. 
+
+\optiontitle{Settings (for the cached version)}
+\begin{optiontable}
+  \option{vdw-cutoff-distance}{real}{inf}{Distance beyond which vdw contributions are set to zero.}
+  \option{charge-cutoff-distance}{real}{inf}{Distance beyond which vdw contributions are set to zero.}
+  \option{gbsa-maximum-deviation-cutoff}{real}{0.1}{Maximum deviation allowed in born radii in two subtrees of the chaintree.}
+  \option{gbsa-cutoff-distance-phase1}{real}{inf}{Distance beyond which gbsa contributions are set to zero in phase1.}
+  \option{gbsa-cutoff-distance-phase1}{real}{inf}{Distance beyond which gbsa contributions are set to zero in phase2.}
+\end{optiontable}
+
+

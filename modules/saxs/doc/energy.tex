@@ -1,0 +1,55 @@
+
+\section{SAXS energy (\texttt{saxs-debye})}
+\label{sec:saxs-energy}
+
+The SAXS energy term provides support for sampling under restraints
+from Small Angle X-ray Scattering (SAXS) data. It is described in
+detail in Appendix \ref{cha:saxs-module}.
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{debug}{int}{0}{Print debugging information.
+
+    5: Basic information on loading the data bases.
+
+    10: Preparation of the error model. Energy is printed for every evaluation.
+
+    50: Filling the form factors for the molecule in exam. Sine lookup
+    table extensive validation: computes the output of the sin()
+    function, and warns the user if the absolute discrepancy with the
+    lookup table is above $10^{-3}$.
+
+    100: Full internal debug information.}
+
+  \option{saxs-intensities-filename}{filename (mandatory)}{}{The reference
+    experimental reading. It should be discretized at the same
+    \emph{q} bins as the form factors database (see next option). The
+    discretization is performed at $q=0.015 \mathrm{\AA}^{-1}$.}
+
+  \option{saxs-form-factors-filename}{filename (mandatory)}{}{The form
+    factors database, as available as open data from our article \cite{stovgaard2010calculation}. It should be
+    discretized at the same \emph{q} bins as the experimental
+    reading.}
+
+  \option{exp-errors-alpha}{real}{0.15}{Influences the amplitude of the
+    scattering error, as per ref. \cite{stovgaard2010calculation}.}
+
+  \option{exp-errors-beta}{real}{0.30}{Influences the amplitude of the
+    scattering error, as per ref. \cite{stovgaard2010calculation}.}
+
+  \option{q-bins}{int}{51}{Sets the total number of elements read from
+    the \texttt{saxs\_intensities\_filename} and
+      \texttt{saxs\_form\_factors\_filename} data bases.}
+
+  \option{q-bins-first}{int}{0}{Sets the initial element of the
+    \texttt{saxs\_intensities\_filename} and \texttt{saxs\_form\_factors\_filename} data bases
+    (can be used to skip the initial bins of the profile).}
+
+  \option{one-body-model}{bool}{false}{Use the one- or two-body model per amino acid. The two-body model is slower but significantly more accurate at higher q-values (see ref. \cite{stovgaard2010calculation}).}
+
+  \option{sine-lookup-table}{bool}{true}{Use a pre-computed sine table
+    in the Debye formula. Depending on your hardware, this can improve
+    the speed of the Debye computation up to 3x.}
+
+\end{optiontable}
+

@@ -1,0 +1,50 @@
+
+\section{BASILISK explicit energy (\texttt{basilisk})}
+\label{sec:basilisk-energy}
+
+This sidechain DBN energy terms allows you to use the BASILISK model
+of amino acid sidechain geometry as an \emph{explicit} energy (rather
+than the \emph{implicit} term that arises when sampling from the model
+and not dividing out the bias). This can of interest when one wishes
+to evaluate (or compensate for) the bias introduced by sampling from
+the model. It may also be used to evaluate the likelihood (score) of
+the side chain geometry. The returned energy is the negative log
+likelihood as calculated from the side chain models.
+
+The BASILISK energy term can be used on side chain conformations
+in full atomic detail. Using the \texttt{ignore-bb} option, it is
+possible to turn off the backbone dependency of the energy.
+
+Both moves use an external model file. Please remember to set the
+\texttt{PHAISTOS\_ROOT} environmental variable to avoid problems accessing
+these files (see section \ref{sec:locating-data-files})..
+
+For more information on the BASILISK model please consult our 
+BASILISK publication \cite{harder2010beyond}.
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{mocapy-dbn-dir}{string} {../data/mocapy\_dbns} {Path to mocapy model file directory.}
+  \option{model-filename}{string} {basilisk.dbn} {Filename of the mocapy model.}
+  \option{use-cache}	 {bool} {\emph{true}} 	{Use the cached version of the term (should be faster).}
+  \option{ignore-bb}	 {bool} {\emph{false}} 	{Whether to omit the backbone conformation (backbone-independent mode)}
+\end{optiontable}
+
+\section{COMPAS explicit energy (\texttt{compas})}
+\label{sec:compas-energy}
+
+The COMPAS energy term is the pseudo-sidechain atom equivalent to the
+full-atom \texttt{basilisk} term. It makes it possible to evaluate an
+explicit energy for the COMPAS model (which is normally included
+implicitly through the use of the COMPAS move). The COMPAS model is
+described in detail in reference \cite{stovgaard2011}.
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{mocapy-dbn-dir}{string} {../data/mocapy\_dbns} {Path to mocapy model file directory.}
+  \option{model-filename}{string} {compas.dbn} {Filename of the mocapy model.}
+  \option{use-cache}	 {bool} {\emph{true}} 	{Use the cached version of the term (should be faster).}
+  \option{ignore-bb}	 {bool} {\emph{false}} 	{Include the backbone conformation for more accurate evaluation.}
+\end{optiontable}
+
+

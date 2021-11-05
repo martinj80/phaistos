@@ -1,0 +1,59 @@
+============================================================
+PHAISTOS - INSTALL file
+============================================================
+
+This file contains instructions about compilation of the 
+Phaistos library.
+
+============
+Requirements
+============
+
+Phaistos requires a working C++ compiler and Fortran compiler,
+CMake version 2.6.2 or later, Boost version 1.41 or later and
+Lapack/Blas. 
+
+==================
+Basic installation
+==================
+
+Change directory to the Phaistos directory. Create a build 
+directory, call cmake and then make
+
+% mkdir build
+% cd build
+% cmake ..
+% make
+
+Cmake takes a variety of options. For our purpose, the most
+important is specification of a non-standard location of 
+Boost and Lapack and Blas.
+
+% cmake -DBOOST_ROOT:FILEPATH=XXX LAPACK_LIBRARY:FILEPATH=YYY BLAS_LIBRARY:FILEPATH=ZZZ ..
+
+You can also choose beween compiling in Debug mode (without 
+optimization and with debug information for debuggers), or in
+Release mode. Release mode is default.
+
+% cmake -DCMAKE_BUILD_TYPE:STRING=Debug ..
+
+It is also possible to switch modules off and on. This is done using
+-DPHAISTOS_MODULE_DISABLE and -DPHAISTOS_MODULE_ENABLE flags. Both
+these options take a regular expression. For instance, you can turn
+off the muninn module using
+
+% cmake -DPHAISTOS_MODULE_DISABLE:STRING="muninn" ..
+
+
+All cmake options and there current settings can be found using
+
+% cmake -LA
+
+See the manual for further details. The manual can be created in PDF format 
+using:
+
+% make manual_pdf 
+
+You can find the PDF file in the doc directory.
+
+

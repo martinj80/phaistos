@@ -1,0 +1,127 @@
+
+\section{PROFASI energy}
+\label{sec:profasi-energy}
+
+The PROFASI force field implemented in Phaistos is an implicit solvent
+all-atom potential for simulations of protein folding and
+aggregation. The potential is developed through studies of structural
+and thermodynamic properties of 17 peptides with diverse secondary
+structure \cite{irback2009effective}. It is composed of four terms
+
+\begin{equation}
+E = E_{\mathrm{loc}} + E_{\mathrm{ev}} + E_{\mathrm{hb}} + E_{\mathrm{sc}} \ ,
+\end{equation}
+
+\noindent
+where $E_{\mathrm{loc}}$ is a local electrostatic potential between atoms
+separated by a few covalent bonds, $E_{\mathrm{ev}}$ is a potential of the
+excluded volume effect, $E_{\mathrm{hb}}$ is a hydrogen bond potential,
+and $E_{\mathrm{sc}}$ represents interactions between sidechains. These four
+terms are divided into seven parts in the implementation for the sake
+of optimization. The individual terms are briefly discussed
+below. There are various versions of each term. Typically, either the
+\texttt{cached} or the \texttt{improved} versions are faster than the
+standard implementation. Which of the two are fastest depends on the
+length of the protein. To give an idea of the speeds, we include
+speedup factors for a particular protein (PDB Code 1lq7). In a given
+simulation scenario, the user is recommended to try both variants to
+see which one is most efficient.
+
+
+% For a detailed description of the energy terms see
+% \cite{irback2009effective}.
+
+% They can be obtained by using the following profasi
+% energy options in the settings of the simultion of Phaistos. 
+
+% \subsection{Individual terms}
+% \label{sec:profasi-individual-terms}
+
+
+
+\subsection{Profasi local energy \\(\texttt{profasi-local | profasi-local-cached})}
+This term calculates the $E_{\mathrm{loc}}$ along the backbone,
+including the Coulomb interactions between partial charged atoms on
+the neighbouring peptide along the backbone, and in addition, the
+repulsion of the HH atoms and the OO atoms between neighbouring
+peptides.
+
+The cached version of the profasi local energy term, uses the
+ChainTree data structure, which will give the same profasi local
+energy value with around 10 times faster calculation speed.
+
+\subsection{Profasi local sidechain energy \\(\texttt{profasi-local-sidechain~|}\\\texttt{profasi-local-sidechain-cached})}
+This term calculates the $E_{\mathrm{loc}}$ along the sidechains, which is the explicit
+torsional angle potential.
+
+The cached version of the profasi local sidechain energy term uses
+the ChainTree data structure, which will give the same energy value
+with around 6 times faster calculation speed.
+
+\subsection{Profasi excluded volume energy \\(\texttt{profasi-excluded-volume~|}\\\texttt{profasi-excluded-volume-cached})}
+
+This term calculates the non-local part of the $E_{\mathrm{ev}}$,
+by summing over all the excluded volume potential between pairs of
+atoms that are separated by non-constant disance and more than three
+convalent bonds.
+
+The cached version of the profasi non-local excluded volume energy
+term uses the ChainTree data structure, which will give the same
+energy value with around 15 times faster calculation speed.
+ 
+
+\subsection{Profasi local excluded volume energy \\(\texttt{profasi-excluded-volume-local~|}\\\texttt{profasi-excluded-volume-local-cached})}
+
+This term calculates the local part of the $E_{\mathrm{ev}}$ that sums
+over all the excluded volume potential between pairs of atoms that are
+separated by non-constant distance and three convalent bonds.
+
+The cached version of the profasi local excluded volume energy term
+uses the ChainTree data structure, which will give identical energy value to
+local excluded volume with around 13 times faster calculation speed.
+ 
+
+\subsection{Profasi hydrogen bond energy \\(\texttt{profasi-hydrogen-bond~|}\\\texttt{profasi-hydrogen-bond-cached~|}\\\texttt{hydrogen-bond-improved})}
+
+This term calculates the $E_{\mathrm{hb}}$ by summing up
+backbone-backbone and side\-chain-back\-bone hydrogen bonding
+interactions.
+
+The cached version of the profasi hydrogen bond energy term uses the
+ChainTree data structure, which will give identical energy value to
+hydrogen bond energy with around 1.8 times faster calculation speed.
+
+The improved version of the profasi hydrogen bond energy term uses a
+term-specific optimization technique, which will give identical energy
+value to hydrogen bond energy term with around 4.4 times faster
+calculation speed.
+ 
+\subsection{Profasi hydrophobicity energy \\(\texttt{profasi-hydrophobicity~|}\\\texttt{profasi-hydrophobicity-cached~|}\\\texttt{profasi-hydrophobicity-improved})}
+This term calculates the hydrophobic part of $E_{\mathrm{sc}}$.
+
+The cached version of the profasi hydrophobicity energy term is using
+the ChainTree method, which will give identical energy value to
+hydrophobicity energy with around 1.7 times faster calculation speed.
+
+The improved version of the profasi hydrophobicity energy term uses a
+term-specific optimization method, which will give identical energy
+value to hydrophobicity energy term with around 1.1 times faster
+calculation speed.
+
+\subsection{Profasi sidechain charge energy \\(\texttt{profasi-sidechain-charge~|}\\\texttt{profasi-sidechain-charge-cached~|}\\\texttt{profasi-sidechain-charge-improved})}
+This term calculates the part of $E_{\mathrm{sc}}$ which is due to
+sidechain charge-charge interaction.
+ 
+The cached version of the profasi sidechain charge energy term uses
+the ChainTree method, which will give identical energy value to
+sidechain charge energy with around 1.5 times faster calculation
+speed.
+
+The improved version of the profasi sidechain charge energy term uses
+a term-specific optimization method, which will give identical energy
+value to sidechain charge energy term with around 1.4 times faster
+calculation speed.
+
+
+
+

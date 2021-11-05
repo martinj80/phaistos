@@ -1,0 +1,10 @@
+@author Wouter Boomsma
+@author Sandro Bottaro
+@author Thomas Hamelryck
+@author Jes Frellsen
+@author Christian Andreetta
+@author Mikael Borg
+@author Tim Harder
+@author Kristoffer E. Johansson
+@author Kasper Stovgaard
+@author Pengfei Tian

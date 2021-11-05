@@ -1,0 +1,39 @@
+
+\chapter{Sidechain-dbns module (\texttt{sidechain-dbns})}
+\label{cha:sidechain-dbns-module}
+
+\section{BASILISK}
+\label{sec:basilisk}
+
+BASILISK is a probabilistic model of the conformational space of 
+amino acid side chains in proteins. Unlike rotamer libraries, 
+BASILISK models the $\chi$-angles in continuous space, including 
+the influence of the protein's backbone.
+
+The BASILISK model and certain applications are incorporated into the
+Phaistos framework, providing both a move (section
+\ref{sec:basilisk-move}) and an energy term (section
+\ref{sec:basilisk-energy}). If you are interested in the model itself
+and its applications outside the Phaistos framework, we refer to the
+separately released software package:
+
+\begin{center}
+\url{http://sourceforge.net/projects/basilisk-dbn/}
+\end{center}
+
+\noindent If you use BASILISK in your work, please cite
+reference \cite{harder2010beyond}.
+
+
+\section{COMPAS}
+\label{sec:compas}
+
+COMPAS models protein sidechains using a coarse-grained
+representation. Each sidechain is represented using a single pseudo
+atom, parameterized using a set of angles and a distance.  As for the
+BASILISK model, the COMPAS model is available both as a move (section
+\ref{sec:compas-move}) and an energy term (section
+\ref{sec:compas-energy}). The model is described in some detail in a
+recent paper on simulations under SAXS restraints
+\cite{stovgaard2011}.
+

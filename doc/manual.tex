@@ -1,0 +1,1706 @@
+\documentclass[11pt,a4paper,twoside]{book}
+\usepackage[utf8]{inputenc}
+% \usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{twoopt}
+\usepackage{enumitem}
+\usepackage{calc}
+\usepackage[hyphens]{url}
+\usepackage{longtable}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{ifthen}
+\usepackage{xifthen}
+\hypersetup{colorlinks=true,linkcolor=blue,citecolor=blue,pdfstartview={XYZ null null 1.00}}
+\usepackage{amsmath}
+
+
+
+\def\ifempty#1{%
+\edef\ContentsOfList{\the#1}%
+\edef\CompareTo{}%
+\ifx\ContentsOfList\CompareTo}
+
+
+
+%%%%%%%%%%%%%%%%%%%%5
+\makeatletter
+\def\nobreakhline{%
+  \noalign{\ifnum0=`}\fi
+    \penalty\@M
+    \futurelet\@let@token\LT@@nobreakhline}
+\def\LT@@nobreakhline{%
+  \ifx\@let@token\hline
+    \global\let\@gtempa\@gobble
+    \gdef\LT@sep{\penalty\@M\vskip\doublerulesep}% <-- change here
+  \else
+    \global\let\@gtempa\@empty
+    \gdef\LT@sep{\penalty\@M\vskip-\arrayrulewidth}% <-- change here
+  \fi
+  \ifnum0=`{\fi}%
+  \multispan\LT@cols
+     \unskip\leaders\hrule\@height\arrayrulewidth\hfill\cr
+  \noalign{\LT@sep}%
+  \multispan\LT@cols
+     \unskip\leaders\hrule\@height\arrayrulewidth\hfill\cr
+  \noalign{\penalty\@M}%
+  \@gtempa}
+\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+% Environment used for option descriptions
+% \newenvironment{optiontable}{\noindent\begin{small}\begin{tabular*}{\textwidth}{p{0.4\textwidth}llp{0.4\textwidth}}name & type & default & description \\\hline}{\end{tabular*}\end{small}}
+% \newenvironment{optiontable}{\setlength\LTleft{0pt}\setlength\LTright{0pt}\noindent\begin{small}\begin{longtable}{p{0.3\textwidth}llp{0.4\textwidth}}name & type & default & description \\\hline}{\end{longtable}\end{small}}
+\newenvironment{optiontable}{\setlength\LTleft{0pt}\setlength\LTright{0pt}\noindent\begin{small}\begin{longtable}{p{0.4\textwidth}p{0.5\textwidth}}name & description \\*\nobreakhline}{\hline\end{longtable}\end{small}}
+% \newcommand{\option}[4]{\path{--#1} & #2 & #3 & #4 \\}
+% \newcommand{\option}[4]{\path{--#1} & #3 & #4 \\}
+% \newcommand{\option}[4]{\ifempty{#1} empty\else nonempty\fi}
+\newcommand{\option}[4]{\path{#1}\ifthenelse{\isempty{#3}}%
+    {}% if #1 is empty
+    {\mbox{(=#3)}}% if #1 is not empty
+    & #4 \\}
+
+
+\newcommand{\optiontitle}[1]{\subsubsection*{#1}\vspace*{-1em}}
+
+\input{macros}
+
+\begin{document}
+
+\newcommand{\notification}[1]{
+\noindent
+\begin{minipage}{\textwidth}
+  \definecolor{lightgray}{gray}{0.85} %
+  \definecolor{darkgray}{gray}{0.25} %
+  \centering %
+  \vspace*{.5em} %
+  \setlength\fboxrule{1.5pt} %
+  \fcolorbox{darkgray}{lightgray}{\parbox{.9\textwidth}{#1}} %
+  \setlength\fboxsep{0pt} %
+  \vspace*{.5em} %
+\end{minipage} %
+}
+
+
+
+\begin{titlepage}
+  
+  \begin{center}
+
+    \vspace*{5em}
+    
+    \begin{Huge}
+      Phaistos User Manual
+    \end{Huge}
+    
+    \vspace*{1em}
+    
+    \begin{LARGE}
+      Version \phaistosversion
+    \end{LARGE}
+
+    \vspace*{6em}
+
+    \includegraphics[width=.5\textwidth]{phaistos_logo_noname.pdf}
+    
+    \vspace*{6em}
+    
+    \begin{Large}
+      \phaistosauthors
+    \end{Large}
+    
+  \end{center}
+  
+\end{titlepage}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\chapter{Introduction}
+\label{cha:introduction}
+Phaistos is a molecular modelling software package for 
+simulation of proteins. The distinctive features of Phaistos 
+are the use of the Markov chain Monte Carlo (MCMC) approach to 
+molecular simulation, and the use of sophisticated probabilistic models
+of protein structure in continuous space. Phaistos 
+can be used for molecular simulation using
+empirical energy functions such as OPLS-AA or Profasi, or 
+for probabilistic, Bayesian inference of protein structure based on
+a likelihood and conformational priors. The latter applications 
+include for example the inference of protein structure using a
+likelihood that brings in NMR or SAXS data, and priors that 
+takes into account the general features of protein structure. 
+Phaistos covers a wide spectrum of applications, as it supports 
+a variety of settings for the three key features of a Monte Carlo 
+simulation: the move set, the acceptance criterion and the energy function. 
+
+Some of the features available in Phaistos include:
+
+\subsubsection*{Probabilistic models of protein structure}
+\begin{itemize}
+\item TorusDBN: a probabilistic model of the protein main chain \cite{boomsma2008gpm}.
+\item BASILISK: a probabilistic model of amino acid side chains \cite{harder2010beyond}.
+\item FB5HMM: a probabilistic model of a protein's $C\alpha$ trace \cite{hamelryck2006srp}.
+\item COMPAS: a probabilistic model of the center of mass of amino acid side chains \cite{stovgaard2011}.
+\end{itemize}
+\subsubsection*{Move set}
+\begin{itemize}
+\item  Pivot, semilocal and local backbone moves in internal coordinate space.
+\item  Pivot, semilocal and local backbone moves in internal coordinate space from probabilistic models that capture the local structure of proteins \cite{boomsma2008gpm}. 
+\item  Rotamer moves, where tentative updates of one or more degrees of freedom are drawn from a uniform or Gaussian distribution.
+\item  Rotamer moves from a probabilistic model that capture the side chain geometry of amino acids \cite{harder2010beyond}.
+\end{itemize}
+\subsubsection*{Simulation type}
+\begin{itemize}
+\item Metropolis-Hastings.
+\item Greedy optimization.
+\item Simulated annealing.
+\item Generalized ensembles: multicanonical and $1/k$ \cite{frellsen12}.
+\end{itemize}
+\subsubsection*{Energy and likelihood functions}
+\begin{itemize}
+\item The OPLS-AA force field \cite{jorgensen1996development} with GB/SA implicit solvent model \cite{qiu1997gbsa}.
+\item The Profasi force field \cite{irback2006profasi}.
+\item Likelihood functions for SAXS \cite{stovgaard2010calculation, stovgaard2011} and NOE \cite{olsson2011generative} data.
+\item Go-type potentials. 
+\end{itemize}
+
+\noindent In addition, a number of built-in analysis routines are
+available (e.g fraction of native contacts, RMSD and helicity
+calculation, cluster analysis, etc.).
+
+A website containing an online version of this manual and the source
+code of Phaistos can be found at
+\emph{http://sourceforge.net/projects/phaistos/}. Bug reports,
+questions and comments regarding Phaistos should be done through the
+Sourceforge site.
+
+%Phaistos is a software framework for the simulation of protein folding
+%and the prediction of protein structure from sequence. It uses the
+%Markov Chain Monte Carlo (MCMC) approach to molecular simulations, and
+%includes a variety of efficient move-types to explore protein
+%conformational space. Currently, Phaistos includes implementations of
+%the two established forcefields: Profasi \cite{irback2006profasi} and
+%OPLS \cite{jorgensen1996development} with the GBSA implicit solvent
+%model \cite{qiu1997gbsa}.
+%
+
+\section{Citing Phaistos}
+\label{sec:citing}
+
+The main reference for Phaistos is:
+
+\vspace{1em}\noindent W. Boomsma, J. Frellsen, T. Harder, S. Bottaro,
+K. E. Johansson, P. Tian, K. Stovgaard, C. Andreetta, S. Olsson,
+J. Valentin, L. D. Antonov, A. S. Christensen, M. Borg, J. H. Jensen,
+K. Lindorff-Larsen, J. Ferkinghoff-Borg, T. Hamelryck,
+J. Comput. Chem. 2013, DOI: 10.1002/jcc.23292.
+
+\chapter{Installation}
+\label{cha:installation}
+
+Phaistos requires a C++ compiler, a fortran compiler, the boost
+library\footnote{\url{www.boost.org}},
+lapack\footnote{\url{www.netlib.org/lapack/}} and
+CMake\footnote{\url{www.cmake.org}}. In addition, certain optional
+modules may have additional requirements.
+
+\section{Installation procedure}
+\label{sec:inst-proc}
+
+The recommended way to build Phaistos is out-of-source, meaning that the
+generated binaries will not clutter the source directory. This is done
+using the following sequence of commands:
+
+\begin{verbatim}
+$ mkdir build
+$ cd build
+$ cmake /path/to/phaistos/
+$ make
+\end{verbatim}
+
+\noindent CMake can be configured from the command line using the -D syntax. For
+instance, to specify a non-standard location of the boost directory, use:
+
+\begin{verbatim}
+$ cmake -DBOOST_ROOT:FILEPATH=directory ..
+\end{verbatim}
+
+\noindent The CMake output will contain a list of packages that were successfully
+found and the corresponding CMake variables that can be modified if
+necessary. A full list of the available CMake variables can be obtained
+using:
+
+\begin{verbatim}
+$ cmake -LA ..
+\end{verbatim}
+
+\noindent By default, CMake will hide the details of the compilation
+process. If you wish to see the executed commands, simply type:
+
+\begin{verbatim}
+$ make VERBOSE=1
+\end{verbatim}
+
+\section{Build type}
+\label{sec:build-type}
+
+\noindent Phaistos is by default built in release-mode, meaning that
+the produced code is optimized for fast execution. During debugging,
+it is often an advantage to compile to non-optimized code. This can be
+done by modifying the BUILD\_TYPE variable:
+
+\begin{verbatim}
+$ cmake -DCMAKE_BUILD_TYPE:STRING=Debug ..
+\end{verbatim}
+
+\noindent If you are not satisfied with the default compiler settings,
+you can always override them yourself:
+
+\begin{verbatim}
+$ cmake -DCMAKE_CXX_FLAGS="-ggdb -Wall" ..
+\end{verbatim}
+
+\section{Modules}
+\label{sec:modules}
+
+Phaistos has a module system, which makes it easy to write your own
+code (module) and compile it in with the main library. Parts of the
+Phaistos functionality is provided as modules, to allow the user to
+exclude it during compilation, which can speed up compilation times
+significantly. CMake will output a list of all detected modules:
+
+\begin{verbatim}
+-- Modules - phase: 1
+--   Found modules:
+--     git
+--     muninn
+--     pleiades
+...
+\end{verbatim}
+
+\noindent
+You can disable modules using the \texttt{PHAISTOS\_MODULE\_DISABLE}
+and \\ \texttt{PHAISTOS\_MODULE\_ENABLE} options. Both take regular
+expressions specifying which modules to disable or enable,
+respectively. For instance, if we wish to include only the \texttt{git}
+module, this can be done by enabling it directly
+
+\begin{verbatim}
+$ cmake -DPHAISTOS_MODULE_ENABLE:STRING="git" ..
+\end{verbatim}
+
+\noindent
+or by disabling everything else
+
+\begin{verbatim}
+$ cmake -DPHAISTOS_MODULE_DISABLE:STRING="muninn|pleiades|..." ..
+\end{verbatim}
+
+\noindent
+In the list of detected modules, CMake will indicate which modules are
+currently disables:
+
+\begin{verbatim}
+-- Modules - phase: 1
+--   Found modules:
+--     git
+--     muninn (disabled)
+--     pleiades (disabled)
+\end{verbatim}
+
+CMake variables are cached, so if you specify an option once it will
+be remembered in future executions of CMake. Therefore, remember to
+explicitly remove the \texttt{PHAISTOS\_MODULE\_DISABLE} or
+\texttt{PHAISTOS\_MODULE\_ENABLE} option value if you no longer need
+it. This can be done by setting it to the empty string:
+
+\begin{verbatim}
+$ cmake -DPHAISTOS_MODULE_DISABLE:STRING="" ..
+\end{verbatim}
+
+\section{Constructing a source tar-ball}
+\label{sec:constr-source-tar}
+
+You can create a tar-ball of all Phaistos source files by using the
+following command:
+
+\begin{verbatim}
+$ make package_source
+\end{verbatim}
+
+\noindent
+This will create a file called \texttt{phaistos-XXX.tar.gz} where
+\texttt{XXX}, is the current version number.
+
+\section{Locating data files (\texttt{PHAISTOS\_ROOT})}
+\label{sec:locating-data-files}
+
+Phaistos uses a number of data files, which are typically referred to
+using a path relative to the execution directory. This means that
+\texttt{phaistos.cpp} will be able to find these files when started
+from the \texttt{bin} directory in your build directory, but it might
+fail if you try to run it from another directory. This problem can be
+resolved by setting the \texttt{PHAISTOS\_ROOT} environment variable
+to point to the root of your build directory. In the bash shell, this
+can be done using:
+
+\begin{verbatim}
+$ export PHAISTOS_ROOT='/path/to/phaistos/build/'
+\end{verbatim}
+
+\noindent
+while tcsh requires a slightly different syntax:
+
+\begin{verbatim}
+> setenv PHAISTOS_ROOT '/path/to/phaistos/build/'
+\end{verbatim}
+
+
+
+\chapter{Running simulations using \texttt{phaistos.cpp}}
+\label{cha:running-simulations}
+
+The main executable in the Phaistos package is called
+\texttt{phaistos.cpp}. This program is a front-end to basically all
+functionality in the library. Settings for \texttt{phaistos.cpp} are
+specified using either command line options or a configuration
+file. Most settings in Phaistos have default values, so typically, a
+simulation can be set up by specifying only a few parameters. As the
+simulation starts, it will output all used settings to the screen,
+allowing the user to verify that the current configuration is
+meaningful. This output is formatted so that it is compatible with the
+configuration file format, meaning that changes to the current setting
+can be made simply by copy-and-pasting from the initial output to a
+configuration file.
+
+\section{Command line options}
+\label{sec:command-line-options}
+
+\texttt{phaistos.cpp} uses long unix-style command line options of the form:
+
+\begin{flushleft}
+\texttt{--option-name \emph{optional-value}}. 
+\end{flushleft}
+
+\noindent All available options for \texttt{phaistos.cpp}, along with
+their default values, can be obtained by using with the help options:
+
+\begin{verbatim}
+$ ./phaistos --help
+\end{verbatim}
+
+\noindent For convenience, \texttt{phaistos.cpp} has shorthand
+options, which will automatically expand to their longer
+equivalents. The most important examples are the \texttt{move} and
+\texttt{energy} shorthands. These allow you to quickly specify sets of
+moves and energy terms. For instance
+
+\begin{verbatim}
+$ ./phaistos --energy clash-fast opls-angle-bend opls-vdw
+\end{verbatim}
+
+\noindent
+corresponds to
+
+\begin{verbatim}
+$ ./phaistos --energy-clash-fast --energy-opls-angle-bend \ 
+  --energy-opls-vdw
+\end{verbatim}
+
+\noindent The individual energy terms might have options of their
+own. These can be specified in square brackets in the shorthand
+notation:
+
+\begin{verbatim}
+$ ./phaistos --energy clash-fast[debug:1,weight:10]
+\end{verbatim}
+
+\noindent
+This will expand to
+
+\begin{verbatim}
+$ ./phaistos --energy-clash-fast --energy-clash-fast-debug 1 \ 
+  --energy-clash-fast-weight 10
+\end{verbatim}
+
+\subsection{Procedures}
+\label{sec:procedures}
+
+The \texttt{phaistos.cpp} executable contains several main functions,
+which address different types of simulation problems. These main
+functions are called \emph{procedures}, and can be selected from the
+command line using the \texttt{--procedure} option. The default
+procedure is \texttt{fold}, which runs a general protein
+simulation. There is a procedure called \texttt{compactify}, which
+rapidly produces compact structures, and debug procedure called
+\texttt{comparison}. The latter allows the user to easily compare results
+of two energy functions, for instance to verify that a cached version
+of an energy produces the same result as the non-cached version.
+
+Procedures have sub-options which are relevant only to that particular
+procedure. For instance, the \texttt{fold} procedure has options to
+control whether debug information should be written out to screen
+during a simulation. This can be specified using the
+nested style introduced in the previous section:
+
+\begin{verbatim}
+$ ./phaistos --procedure fold[debug:true]
+\end{verbatim}
+
+
+\subsection{Modes}
+\label{sec:modes}
+
+Modes are shortcuts that associate a name to a combination of specific
+simulation settings that are often used. Currently, there are only a
+few predefined modes, but more will be added in the future. A mode is
+selected using the \texttt{--mode} command-line option. One example is
+the \texttt{opls-mc-dynamics} mode, which will be illustrated in an
+example below (see section \ref{sec:study-native-ensembl}).
+
+
+\section{Configuration files}
+\label{sec:configuration-files}
+
+As the \texttt{phaistos.cpp} program is started, it will output a complete list of
+settings, including both the ones you specified from the command line,
+and default values for all other settings. This output, starting with
+
+\begin{verbatim}
+##################### PHAISTOS OPTIONS #####################
+\end{verbatim} 
+
+\noindent
+and ending in
+
+\begin{verbatim}
+################### PHAISTOS OPTIONS END ###################
+\end{verbatim}
+
+\noindent
+is in a format that \texttt{phaistos.cpp} can read in as a configuration file. If you
+copy-and-paste these options into a file \texttt{filename}, and run Phaistos using
+
+\begin{verbatim}
+$ ./phaistos --config-file filename
+\end{verbatim}
+
+\noindent
+it will use the same settings as those provided in the command line
+originally. This gives a convenient workflow for setting up a
+simulation: start by providing a few settings for the command line,
+copy-and-paste the resulting output to a configuration file, and then
+carefully read through (and modify) this configuration file to ensure
+that you have the desired settings.
+
+
+\section{Examples}
+\label{sec:examples-simulations}
+
+We include a few examples of possible simulation configurations. This
+is mainly to give a broad overview of how simulations are set up. The
+move, energy, and simulation settings will be covered in detail in the
+next chapters.
+
+\subsection{Studying a native ensemble using OPLS}
+\label{sec:study-native-ensembl}
+
+The \texttt{opls-mc-dynamics} mode provides a simple example of a
+simulation using the OPLS force field:
+
+\begin{verbatim}
+$ ./phaistos --mode opls-mc-dynamics --pdb-file 2gb1.pdb \
+  --init-from-pdb
+\end{verbatim}
+
+\noindent
+We explicitly state which PDB file we are using, and that you wish to
+initialize the simulation from this PDB file. The rest of the settings
+are given by the \texttt{opls-mc-dynamics} mode. This mode expands to
+settings for the complete OPLS forcefield, and a variety of moves that
+were found to be optimal in the context of exploring native ensembles
+\cite{bottaro2012crisp}. In addition, the simulation type is set to
+Metropolis-Hastings. Note that both the \texttt{crisp} and \texttt{opls} modules must be
+enabled for this mode to work (which they are by default).
+
+A mode simply provides default values for certain settings. Everything
+can be overridden by specifying additional options from the command
+line. For instance, you can adjust the number of iterations and dump
+pdb files at certain intervals by adding the following options to the
+command line:
+
+\begin{verbatim}
+--iterations 100000000 --observable pdb[register-interval:20000]
+\end{verbatim}
+
+
+\subsection{Generalized ensemble simulation using Profasi}
+ 
+Profasi is a highly efficient forcefield, that has been used in the
+literature both for folding and aggregation simulations
+\cite{irback2009effective}. This, in combination with the Muninn
+generalized ensemble framework \cite{frellsen12}, is a powerful tool for conducting
+rapid equilibrium folding simulations.
+
+A simple version of such a simulation could look like this:
+
+\begin{verbatim}
+./phaistos --aa-file 1L2Y.aa --move pivot-uniform sidechain-uniform \
+ --energy profasi-cached --threads 2 \
+ --monte-carlo muninn[min-beta:0.05,max-beta:1.25]
+\end{verbatim}
+
+\noindent
+In this case, we start from an amino acid sequence file, containing
+just a single line of amino acids:
+
+\begin{verbatim}
+NLYIQWLKDGGPSSGRPPPS
+\end{verbatim}
+
+\noindent
+In addition, we specify that we wish to use uniform moves both for the
+protein backbone and sidechain, and that the simulation is done using
+the cached version of the profasi forcefield. We use the Muninn
+generalized ensemble framework for this simulation, and set up the
+temperature range (\texttt{min-beta} and \texttt{max-beta}). Finally,
+the \texttt{threads} option specifies that we wish to run with two
+threads. This has the effect that we will be conducting two
+independent simulations, which uses the same set of weights and both
+will contribute to the same histograms and entropy estimates in
+Muninn.
+
+
+\chapter{Moves}
+\label{sec:moves}
+
+Phaistos includes a range of different approaches to update the
+molecule chain in each iteration of the simulation. These are referred
+to as \emph{moves}. Unless explicitly mentioned, all moves in Phaistos
+obey detailed balance. This means that if you simulate with for
+instance standard Metropolis-Hastings and no energy function, you can
+expect flat distributions over the dihedral angle degrees of freedom
+of your system. More generally, if you simulate with
+Metropolis-Hastings and a given \emph{physical} energy function, you
+have the Boltzmann distribution as your target distribution, see
+section \ref{sec:energy_convention} for details.
+
+\section{General move settings}
+
+All moves share the following basic settings. The \texttt{weight}
+setting determines how often the move is used in the simulation, while
+the \texttt{regions} option allows you to specify where in the chain
+you want to apply the move. The \texttt{debug} flag can be used (if
+implemented by the author of the move) to output additional
+information about the move.
+
+\begin{optiontable}
+\option{weight}{real}{1.0}{Relative weight of the move (probability of choosing this move).}
+\option{debug}{int}{0}{Debug level.}
+\option{regions}{vector$<$pair$<$int$>>$}{[[0,chain\_size]]}{Regions affected by move.}
+\end{optiontable}
+
+\section{Uniform pivot move (\texttt{pivot-uniform})}
+\label{sec:pivot-move-uniform}
+
+Perhaps the most classic Monte Carlo move in molecular simulations,
+the pivot-uniform simply produces a random, uniformly distributed
+rotation of the dihedral angles ($\phi$,$\psi$ angles) in a single
+residue. The \texttt{max-delta} option determines the maximum size of the
+rotation. You can use the \texttt{single-dof-only} option to limit yourself to
+a single degree of freedom. The \texttt{skip-proline-phi} option makes it
+possible to omit the $\phi$ dihedral in Prolines, which involves a
+change in bond length and should be avoided if no bond length term is
+included in the energy.
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{move-length-min}{int}{1}{Minimum length of move.}
+  \option{move-length-max}{int}{1}{Maximum length of move.}
+  \option{single-dof-only}{bool}{true}{Whether to update only one $\phi$ or $\psi$ angle at a time (randomly chosen).}
+  \option{skip-proline-phi}{bool}{true}{Whether to sample angles in proline. Note, if \texttt{skip-proline-phi} is set to false, a change in proline bond length is introduced, which must be taken in account by an appropriate bond-stretch energy term.}
+ \option{max-delta}{float}{$\pi$(rad)}{Maximum change in angle value.}
+ \end{optiontable}
+
+\section{Backbone DBN move (\texttt{backbone-dbn})}
+\label{sec:pivot-move-dbn}
+
+The Backbone DBN move is essentially a pivot move using a non-trivial
+probability distribution. More precisely, angular degrees of freedom
+are sampled from a probabilistic model of the protein
+backbone. Currently, two models are available: TorusDBN and Fb5Dbn
+\cite{boomsma2008gpm,hamelryck2006srp}, using the full-atom and the
+C$_{\alpha}$-only representation respectively. The relevant model is
+selected using the \texttt{backbone-dbn} option (see chapter
+\ref{cha:probabilistic-models}). When using TorusDBN, the move
+basically resamples ($\phi$,$\psi$) dihedral angles from a
+Ramachandran like distribution.
+
+\notification{IMPORTANT: This move introduces a bias (implicit energy) to the simulation that is possible to compensate by setting \texttt{implicit-energy}=false.}
+%\notification{IMPORTANT: This move introduces an implicit energy to the simulation (unless \texttt{implicit-energy}=false).}
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{move-length-min}{int}{1}{Minimum length of move.}
+  \option{move-length-max}{int}{7}{Maximum length of move.}
+  \option{resample-mode}{Enum}{RESAMPLE\_ALL}{Which values to resample in the model.}
+  \option{implicit-energy}{bool}{true}{Whether the bias introduced by the dbn move should be included as an implicit energy.}
+  \option{dbn-consistency-window-size}{int}{10}{Whenever a dbn move is combined with a different move, the dbn will need to be made consistent with the current state of the protein after every non-dbn move. Ideally, this requires a full-length resampling (corresponding to option value -1). However, since the dbn has a finite memory, a window of 10 is a reasonable approximation.}
+  \option{dbn-bias-window-size}{int}{10}{To evaluate the bias introduced by a dbn move, ideally, a full-length forward calculation must be done. However, since the dbn has a finite memory, a window of 10 is a reasonable approximation.}
+\end{optiontable}
+
+
+\section{Local pivot move (\texttt{pivot-local})}
+\label{sec:pivot-move-gaussian}
+
+The \texttt{pivot-local} move modifies $(\phi, \psi)$ angles and
+optionally non-standard degrees of freedom (e.g.\ bond angles or
+$\omega$ angles) in the backbone. Updates are proposed from a Gaussian
+distribution centered on the current value and with user-controlled
+variance.
+
+% WHY IS THE INTERFACE OF THIS MOVE DIFFERENT FROM THE UNIFORM VARIANT?
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{move-length-min}{int}{1}{Minimum length of move.}
+  \option{move-length-max}{int}{1}{Maximum length of move.}
+  \option{sample-phi-psi-dofs}{bool}{true}{Whether to modify $(\phi, \psi)$ angles.}
+  \option{sample-bond-angle-dofs}{bool}{true}{Whether to modify bond angles.}
+  \option{sample-omega-dofs}{bool}{false}{Whether to modify omega angles.}
+  \option{std-dev-phi-psi}{real (degrees)}{4}{Parameter controlling
+    the variance of the Gaussian distribution for $(\phi, \psi)$ angles (degrees).}
+  \option{std-dev-bond-angle}{real (degrees)}{0.8}{Parameter controlling
+    the variance of the Gaussian distribution for bond angles (degrees).}  
+  \option{std-dev-omega}{real (degrees)}{0.8}{Parameter controlling
+    the variance of the Gaussian distribution for $\omega$ angles (degrees).}
+\end{optiontable}
+
+There is also a version of this move that includes an implicit DBN
+energy for dihedral angles and an implicit bond angle energy based on
+Engh-Huber statistics. This variant is called
+\texttt{pivot-local-dbn-eh}.
+
+
+\section{Uniform sidechain move (\texttt{sidechain-uniform})}
+\label{sec:sidechain-uniform-move}
+
+The \texttt{sidechain-uniform} move produces random, uniformly distributed
+rotations of the sidechain torsion angles ($\chi$ angles) in single
+residues.
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{move-length-min}{int}{1}{Minimum length of move.}
+  \option{move-length-max}{int}{1}{Maximum length of move.}
+  \option{single-dof-only}{bool}{true}{Whether to update only one $\chi$ angle at a time.}
+  \option{skip-proline}{bool}{true}{Whether to sample sidechain angles in proline. Note, if \texttt{skip-proline} is set to false a change in proline bond length is introduced, which must be taken in account by an appropriate bond-stretch energy term.}
+ \end{optiontable}
+
+
+
+\section{Rotamer sidechain move (\texttt{sidechain-rotamer})}
+\label{sec:sidechain-rotamer-move}
+
+The rotamer move (\texttt{sidechain-rotamer}) modifies the $\chi$-angles in
+the sidechain. New angles are proposed from the Gaussian distributions
+in the Dunbrack backbone-independent rotamer library
+\cite{dunbrack1997bayesian}.
+
+\notification{IMPORTANT: This move introduces a bias (implicit energy) to the simulation that is possible to compensate by setting \texttt{implicit-energy}=false.}
+%\notification{IMPORTANT: This move introduces an implicit energy to the simulation (unless \texttt{implicit-energy}=false).}
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{move-length-min}{int}{1}{Minimum length of move.}
+
+  \option{move-length-max}{int}{1}{Maximum length of move.}
+
+  \option{implicit-energy}{bool}{true}{If
+  implicit-energy is set to false, the bias introduced when
+  proposing from the Dunbrack library is compensated for, ensuring
+  that the uniform distribution is reached when
+  simulating with no force-field.}
+
+  \option{--sigma-scale-factor}{real}{1.0}{The width of the Dunbrack
+  Gaussian distributions from which new angles are proposed can be
+  scaled by this factor.  Flattening the distribution can be useful to
+  ensure ergodicity, as the Dunbrack library does not have support
+  over the entire interval $[0,2\pi[$.}
+
+  \option{--rotamer-state-resample-frequency}{real}{1.0}{Frequency
+  with which move will resample new rotamer states ($g^+, t, g^-$).}
+
+  \option{--rotamer-skip-proline}{bool}{true}{Whether to sample
+  sidechain angles in proline. Note, if rotamer-skip-proline is set to false a
+  change in proline bond length is introduced, which must be taken in
+  account by an appropriate bond-stretch energy term.}
+
+  \option{--sample-hydrogen-chis}{bool}{true}{Whether to sample
+  (uniformly) non-standard torsion angles in sidechain (e.g methyl
+  groups, CB-S-H in Cys, etc...).}
+\end{optiontable}
+
+
+\section{Local sidechain move (\texttt{sidechain-local})}
+\label{sec:sidechain-local-move}
+
+The \texttt{sidechain-local} move modifies $\chi$ angles and optionally
+non-standard degrees of freedom (e.g. bond angles) in the sidechain.
+Four different strategies can be employed:
+
+\begin{description}
+\item[simple] Tentative updates are proposed for all the degrees of
+  freedom in the sidechain from a Gaussian distribution centered on
+  the current angle(s) and with user-controlled variance
+\item[scale-sigma] Tentative updates are proposed for all the degrees
+  of freedom in the sidechain from a Gaussian distribution centered on
+  the current angle(s).  The width of the Gaussians for the different
+  angles in the sidechain is scaled linearly so that degrees of
+  freedom further away from CA have larger variance.
+\item[select-dofs] Tentative updates are proposed for one degree of
+  freedom in the sidechain from a Gaussian distribution centered on
+  the current angle and with user-controlled variance.  The degree of
+  freedom is chosen at random according to a weight given by its
+  distance to the CA atoms, such that angles closer to the backbone
+  are sampled less frequently.
+\item[constrain-endpoint] Tentative updates are proposed for all the
+  degrees of freedom in the sidechain from a multivariate Gaussian
+  distribution with a bias towards small displacement of atoms
+  involved as acceptors or donors in hydrogen bonds.  This type of
+  move is is useful to enable small adjustment of the sidechain
+  without breaking the dense network of non-covalent interactions.
+\end{description}
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{move-length-min}{int}{1}{Minimum length of move.}  
+  \option{move-length-max}{int}{1}{Maximum length of move.}
+  \option{sample-major-dofs}{bool}{true}{Whether to sample $\chi$ angles.}
+  \option{sigma-major-dofs}{real(radians)}{0.03490}{Width (in radians) of the Gaussian distribution for $\chi$ angles.}
+  \option{sample-minor-dofs}{bool}{true}{Whether to sample minor degrees of freedom (all bond-angles and non-$\chi$ dihedral angles).}
+  \option{sigma-minor-dofs}{real}{0.00349}{Width (in radians) of the Gaussian distribution for minor dofs angles.}
+  \option{mode}{string}{simple}{Four different move modes are available: simple, scale-sigma. select-dofs, constrain endpoint (described above).}
+  \option{rotamer-lagrange-multiplier}{real}{200}{When using constrain-endpoint mode, this parameter controls the weight of the constraint.}
+  \option{skip-proline}{bool}{true}{Whether to sample sidechain angles in proline. Note, if \texttt{skip-proline} is set to false a change in proline bond length is introduced, which must be taken in account by an appropriate bond-stretch energy term.}
+\end{optiontable}
+
+
+\section{Crankshaft move (\texttt{crankshaft})}
+
+The CRANKSHAFT move consists of a rigid rotation of a chain segment
+about the axis defined by the $\mathrm{C}_{\alpha}$ atoms delimiting
+the segment \cite{betancourt2005efficient}. This move therefore alters
+only the backbone dihedral angles $\phi$ and $\psi$ and the
+$\mathrm{C}_{\alpha}$ bond angles of the segment ends. The move is
+implemented as described in reference \cite{smith2008backrub}.  The
+original procedure includes an optimized placement of
+$\mathrm{C}_{\beta}$ and $\mathrm{H}_{\alpha}$ atoms, which does not
+fulfill detailed balance, which is therefore omitted in this
+implementation.
+
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{move-length-min}{int}{2}{Minimum length of move.}  
+  \option{move-length-max}{int}{12}{Maximum length of move. The number of residues involved in a single update is randomly chosen in the interval [\texttt{move-length-min},\texttt{move-length-max}].}
+  \option{constrain-bond-angle}{bool}{true}{Whether to apply a constraint on the bond angles variation.}
+  \option{bond-angle-tolerance}{real (degrees)}{15}{If constrain-bond-angle is true, this parameter sets the maximum variation in bond angles (in degrees) from the original structure.}
+  \option{only-internal-moves}{bool}{false}{Whether to perform only internal moves or both internal and end-moves. End-moves consist is small variations of bond- and torsion angles.}
+\end{optiontable}
+
+
+\input{../modules/doc/move.tex}
+
+\section{None move (\texttt{none})}
+\label{sec:none-move}
+
+The \texttt{none} move does no structural resampling. It is included
+because some energy terms are constructed to resample their own
+parameters, in which case it can be convenient to have a Monte Carlo
+iteration where the structure is not modified.
+
+\section{Selecting moves in \texttt{phaistos.cpp}}
+
+Moves can be selected from the \texttt{phaistos.cpp} command line
+either individually
+
+\begin{verbatim}
+$ ./phaistos --move-pivot-uniform --move-sidechain-uniform
+\end{verbatim}
+
+\noindent
+or using a shorthand
+
+\begin{verbatim}
+$ ./phaistos --move pivot-uniform sidechain-uniform
+\end{verbatim}
+
+\noindent
+When using the shorthand option, indivudial move options can be
+specified using square brackets as described in section
+\ref{sec:command-line-options}.
+
+
+
+\chapter{Energies}
+\label{sec:energies}
+
+\section{Phaistos energy convention}
+\label{sec:energy_convention}
+
+To ensure consistency between probabilistic terms and physical energy
+terms, energies in Phaistos, $E_{\phi}$, are reported as the negative
+logarithm of the probability of observing a structure. This means that
+
+\begin{equation}
+E_{\phi}(x) = -\log P(x) \ ,
+\end{equation}
+
+\noindent where $P(x)$ is the probability of observing the structure
+$x$ according to the energy term, and $E_{\phi}(x)$ is the
+corresponding Phaistos energy. As a consequence Phaistos energies are
+unitless.
+
+For classical physics based energy terms, this means that the Phaistos
+energy becomes $E_{\phi}(x) \propto \beta {E(x)}$, where $E$ the physical
+energy function and $\beta = (kT)^{-1}$ is the thermodynamic
+beta. Here, $k$ is the Boltzmann constant and $T$ is the
+temperature. The $\beta$ weight is specified using the \texttt{weight}
+setting of the individual energy terms. Physical energies will often
+be carrying a default weight of $1.67857$ at $300\,\mathrm{K}$ if the
+physical energy is measured in $\mathrm{kcal}/\mathrm{mol}$. This
+weight corresponds to the value of $(kT)^{-1}$ for $T=300\,\mathrm{K}$
+and $k = 1.9872159 \cdot 10^{-3}
+\frac{\mathrm{kcal}}{\mathrm{mol}\,\mathrm{K}}$.
+
+
+\section{General energy settings}
+\label{sec:gener-energy-sett}
+
+The following settings are shared by all energy terms. The
+\texttt{weight} is multiplied onto the energy by the energy term
+itself and consequently before the summation of energy terms when
+calculating the total energy of a structure. Note, the energy values
+outputted during a simulation is alway multiplied by the weight
+associated with the energy term. For physical energy terms, the weight
+corresponds to usual $1/kT$ factor (see previous section). Just as for
+the moves, all energies also have a \texttt{debug} flag, which
+indicates that the energy evaluation should execute in debug mode.
+
+\begin{optiontable}
+\option{weight}{real}{1.0}{Absolute weight used when evaluating the weighted energy used for summing energy terms.}
+\option{debug}{int}{0}{Debug level.}
+\end{optiontable}
+
+\section{Clash detection (\texttt{clash-fast})}
+\label{sec:clash-fast}
+
+Phaistos employs a ChainTree data structure to quickly determine
+interacting atoms within a given distance
+\cite{lotan2004algorithm}. The \texttt{clash-fast} energy function
+uses this data structure to do a coarse-grained self-collision check, returning
+infinity if atoms are found to be within the given cutoffs. This makes
+it useful as a first energy term in an energy function, acting as a
+quick filter. This works because remaining energy terms are skipped if
+the energy becomes infinite during the evaluation.
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{only-modified-pairs}{bool}{true}{Specifies whether the energy should consider only pairs modified by the last move. If a clashfree structure is maintained at all times, this is sufficient to detect all clashes.}
+  \option{boolean-mode}{bool}{true}{Specifies whether the energy should work in clash/non-clash mode and return infinity/0 (true) or count all the clashes and return the number of clashes (false).}
+  \option{minimum-residue-distance}{int}{2}{Minimum distance along chain (measured in number of residues) before pair is taken into account by the energy (in angstrom).}
+  \option{clash-distance-h}{real}{1.5}{Distance within which pairs of hydrogens are considered to be clashing (in angstrom).}
+  \option{clash-distance-no}{real}{2.3}{Distance within which pairs of Nitrogen-Oxygen pairs are considered to be clashing (in angstrom).}
+  \option{clash-distance-ps}{real}{1.9}{Distance within which pairs of pseudo-sidechain atom pairs are considered to be clashing  (in angstrom).}
+  \option{clash-distance-sg}{real}{1.8}{Distance within which pairs of SG atom pairs are considered to be clashing (in angstrom).}
+  \option{clash-distance-any-pair}{real}{2.3}{Default distance within which pairs of atom pairs of all other types are considered to be clashing (in angstrom).}
+\end{optiontable}
+
+\section{Backbone DBN energy (\texttt{backbone-dbn})}
+\label{sec:backbone-dbn-energy}
+
+This is a backbone energy that uses one of the probabilistic models
+described in chapter \ref{cha:probabilistic-models}. The model itself
+is selected using the \texttt{backbone-dbn} option (see chapter
+\ref{cha:probabilistic-models}).
+
+In principle, when another move modifies the backbone angles of a
+segment of the protein backbone, this affects the distribution over
+all hidden nodes in the sequence according to the probabilistic
+model. In practice, we know that the models have a finite memory, and
+it is sufficient to recalculate only a window around the changed
+segment. The size of this window is controlled using the
+\texttt{window-size} parameter.
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{enable-dbn-update}{bool}{true}{Whether to update the angles in the DBN from the chain when necessary.}
+  \option{always-full-update}{bool}{false}{Whether to always force update of all angles in the DBN from the chain.}
+  \option{window-size}{int}{-1}{Size of window used when calculating the energy. A good value for the window size is $>7$, and a negative window size means that the full bias is used.}
+\end{optiontable}
+
+
+
+\input{../modules/doc/energy.tex}
+
+
+\section{Contact-map energy (\texttt{contact-map})}
+\label{sec:contact-map}
+
+This is an artificial energy term that can be used to drive proteins
+to the correct fold by providing native contact information. There are
+two supported functional forms: $w \exp\frac{-(d-d_0)^2}{\sigma^2}$
+(default) and $w \frac{(d-d_0)^2}{\sigma^2}$ (selected by setting
+\texttt{dist-squared}=false), where $\sigma$ is called the contact
+width and $w$ is the contact weight. The default value for the contact
+width can be set by the option \texttt{default-width}, whereas the
+default value for the contact weight is 1. The contact map can be
+defined with a contact map file. The input file takes one contact per
+line, in the following format:
+
+{
+\footnotesize
+\begin{verbatim}
+residueno1 atomname1 residueno2 atomname2 idealdistance [width [weight]]
+\end{verbatim}
+}
+
+\noindent In this format, the width and the weight is optional. The
+input format could for example look like:
+
+\begin{verbatim}
+5 CA 1 CA 13.029
+6 CA 2 CA 13.168 2.0 1.5
+\end{verbatim}
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{contact-map-file}{string}{}{Contact map input file.}
+  \option{contact-map-string}{string}{}{Contact map input string.}
+  \option{pdb-file}{string}{}{Path to PDB file for constructing contact map.}
+  \option{cutoff}{real}{inf}{contact cutoff distance when constructing map from PDB.}
+  \option{minimum-residue-distance}{int}{7}{Minimum residue-separation in a pair.}
+  \option{iteration-type}{IterateEnum}{ALL}{Which atoms to include when constructing contactmap from chain.}
+  \option{dist-squared}{bool}{false}{Whether to use the squared distance version of the energy.}
+  \option{potential-width}{real}{1.0}{Width of energy potential.}
+\end{optiontable}
+
+\section{Selecting energies in \texttt{phaistos.cpp}}
+
+In the \texttt{phaistos.cpp} command line, energy terms can either be
+specified one by one
+
+\begin{verbatim}
+$ ./phaistos --energy-clash-fast --energy-opls-angle-bend
+\end{verbatim}
+
+\noindent
+or using a shorthand
+
+\begin{verbatim}
+$ ./phaistos --energy clash-fast opls-angle-bend
+\end{verbatim}
+
+\noindent
+When using the shorthand option, indivudial energy options can be
+specified using square brackets as described in section
+\ref{sec:command-line-options}.
+
+
+
+\chapter{Observables}
+\label{sec:observables}
+
+An observable is an energy term with some additional functionality,
+allowing the user to specify how the value should be outputted and how
+frequently. All energy terms can be used as observables, and
+conversely, all observables are based on an underlying energy term.
+
+
+\section{General observable settings}
+
+In addition to the general settings of an energy term (see
+section~\ref{sec:gener-energy-sett}), all observables have the
+following settings.
+
+\begin{optiontable}
+\option{register-interval}{int}{5000}{Interval (number of iterations) with which observable should be registered.}
+\option{register-burnin}{int}{0}{Interval (number of iterations) before observable should start registering.}
+\option{output-target}{string}{observables\_\%p\_\%t.dat}{Where and how the observable should be dumped (see text).}
+\option{output-interval}{int}{1}{Interval (number of iterations) with which observable should be outputted. This value is ignored if it is lower than register-interval.}
+\end{optiontable}
+
+\noindent
+The \texttt{output-target} setting can take various predefined 
+values.
+
+\begin{description}
+\item{\texttt{stdout}$|$\texttt{cout}} Output to \texttt{stdout}.
+\item{\texttt{stderr}$|$\texttt{cerr}} Output to \texttt{stderr}.
+\item{\texttt{pdb-header}} Output to the header in dumped PDB files.
+\item{\texttt{pdb-b-factor}} Output to the b-factors in dumped PDB files.
+\end{description}
+
+\noindent
+Any other values will be regarded as a filename specification. The
+strings \texttt{\%p} and \texttt{\%t} will be replaced by the current
+process id and thread number, respectively. If a \texttt{\%i} substring
+is found in the filename, it will be replaced by the current iteration
+of the simulation (meaning that there will be a new log-file for each
+iteration in which an observation is made).
+
+It is possible to specify several output targets for one
+observable. This is done by separating them with a \texttt{+}. For
+instance, this command line will output both to a logfile and to
+stdout:
+
+\begin{verbatim}
+$ ./phaistos --observable \
+  helix-content[output-target:stdout+logfile.dat]
+\end{verbatim}
+
+\subsection{Output modes}
+\label{sec:output-modes}
+
+There are a number of different output modes available:
+
+\begin{flushleft}
+\texttt{verbose}, \texttt{verbose-with-id}, \texttt{verbose-with-time}, \texttt{compact}, \texttt{minimal}.
+\end{flushleft}
+
+\noindent These are normally chosen automatically based on the
+output-target. However, they can be overridden by providing an
+\texttt{\#\emph{output-mode}} in an output-target. For instance
+
+\begin{verbatim}
+$ ./phaistos --observable \
+  helix-content[output-target:logfile.dat#verbose]
+\end{verbatim}
+
+\noindent
+will force the observable to be written to the \texttt{logfile.dat}
+file in \texttt{verbose} mode.
+
+\section{Radius of gyration (\texttt{rg})}
+\label{sec:radius-gyration}
+
+The radius of gyration energy term is mostly used as an observable,
+and is therefore described in this section, although it could equally
+well have been included in chapter \ref{sec:energies}. It calculates
+the root mean square distance of the atoms to the center of mass of
+the protein.
+
+\section{Root mean square deviation (\texttt{rmsd})}
+\label{sec:root-mean-square}
+
+This is another energy term that is mostly used as an observable, but
+can serve as an artificial energy function as well. It returns the
+Root Mean Square Deviation between the current structure and a
+reference structure.
+
+\optiontitle{Settings}
+\begin{optiontable}
+\option{reference-pdb-file}{string}{}{Path to a PDB file to which comparison should be done.}
+\option{ca-only}{bool}{true}{Whether only to include CA atoms in the calculation.}
+\end{optiontable}
+
+\section{Helix content (\texttt{helix-content})}
+\label{sec:helix-content}
+
+This observable measure the percentage of residues that are in a
+helical conformation. The boundaries of what is considered a helix can
+be adjusted using the four angle settings. The \texttt{per-residue}
+option allows you to output the results in a vector format, which can
+be read by the \texttt{pdb-b-factor} output mode described above.
+
+\optiontitle{Settings}
+\begin{optiontable}
+\option{min-angle1}{real}{-1.57}{Minimum angle1 boundary.}
+\option{max-angle1}{real}{-0.52}{Maximum angle1 boundary.}
+\option{min-angle2}{real}{-1.34}{Minimum angle2 boundary.}
+\option{max-angle2}{real}{-0.30}{Maximum angle2 boundary.}
+\option{per-residue}{bool}{false}{Output for each residue individually.}
+\end{optiontable}
+
+
+\section{PDB (\texttt{pdb})}
+\label{sec:observable-pdb}
+
+Observables can also be used to extract complete structural states
+from a simulation. One examples is the PDB observable, which will dump
+pdb files are regular intervals. If the output filename contains
+special characters \texttt{\%e} (energy value) and/or \texttt{\%i}
+(iteration number), the structures will be dumped to individual
+files. If not, they will be dumped as models in a single pdb file.
+
+\optiontitle{Settings}
+\begin{optiontable}
+\option{minimum-energy-mode}{bool}{false}{Whether only to dump minimum energy structures.}
+\option{minimum-energy-fraction}{real}{0.1}{How far from the minimum energy a structure must be before being dumped.}
+\option{minimum-energy-interval}{int}{500}{Minimum interval between dumped minimum energy structures.}
+\end{optiontable}
+
+
+
+\input{../modules/doc/observable.tex}
+
+
+
+\section{Angle histograms (\texttt{angle-histogram})}
+\label{sec:angle-histogram}
+
+The angle histogram observable maintains statistics on the
+distribution of angles in the protein. Several of the general
+observable settings are important when using this observable: The
+statistics will be updated at intervals given by the
+\texttt{register-interval} option and dumped at intervals given by the
+\texttt{output-interval} option. Optionally, a
+\texttt{register-burnin} can be set to skip a number of iterations at
+the beginning.
+
+
+
+\section{Selecting observables in \texttt{phaistos.cpp}}
+
+In order to use an energy term as an observable, use the
+\texttt{observable} keyword, rather than the \texttt{energy} that is
+normally used for specifying energies. Just as for moves and energies,
+observables can be specified individually
+
+\begin{verbatim}
+$ ./phaistos --observable-helix-content --observable-rg
+\end{verbatim}
+
+\noindent
+or by using a shorthand
+
+\begin{verbatim}
+$ ./phaistos --observable helix-content rg
+\end{verbatim}
+
+\noindent
+Any specific settings can be specified using square brackets as
+described in section \ref{sec:command-line-options}. Here is a simple
+example using the angle histogram observable:
+
+\begin{verbatim}
+$ ./phaistos --observable \
+  angle-histogram[output-target:output_%i.txt,\
+  register-interval:1,output-interval:10]
+\end{verbatim}
+
+\subsection{Special observables: \texttt{@energy-sum} and \texttt{@energy-terms}}
+\label{sec:energy-sum-energy}
+
+It is natural to have both the total energy sum and the individual
+energy terms as part of your observable. This is supported through two
+special observable options: \texttt{@energy-sum} and
+\texttt{@energy-terms}. These observables work by looking up the
+previously calculated values in the main energy term -- no
+recalculation of energies is done.
+
+An additional benefit of this approach is that observable settings can
+be provided for the whole group of energies in one go:
+
+\begin{verbatim}
+$ ./phaistos --energy profasi \
+  --observable @energy-terms[register-interval:1]
+\end{verbatim}
+
+
+
+\section{\texttt{evaluate\_observable.cpp}}
+\label{sec:evaluate-observable}
+
+The \texttt{evaluate\_observable} program is located in the
+\texttt{applications} module. It makes it possible to easily evaluate
+energies/observables for a given set of PDB files. It follows the
+syntax of the \texttt{phaistos.cpp} command line. To evaluate for
+instance the helix content of the structure in a PDB file, one would
+write:
+
+\begin{verbatim}
+$ ./evaluate_observable --observable helix-content \
+   --pdb-file 1enh.pdb
+# ID    helix-content   
+1enh.pdb  0.71153846153846156
+\end{verbatim}
+
+\noindent
+One distinction from the \texttt{phaistos.cpp} executable is that
+\texttt{evaluate\_ob\-serv\-ab\-le} can take many PDB-files at once. This is
+done using the \texttt{pdb-files} option:
+
+\begin{verbatim}
+$ ./evaluate_observable --observable helix-content \
+  --pdb-files *.pdb
+# ID    helix-content   
+sample1.pdb 0.80769230769230771
+sample2.pdb 0.78846153846153844
+...
+\end{verbatim}
+
+\noindent
+Of course, the whole observable machinery is available from
+\texttt{evaluate\_ob\-serv\-ab\-le.cpp}, making it possible to determine
+where and how often results are outputted. Using the
+\texttt{pdb-header} and \texttt{pdb-b-factor} output targets described
+above, it is also possible to use \texttt{evaluate\_ob\-serv\-ab\-le}
+to annotate a given set of PDB files with energy information.
+
+The \texttt{evaluate\_observable.cpp} program also has an
+\texttt{energy} option, which works the same way as for
+\texttt{phaistos.cpp}. The output of energies is controlled by the
+\texttt{@energy-sum} and \texttt{@energy-terms} observables introduced
+in the last section. The default setting for \texttt{--observable} is
+to include both \texttt{@energy-sum} and \texttt{@energy-terms}, which
+means that if you specify energies and no observables, the sum and
+individual terms will be included:
+
+\begin{verbatim}
+$ ./evaluate_observable --pdb-file 1enh.pdb --energy opls 
+# ID    @energy-sum     clash-fast      opls-angle-bend ...
+/PATH/1enh.pdb -3627.4051175360833 0 139.3105497686366 ...
+\end{verbatim}
+
+\noindent
+Note that if observables are specified, the default will be
+overridden, and the energy evaluations might become invisible
+
+\begin{verbatim}
+$ ... --energy opls --observable rg                       
+# ID    rg      
+/PATH/1enh.pdb  10.088942787694526
+\end{verbatim}
+
+\noindent
+in which case you need to specify the special observables explicitly
+
+\begin{verbatim}
+$ ... --energy opls --observable @energy-sum rg
+# ID    @energy-sum     rg      
+/PATH/1enh.pdb  -3627.4051175360833 10.088942787694526
+\end{verbatim}
+
+\chapter[Simulation and Optimization]{Monte Carlo: Simulation and Optimization}
+\label{sec:simulation-types}
+
+Phaistos is a Monte Carlo simulation framework. In its broadest sense,
+the term Monte Carlo describes any stochastic (non-deterministic)
+algorithm. In the context of protein simulations, it is used both to
+describe \emph{simulation}, where one wishes to sample from a given
+probability distribution (typically the Boltzmann distribution), and
+stochastic \emph{optimization}, where the task is merely to find the
+structure with lowest energy (highest probability). Simulations are
+typically based on a specific MC technique called \emph{Markov Chain
+  Monte Carlo} (MCMC), where each new state is generated using only
+information about the previous state, and where the property of
+\emph{detailed balance} ensures that the simulation will converge to a
+given target distribution. In some fields, the Markov Chain Monte Carlo
+algorithm is referred to simply by the term Monte Carlo.
+
+
+\section{MCMC simulations: detailed balance and ergodicity}
+\label{sec:detailed-balance}
+
+Markov Chain Monte Carlo is a technique that makes it possible to draw
+samples from a complex distribution $\pi$ (target distribution), for
+which only the density function is known. The idea is to construct a
+simulation where each new state is dependent only on the previous
+state. If new states are accepted/rejected in accordance with the
+\emph{detailed balance} equation, it can be shown that this Markov
+Chain will converge to the target distribution of interest.
+
+The \emph{detailed balance} property entails that the probability of
+being in a state $x$ multiplied by the probability of going from state
+$x$ to state $x'$, is equal to the probability of being in state $x'$
+and moving to $x$
+
+\begin{equation}
+\pi(x)P(x \rightarrow x') = \pi(x')P(x' \rightarrow x) \ .
+\label{eq:monte-carlo-1}
+\end{equation}
+
+\noindent
+It can be convenient to factor the transition probability $P(x
+\rightarrow x')$ into a \emph{proposal} probability $P_p$ and an
+\emph{acceptance} probability $P_a$, that is
+
+\begin{equation}
+P(x \rightarrow x') = P_p(x \rightarrow x')P_a(x \rightarrow x') \ .
+\label{eq:monte-carlo-2}
+\end{equation}
+
+\noindent
+In many cases, the moves used in a simulation are symmetric, $P_p(x
+\rightarrow x') = P_p(x' \rightarrow x)$. When this is not the case,
+the move is said to be \emph{biased}. In such case, the acceptance
+probability factors must be chosen in a way to compensate for this
+bias. The Metropolis-Hastings method described below corresponds to
+one choice of these acceptance probabilities.
+
+It should be noted that the detailed balance equation alone is not
+sufficient to guarantee convergence. The set of moves used in the
+simulation must also be chosen to ensure \emph{ergodicity}, which
+means that there is a non-zero probability of moving from any state to
+any other state in a system.
+
+
+\section{General Monte Carlo settings}
+\label{sec:gener-monte-carlo-sett}
+
+In the next sections, the different available Monte Carlo methods in
+Phaistos will be described in detail, along with a list of any
+available settings. A number of common options are shared between all
+Monte Carlo types. To avoid repetition, these are listed here.
+
+\begin{optiontable}
+\option{debug}{int}{0}{Debug level.}
+\option{declash-on-reinitialize}{bool}{true}{Whether to remove self-collisions in the chain when reinitializing the structure.}
+\option{maximum-declash-attempt}{int}{20000}{The maximum number of moves to allow before aborting the declash procedure.}
+\option{reinitialization-interval}{int}{0}{How often to reinitialize the simulation (default: 0 (never)).}
+\option{consistency-check-interval}{int}{10000}{How often to check whether the simulated system is internally consistent.}
+\end{optiontable}
+
+
+
+\section{Metropolis-Hastings (\texttt{metropolis-hastings})}
+\label{sec:metropolis-hastings}
+
+From expression (\ref{eq:monte-carlo-1}) and (\ref{eq:monte-carlo-2}), we can
+write the detailed balance requirement as
+
+\begin{equation}
+\frac{P_a(x \rightarrow x')}{P_a(x' \rightarrow x)} = \frac{\pi(x')P_p(x' \rightarrow x)}{\pi(x)P_p(x \rightarrow x')} \ .
+\label{eq:monte-carlo-3}
+\end{equation}
+
+\noindent
+The Metropolis-Hastings method \cite{metropolis1953equation} specifies
+that a move from state $x$ to $x'$ should be accepted with the
+probability
+
+\begin{equation}
+P_a(x \rightarrow x') = \min\left(1, \frac{\pi(x')P_p(x' \rightarrow x)}{\pi(x)P_p(x \rightarrow x')}\right) \ .
+\label{eq:monte-carlo-4}
+\end{equation}
+
+\noindent
+In other words, assuming an unbiased move set, the move is always
+accepted if the probability according to the target distribution is
+increased ($\pi(x')>\pi(x)$). If the probability decreases, the acceptance
+probability depends on how much worse the probability of the new
+structure is compared to the previous one. It can be seen that
+(\ref{eq:monte-carlo-4}) is a solution to
+(\ref{eq:monte-carlo-3}). Other solutions exist, leading to different
+convergence properties of the algorithm.  However, the
+Metropolis-Hastings criterion is the most frequently used in the
+literature.
+
+\section{Greedy Optimization (\texttt{greedy-optimization})}
+\label{sec:greedy-optimization}
+
+The simplest Monte Carlo type in Phaistos is greedy optimization. As
+in the case for Metropolis-Hastings, a sequence of new states are
+generated. However, in this case, only structures improving the energy
+are accepted. This can be useful for quickly relaxing a structure.
+
+\section{Simulated Annealing (\texttt{simulated-annealing)}}
+\label{sec:simulated-annealing}
+
+The simulated annealing method \cite{kirkpatrick1983optimization} lies
+somewhere between Metropolis-Hastings and greedy optimization. It uses
+a Metropolis-Hastings acceptance criterion, but rather than using a
+fixed temperature, the simulation will gradually move from a high to a
+low temperature. This has the effect that initially, the simulation
+will accept nearly all generated candidate structures, both with
+higher and lower energies. As the temperature decreases, the
+simulation will increasingly appear as a greedy optimization,
+accepting fewer structures that would increase the energy.
+
+\optiontitle{Settings}
+\begin{optiontable}
+\option{e-min}{real}{-inf}{Lower bound on energy.}
+\option{e-max}{real}{inf}{Upper bound on energy.}
+\option{temperature-start}{real}{inf}{Starting temperature (must be finite).}
+\option{temperature-end}{real}{inf}{Ending temperature (must be finite).}
+\end{optiontable}
+
+
+% Include module input
+\input{../modules/doc/monte_carlo.tex}
+
+
+
+
+\section{Selecting Monte Carlo type in \texttt{phaistos.cpp}}
+
+The type of Monte Carlo algorithm used by \texttt{phaistos.cpp} is set
+using the \texttt{--monte-carlo} option. As for energies and moves,
+there is a convenient command line shorthand to quickly choose both
+the type of Monte Carlo run and the detailed settings:
+
+\begin{verbatim}
+$ ./phaistos --monte-carlo metropolis-hastings[debug:1]
+\end{verbatim}
+
+\noindent
+If no Monte Carlo type is specified, \texttt{phaistos.cpp} will use Metropolis Hastings.
+
+
+
+\chapter{Probabilistic Models}
+\label{cha:probabilistic-models}
+
+Phaistos contains implementations of a number of probabilistic models,
+each modeling distinct aspects of protein geometry. In this chapter,
+we will focus on the generative models, which are used both for
+proposing new structures, and as energy functions. Other models, which
+are used solely as energy functions, are described in separate
+appendices.
+
+The generative models are divided into backbone models and sidechain
+models. For historical reasons, the backbone models are built into the
+core of Phaistos, while the sidechain models are available as a module.
+
+\section{Backbone models}
+\label{sec:backbone-models}
+
+The backbone models control the angular degrees of freedom of the
+protein main chain. There are several variants: FB5HMM (\texttt{fb5}),
+TorusDBN (\texttt{torus}), and TorusCsDBN (\texttt{torus-cs}). The
+FB5HMM model is concerned with the $\mathrm{C}_\alpha$ trace of a
+protein, while the TorusDB describes the backbone in atomic detail
+(N-CA-C, CB, O). Both the FB5HMM and TorusDB models have been
+described in detail in the literature \cite{hamelryck2006srp,
+  boomsma2008gpm}. The last model, TorusCsDBN, is an extension of the
+TorusDBN that includes chemical shift information. In cases where
+chemical shift data are available for a system, this can significantly
+improve speed and accuracy of a simulation.
+
+\subsection{Using backbone models in \texttt{phaistos.cpp}}
+By default, \texttt{phaistos.cpp} will choose a model depending on
+your chain type: FB5HMM for $\mathrm{C}_\alpha$ chains and TorusDBN
+for full atom chains. You can override this behaviour, or change the
+settings of your model using the backbone-dbn option:
+
+\begin{verbatim}
+$ ./phaistos --backbone-dbn torus-cs
+\end{verbatim}
+
+\noindent
+The different models have different associated settings, depending on
+the available node types. However, all models have a
+\texttt{initial-aa-file} option, an \texttt{initial-ss-file} option,
+and an \texttt{initial-pdb-file} option, which allows you to
+initialize your model from an amino acid sequence file, a secondary
+structure file or a PDB file. In the following command
+\texttt{torus-cs} is initialized from the PDB file \texttt{file.pdb}:
+
+\begin{verbatim}
+$ ./phaistos --backbone-dbn torus-cs[initial-pdb-file:file.pdb]
+\end{verbatim}
+
+\noindent
+If no input settings are explicitly specified for the model,
+\texttt{phaistos.cpp} will use the global \texttt{pdb-file},
+\texttt{aa-file} and \texttt{ss-file} options. The last example
+is therefore equivalent to:
+
+\begin{verbatim}
+$ ./phaistos --pdb-file file.pdb --backbone-dbn torus-cs
+\end{verbatim}
+
+\noindent
+For a complete list of all available options, please see the Phaistos
+help output:
+
+\begin{verbatim}
+$ ./phaistos --help
+\end{verbatim}
+
+
+\section{Sidechain models}
+\label{sec:sidechain-models}
+
+As for the backbone case, the two available sidechain models
+correspond to two different representations of protein
+sidechains. BASILISK is a probabilistic model that represents
+sidechains in full atomic detail and in continuous space, modeling all
+the individual $\chi$ angles in each sidechain
+\cite{harder2010beyond}.  COMPAS uses a more coarse-grained
+representation, where sidechains are represented by a single
+pseudo-atom. These models are described in greater detail in appendix
+\ref{cha:sidechain-dbns-module}. The models are set up through the
+energies and moves that use them.
+
+
+
+
+\appendix
+
+\input{../modules/doc/appendix.tex}
+
+
+
+\bibliographystyle{unsrt}
+\bibliography{references.bib\phaistosbibtexfiles}
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
+
+
+% \begin{optiondescription}
+%   \optionitem[1][int]{move-length-min} Minimum length of move
+%   \optionitem[1][int]{move-length-max} Maximum length of move
+%   \optionitem[true][bool]{implicit-rotamer-energy} If
+%   implicit-rotamer-energy is set to false, the bias introduced when
+%   proposing from the Dunbrack library is compensated for, ensuring
+%   that the uniform distribution is reached when simulating with no
+%   force-field.
+%   \optionitem[1.0][real]{sigma-scale-factor} The width of the Dunbrack
+%   Gaussian distributions from which new angles are proposed can be
+%   scaled by this factor.  Flattening the distribution can be useful to
+%   ensure ergodicity, as the Dunbrack library does not have support
+%   over the entire interval $[0,2\pi]$
+%   \optionitem[1.0][real]{rotamer-state-resample-frequency} Frequency
+%   with which move will resample new rotamer states ($g^+, t, g^-$).
+%   \optionitem[true][bool]{rotamer-skip-proline} Whether to sample
+%   sidechain angles in proline. N.B. If rotamer-skip-proline = false a
+%   change in proline bond length is introduced, this must be taken in
+%   account by an appropriate bond-stretch energy term.
+%   \optionitem[true][bool]{sample-hydrogen-chis} Whether to sample
+%   (uniformly) non-standard torsion angles in sidechain (e.g methyl
+%   groups, CB-S-H in Cys, etc...)
+% \end{optiondescription}
+
+% \newpage
+
+% \begin{small}
+% \noindent
+% % \begin{tabularx}{\textwidth}{p{0.4\textwidth}llp{0.4\textwidth}}
+% \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}p{0.4\textwidth}llp{0.4\textwidth}}
+% % \begin{tabularx}{p{.25\textwidth}llp{0.25\textwidth}}
+%   name & type & default & description \\
+%   \hline \\
+% \end{tabular*}
+% \end{small}
+
+% @item -{-}implicit-rotamer-energy
+% Boolean (default:true). If implicit-rotamer-energy is set to false, the bias introduced when proposing from the Dunbrack library is compensated,
+% therefore ensuring that the uniform distribution is reached when simulating with no force-field.
+
+% @item -{-}sigma-scale-factor
+% Float (default:1). The width of the Dunbrack Gaussian distributions from which new angles are proposed can be scaled by this factor. 
+% Flattening the distribution can be useful to ensure ergodicity, as th Dunbrack library does not have support over the entire interval $[0,2\pi]$
+% @item -{-}rotamer-state-resample-frequency
+% Float (default:1, range:0-1). Frequency with which move will resample new rotamer states ($g^+, t, g^-$). 
+% @item -{-}rotamer-skip-proline
+% Boolean (default: true). Whether to sample sidechain angles in proline. N.B. If rotamer-skip-proline = false a change in proline bond length 
+% is introduced, this must be taken in account by an appropriate bond-stretch energy term.
+% @item -{-}sample-hydrogen-chis
+% Boolean (default:true). Whether to sample (uniformly) non-standard torsion angles in sidechain (e.g methyl groups, CB-S-H in Cys, etc...)
+
+
+
+
+% \tt{--move-lenth} & real & 1.0 & Relative weight of the move \\
+% &&&(probability of choosing this move) \\
+% \tt{--debug} & int & 0 & Debug level \\
+% \tt{--regions} & vector$<$pair$<$int$>>$ & [[0,size]] & Regions affected by move \\
+% \end{tabular}
+
+
+
+
+
+% \item[\tt{--iterations} \emph{n} ] 
+%   For how many iterations to run the simulation.
+
+% \newcommand{\optionitem}[3]{\item[{\tt #1} {\tt #2}]  #3}
+% \newcommandtwoopt{\optionitem}[3][][]{\item[{\tt #3} {\rm type:#1 default:#2}]}
+% \newcommandtwoopt{\optionitem}[3][][]{\item[{\tt --#3 #1} {\rm (=#2)}]}
+
+
+
+% \setdescription{labelsep=*}
+
+% \begin{description}
+% % \item[--verbose] produce a verbose output (highly recommended if
+% %   you want to see what is going on)
+% % \optionitem[bool][false]{verbose} hej 
+% % \optionitem[bool][false]{verbose} hej 
+% % \item[bla] hej
+% % \item[bla] hej
+% % produce a verbose output (highly recommended if
+% %   you want to see what is going on)
+% \end{description}
+
+
+% \begin{description}
+% \item[\tt{--weight}] Relative weight of the move (probability of choosing this move)
+% \item[\tt{--debug}] print debugging information
+% \item[\tt{--move-length-min} ] 
+% \item[\tt{--move-length-max}] 
+% \end{description}
+
+
+% \begin{optiondescription}
+% \optionitem[1.0]{real}{weight} Relative weight of the move (probability of choosing this move)
+% \optionitem[0]{int}{debug} Debug level 
+% \optionitem[{[[0,size]]}]{vector$<$pair$<$int$>>$}{regions} Regions in the molecule that will be affected by the move \\
+% \end{optiondescription}
+
+
+% Environment used for option descriptions
+% \newenvironment{optiondescription}{
+%   \setlength{\leftmargini}{0em}
+%   \description
+%   \setlength{\itemindent}{0em}
+%   \setlength{\labelindent}{0em}
+%   \setlength{\labelsep}{\leftmargin-\labelwidth}
+% }
+% {\endlist}
+% \newcommandtwoopt{\optionitem}[3][][]{\item[{\tt-{-}#3 \rm #2} {\rm (=#1)}]\hfill\\}
+
+% \newcommand{\optiontable}{
+% \small
+% \noindent
+% \begin{small}
+% \begin{tabularx}{\linewidth}{XllX}
+%   name & type & default & description \\
+%   \hline \\
+% }
+
+  
+% \newenvironment{optiontable}{\par\noindent\par\begin{small}\par\begin{tabularx}{\linewidth}{XllX}\par}{\par\end{tabularx}}
+% \end{small}
+% }
+% \newenvironment{optiontable}{\par\begin{tabular}{llll}}{\end{tabular}}
+% \newenvironment{optiontable}{\par\begin{tabular*}{\textwidth}{llll}}{\end{tabular*}}
+% \end{small}
+% }
+
+% \option{--move-length-min} & int & 1
+% \newcommand{\optionitem}[3][]{\item[{\tt-{-}#3 \rm #2} {\rm (=#1)}]\hfill\\}
+
+
+
+% Item used for option descriptions: \optiondescription[
+% \newcommand{\optionitem}[3][]{\item[{\tt-{-}#3 \rm #1} {\rm (=#2)}]\hfill\\}
+

@@ -1,0 +1,107 @@
+\chapter{PLEIADES module (\texttt{pleiades})}
+\label{cha:pleiades-module}
+
+\section{The PLEIADES program \texttt{pleiades.cpp}}
+\label{sec:pleiades-executable}
+
+PLEIADES is a protein structure clustering program that allows to quickly
+cluster very large amounts of decoy structures.
+
+\subsection{Command line options}
+\begin{optiontable}
+  \option{git-file}{filename}{\emph{required}}{Input file containing all the vectors to
+    be clustered. See \texttt{pdb2git} if you want to convert pdb files
+    into GIT vectors.}
+  \option{out-file}{filename}{out.cluster}{File to store the final cluster in.}
+  \option{verbose}{bool}{false}{Produce a verbose output (recommended if you
+    want to see what is going on).}
+  \option{debug}{bool}{false}{Print debugging information.}
+  \option{iterations}{int}{100}{How many iterations to maximally run before
+    slopping. Since the convergence is not always detected
+    automatically you should set a reasonable amount of iterations
+    after which the algorithm terminates.}
+  \option{k-means}{bool}{true}{Flag indicating to perform k-means clustering.}
+  \option{k}{int}{10}{Number of K cluster being used.}
+  \option{w-k-means}{bool}{false}{Flag indicating to perform weighted
+    k-means clustering based on weights derived from the Muninn bin
+    weights. See section \ref{sec:muninn} and chapter \ref{cha:muninn-module} for details on Muninn.}
+  \option{beta}{real}{1.0}{Inverse temperature for the weighted clustering.}
+  \option{long-output}{bool}{false}{Prints all members of each cluster (per
+    default only the 5 members closest to the centroid are printed).}
+  \option{smart-seed}{bool}{false}{Use the kmeans++ algorithm to set the
+    initial cluster seeds. This will choose new centroids with a
+    likelihood proportional to the distance to the closest existing
+    cluster centriod. This will lead to more equally distributed
+    cluster seeds \cite{arthur2007k}.}
+  \option{muninn-log}{filename}{}{Filepath to the muninn logfile to be
+    used for the weight determination in the weighted clustering.}
+  \option{scale-weights}{bool}{false}{Allows to scale the weights to the
+    interval [0,1[. Use this option if you find that the weights do
+    contain zeros. Zero-weights will otherwise mess up the
+    clustering.}
+  \option{rmsd-native-pdb}{filename}{}{It is possible
+    calculated the RMSD of each structure of a cluster to a native,
+    target structure after the clustering procedure. This option
+    allows to set the filepath to the native structure to be used.}
+  \option{rmsd-decoy-prefix}{path}{}{In order too be able
+    to calculate the RMSD to the native structure for each decoy, we
+    need the decoy structures themself. The filename is extracted from
+    the first column of the GIT file. Please adjust this prefix, so
+    that both combined points to the correct files.}
+  \option{guess-k}{bool}{false}{Experimental procedure, trying to guess a
+    good K by using a cutoff based clustering approach.}
+  \option{guess-k-threshold}{real}{30}{Threshold for the
+    experimental detection of K.}
+\end{optiontable}
+
+
+
+\subsection{Examples (cookbook style)}
+\label{sec:examples}
+
+In this section we are going to go over a few application scenarios and how those can be 
+handled by the PLEIADES program.
+
+In order to get the list for options for the \texttt{pleiades} program use the commend:
+
+\begin{verbatim}
+$ ./pleiades -h
+\end{verbatim}
+
+\noindent To then start a clustering run, you need all the structures
+in GIT vector format. The GIT vectors can be obtained using the
+program \texttt{pdb2git}, see section \ref{sec:pdb2git-executable}.
+
+The following command will the start a clustering run for a maximum of
+500 iterations sorting the structures into $k=20$ cluster. The option
+\texttt{--long-output} indicates that all members of the clusters will
+be printed and the output-file will be named \texttt{samples.cluster}.
+
+\begin{verbatim}
+$ ./pleiades -git-file ~/data/samples/samples.git --verbose -k 20 \
+  --iterations 500 --long-output -o samples.cluster
+\end{verbatim}
+
+
+\subsection{Frequently asked questions (FAQ)}
+\label{sec:faq}
+
+\begin{description}
+\item[What is GIT?] GIT is a description of the overall protein fold
+  using Gauss integrals. It was developed by R{\o}gen and Fain, and
+  the distances between the vectors has been shown to correlate well
+  with standard measures like RMSD \cite{roegen2003automatic}.
+
+
+\item[How can I calculate GIT vectors? I only have PDB files] The
+  PHAISTOS package also contains a convenient conversion tool to
+  transform PDB structures into the according GIT vectors called
+  {\tt{pdb2git}}. See section \ref{sec:pdb2git-executable} for more
+  information.
+
+\item[How can I cite PLEIADES?] We are currently in the process of
+  writing up a paper on PLEIADES.  We will update this section once
+  the article is published.
+
+\end{description}
+

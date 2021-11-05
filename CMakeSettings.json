@@ -1,0 +1,32 @@
+﻿{
+  "configurations": [
+    {
+      "name": "WSL-GCC-Debug",
+      "generator": "Unix Makefiles",
+      "configurationType": "Debug",
+      "buildRoot": "${projectDir}\\build",
+      "installRoot": "${projectDir}\\build\\install",
+      "cmakeExecutable": "cmake",
+      "cmakeCommandArgs": "-DCMAKE_C_COMPILER=/usr/bin/gcc-5 -DCMAKE_CXX_COMPILER=/usr/bin/g++-5 -DBoost_NO_BOOST_CMAKE=TRUE -DBoost_NO_SYSTEM_PATHS=TRUE -DBOOST_ROOT_DIR=/home/juhasm/boost-1.58 -DBOOST_ROOT=/home/juhasm/boost-1.58 -DBoost_INCLUDE_DIR=/home/juhasm/boost-1.58/include -DBoost_PROGRAM_OPTIONS_LIBRARY=/home/juhasm/boost-1.58/lib/libboost_program_options.a -DBoost_SERIALIZATION_LIBRARY=/home/juhasm/boost-1.58/lib/libboost_serialization.a -DBoost_THREAD_LIBRARY=/home/juhasm/boost-1.58/lib/libboost_thread.a -DBoost_UNIT_TEST_FRAMEWORK_LIBRARY=/home/juhasm/boost-1.58/lib/libboost_unit_test_framework.a -DBoost_REGEX_LIBRARY=/home/juhasm/boost-1.58/lib/libboost_regex.a -DBoost_PROGRAM_OPTIONS_LIBRARY_RELEASE=/home/juhasm/boost-1.58/lib/libboost_program_options.a -DBoost_SERIALIZATION_LIBRARY_RELEASE=/home/juhasm/boost-1.58/lib/libboost_serialization.a -DBoost_THREAD_LIBRARY_RELEASE=/home/juhasm/boost-1.58/lib/libboost_thread.a -DBoost_UNIT_TEST_FRAMEWORK_LIBRARY_RELEASE=/home/juhasm/boost-1.58/lib/libboost_unit_test_framework.a -DBoost_REGEX_LIBRARY_RELEASE=/home/juhasm/boost-1.58/lib/libboost_regex.a -DPHAISTOS_MODULE_DISABLE=\"applications_backbone_dbn|applications|camshift|distance|distance_dev|energy_archive|git|inference|irrm|mocapy|mumu|opls|pleiades|ppm|profasi|regression|saxs|sidechain_dbns|trajectory|typhon|visible_volume|doc|crisp|charmm\"",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "linux_x64" ],
+      "wslPath": "${defaultWSLPath}",
+      "intelliSenseMode": "linux-gcc-x64"
+    },
+    {
+      "name": "WSL-GCC-Release",
+      "generator": "Unix Makefiles",
+      "configurationType": "Release",
+      "buildRoot": "${projectDir}\\build",
+      "installRoot": "${projectDir}\\build\\install",
+      "cmakeExecutable": "cmake",
+      "cmakeCommandArgs": "-DCMAKE_C_COMPILER=/usr/bin/gcc-5 -DCMAKE_CXX_COMPILER=/usr/bin/g++-5 -DBoost_NO_BOOST_CMAKE=TRUE -DBoost_NO_SYSTEM_PATHS=TRUE -DBOOST_ROOT_DIR=/home/juhasm/boost-1.58 -DBOOST_ROOT=/home/juhasm/boost-1.58 -DBoost_INCLUDE_DIR=/home/juhasm/boost-1.58/include -DBoost_PROGRAM_OPTIONS_LIBRARY=/home/juhasm/boost-1.58/lib/libboost_program_options.a -DBoost_SERIALIZATION_LIBRARY=/home/juhasm/boost-1.58/lib/libboost_serialization.a -DBoost_THREAD_LIBRARY=/home/juhasm/boost-1.58/lib/libboost_thread.a -DBoost_UNIT_TEST_FRAMEWORK_LIBRARY=/home/juhasm/boost-1.58/lib/libboost_unit_test_framework.a -DBoost_REGEX_LIBRARY=/home/juhasm/boost-1.58/lib/libboost_regex.a -DBoost_PROGRAM_OPTIONS_LIBRARY_RELEASE=/home/juhasm/boost-1.58/lib/libboost_program_options.a -DBoost_SERIALIZATION_LIBRARY_RELEASE=/home/juhasm/boost-1.58/lib/libboost_serialization.a -DBoost_THREAD_LIBRARY_RELEASE=/home/juhasm/boost-1.58/lib/libboost_thread.a -DBoost_UNIT_TEST_FRAMEWORK_LIBRARY_RELEASE=/home/juhasm/boost-1.58/lib/libboost_unit_test_framework.a -DBoost_REGEX_LIBRARY_RELEASE=/home/juhasm/boost-1.58/lib/libboost_regex.a -DPHAISTOS_MODULE_DISABLE=\"applications_backbone_dbn|applications|camshift|distance|distance_dev|energy_archive|git|inference|irrm|mocapy|mumu|opls|pleiades|ppm|profasi|regression|saxs|sidechain_dbns|trajectory|typhon|visible_volume|doc|crisp|charmm\"",
+      "buildCommandArgs": "",
+      "ctestCommandArgs": "",
+      "inheritEnvironments": [ "linux_x64" ],
+      "wslPath": "${defaultWSLPath}",
+      "intelliSenseMode": "linux-gcc-x64"
+    }
+  ]
+}

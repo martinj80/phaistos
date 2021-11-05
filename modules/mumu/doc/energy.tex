@@ -1,0 +1,17 @@
+\section{MuMu: Non-local multibody energy}
+The multibody multinomial (MuMu) model is a coarse grained probabilistic model of non-local interactions in proteins \cite{johansson2013mumu}. 
+
+The main usage of this module is for residue probability annotation of PDB files. This is easily done with the following line:
+\begin{flushleft}
+\texttt{./evaluate\_observable --pdb-file xxxx.pdb --observable-mumu output-target=pdb-b-factor}
+\end{flushleft}
+Note that the current implementation does not check for missing atoms or modified residues. The module will use the atoms provided by the Phaistos PDB parser. Missing or unknown atoms will result in erroneous evaluations.
+
+The usage as a potential of mean force in a folding simulation will require a reference model which is not provided. However, with a weight of 2-5 the energy will stabilize most structures.
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{use-ratio}{bool}{0}{Use the ratio model. This is not available.}
+  \option{model-filename}{string}{default}{Name of the Mocapy *.dbn model file. If set to 'default' the file name will be read from mumu\_data\_miner.h}
+  \option{reference-model-filename}{string}{default}{Name of the Mocapy *.dbn reference model file. If set to 'default' the file name will be read from mumu\_data\_miner.h. Not provided.}
+\end{optiontable}

@@ -1,0 +1,18 @@
+\chapter{OPLS module (\texttt{opls})}
+\label{cha:opls}
+
+\section{Testing OPLS (\texttt{test\_opls.cpp})}
+
+The OPLS module features a test\_opls program to test and profile the
+energy terms. In \verb|/opls/test/CMakeLists.txt| there is a line that
+adds the \verb|-pg| tag when uncommented. It is intended for expert
+users only.
+
+It is build in the following way:
+\begin{verbatim}
+phaistos/build$ make test_opls
+phaistos/build$ cd test
+phaistos/build/test$ ./test_opls 2gb1.pdb
+\end{verbatim}
+
+

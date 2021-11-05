@@ -1,0 +1,289 @@
+2013-04-24  Jes Frellsen  <frellsen@binf>
+
+	* scripts/details/utils.py: Added function unpickle_from_file.
+
+2012-12-07  Jes Frellsen  <frellsen@binf>
+
+	* muninn/Makefile.am: Updated Makefiles.
+	
+2012-12-07  Jes Frellsen  <frellsen@binf>
+
+	* muninn/WeightSchemes/InvKP.h: Jan added file - Jes made minor
+	stylistic changes.
+	
+	* muninn/WeightSchemes/LinearPolatedInvK.h: Added explicit call to
+	this_weight_scheme constructor.
+	
+	* muninn/WeightSchemes/LinearPolatedInvKP.h: Jan added file - Jes
+	made minor stylistic changes.
+	
+	* muninn/WeightSchemes/LinearPolatedMulticanonical.h: Added
+	explicit call to this_weight_scheme constructor.
+
+2012-10-16  Jes Frellsen  <frellsen@binf>
+
+	* configure.ac: Changed version number to 0.411
+
+	* muninn/Factories/CGEfactory.h: Added settings increase_factor
+	and max_iterations_per_histogram.
+
+	* muninn/UpdateSchemes/IncreaseFactorScheme.h: Added argument
+	max_iterations_between_updates to constructor.
+	 
+2012-10-16  Jes Frellsen  <frellsen@binf>
+
+	* autogen.py: Insured that the external-folder and txt-files are included in the Makefile.am.
+
+2012-08-08  Jes Frellsen  <frellsen@binf>
+
+	* muninn/Factories/CGEfactory.cpp: Fixed problem with wrong index
+	offset in log file, when continuing a simulation.
+
+2012-07-09  Jes Frellsen  <frellsen@binf>
+
+	* muninn/utils/StatisticsLogger.h: Fixed problem with setting mode
+	to NONE.
+
+2012-06-05  Jes Frellsen  <frellsen@binf>
+
+	* muninn/Binners/UniformBinner.h: Fixed bug with min_value and
+	max_value.
+
+2012-05-30  Jes Frellsen  <frellsen@binf>
+
+	* muninn/Factories/CGEfactory.h: Added option
+	continue_statistics_log.
+	
+	* muninn/Factories/CGEfactory.cpp: Implemented the
+	continue_statistics_log option.
+	
+	* muninn/utils/StatisticsLogger.h: Added append_to_file and
+	counter_offset to constructor.
+
+2012-05-09  Jes Frellsen  <frellsen@binf>
+
+	* bin/tools/canonical_weights.cpp: Catching exception by
+	reference.
+	 
+	* muninn/CGE.h: Catching exceptions by references.
+	
+	* muninn/Histogram.h: Added virtual destructor.
+	
+	* muninn/Binners/NonUniformBinner.h: Added missing return
+	statement.
+	
+	* muninn/utils/Loggable.h: Added virtual destructor.
+	
+	* muninn/utils/nonlinear/NonlinearEquation.h: Added virtual
+	destructor.
+
+2012-04-25  frellsen  <frellsen@binf>
+
+	* muninn/CMakeLists.txt: Updated to accommodate new header files.
+
+	* muninn/Makefile.am: Updated to accommodate new header files.
+
+2012-04-25  frellsen  <frellsen@binf>
+
+	* muninn/Factories/CGEfactory.h: Added the setting
+	read_fixed_weights_filename.
+
+	* muninn/Factories/CGEfactory.cpp: Added functionality for setting
+	up a fixed weight scheme.
+
+	* muninn/WeightSchemes/FixedWeights.h: Added a weight scheme that
+	can fix the weight in a given set of bins.
+
+	* muninn/WeightSchemes/LinearPolatedInvK.h: Adjusted to match
+	changes to LinearPolatedWeights.h.
+
+	* muninn/WeightSchemes/LinearPolatedMulticanonical.h: Adjusted to
+	match changes to LinearPolatedWeights.h.
+
+	* muninn/WeightSchemes/LinearPolatedWeights.h: Changed
+	underlying_weight_scheme (in constructor and as member variable)
+	from a reference to a pointer. Added variable receives_ownership
+	to constructor and has_ownership as a member variable.
+
+	* muninn/WeightSchemes/LinearPolatedWeights.cpp: Adjusted
+	according to changes in header.
+
+2012-04-02  Jes Frellsen  <frellsen@binf>
+
+	* bin/examples/normal.cpp: Added the log_mode option.
+
+	* muninn/CGE.h: One of the constructors now takes an Estimate as
+	an argument rather than values for lnG and lnG_support.
+
+	* muninn/Estimator.h: The function Estimator::new_estimate with
+	lnG and lnG_support arguments were removed from the interface.
+
+	* muninn/GE.h: One of the constructors now takes an Estimate as an
+	argument rather than values for lnG and lnG_support.
+
+	* muninn/UpdateScheme.h: Added function add_statistics_to_log to
+	implement the Loggable interface.
+	
+	* muninn/Factories/CGEfactory.h: Added the setting log_precision
+	and stream operators for StatisticsLogger::Mode.
+
+	* muninn/Factories/CGEfactory.cpp: Adapted the factory to use the
+	new values written in log files and the new MLE::new_estimate
+	function.
+
+	* muninn/MLE/MLE.h: Changed the prototype for the
+	MLE::new_estimate function.
+	
+	* muninn/MLE/MLE.cpp: The MLE::new_estimate function now
+	constructs a new estimated based on also a value of x0 and values
+	for the free energies.
+	
+	* muninn/UpdateSchemes/IncreaseFactorScheme.h: Added function
+	add_statistics_to_log to implement the Loggable interface.
+	 
+	* muninn/utils/StatisticsLogReader.h: Added methods for getting
+	free_energies, this_maxs and x_zeros.
+	
+	* muninn/utils/StatisticsLogReader.cpp: Added functionality for
+	reading free_energies, this_maxs and x_zeros.
+	
+2012-04-01  Jes Frellsen  <frellsen@binf>
+
+	* muninn/Makefile.am: Updated with Loggable.h. 
+	
+2012-04-01  Jes Frellsen  <frellsen@binf>
+ 
+	* bin/examples/normal.cpp: Added extra options, and corrected the
+	settings for the StatisticsLogger.
+
+	* muninn/Binner.h: Added function add_statistics_to_log to
+	implement the Loggable interface.
+
+	* muninn/CGE.h: Added function add_loggables to added Loggable
+	objects to the StatisticsLogger.
+
+	* muninn/Estimate.h: Added function add_statistics_to_log to
+	implement the Loggable interface.
+
+	* muninn/Estimator.h: Updated doxygen documentation for the
+	new_estimate function.
+
+	* muninn/GE.cpp: The function force_statistics_log no longer takes
+	a binner as argument.
+
+	* muninn/GE.h: Added function add_loggables to added Loggable
+	objects to the StatisticsLogger.
+
+	* muninn/Histogram.h: Added function add_statistics_to_log to
+	implement the Loggable interface.
+
+	* muninn/History.h: History now inherents from Loggable.
+
+	* muninn/Histories/MultiHistogramHistory.cpp: Added function
+	add_statistics_to_log to implement the Loggable interface.
+
+	* muninn/Histories/MultiHistogramHistory.h: Added function
+	add_statistics_to_log to implement the Loggable interface.
+
+	* muninn/MLE/MLEestimate.h: Added function add_statistics_to_log
+	to implement the Loggable interface.
+
+	* muninn/utils/Loggable.h: Added the Loggable interface for
+	classes that can be logged.
+
+	* muninn/utils/StatisticsLogger.h: Changed the StatisticsLogger to
+	use the Loggable interface for logging.
+
+	* muninn/utils/TArray.h: Corrected error in a comment.
+
+2012-03-20  Jes Frellsen  <frellsen@bind>
+
+	* muninn/utils/nonlinear/newton/LineSearchAlgorithm.h: Added the
+	return value function_not_finite for linesearch.
+	
+	* muninn/utils/nonlinear/newton/NewtonRootFinder.h: Added handling
+	of the return value function_not_finite from linesearch and added
+	missing break.
+
+2012-03-08  Jes Frellsen  <frellsen@binf>
+
+	* muninn/Binner.h: Added more documentation.
+
+	* muninn/CGE.h: Added a construct that takes a given history and
+	lnG estimate as arguments.
+
+	* muninn/Estimator.h: Added a new prototype for the pure virtual
+	function Estimate::new_estimate.
+
+	* muninn/GE.h: (1) Added member variable has_ownership_history,
+	and (2) added a constructor that takes a given history and lnG
+	estimate as arguments.
+
+	* muninn/Histogram.h: Added a constructor that takes both a
+	initial set of counts and weights as an argument.
+
+	* muninn/Binners/NonUniformDynamicBinner.h: Added a constructor
+	that takes a previous binning as argument.
+
+	* muninn/Binners/UniformBinner.h: Removed warning caused by
+	constructor.
+
+	* muninn/Factories/CGEfactory.h: Added
+	read_statistics_log_filename setting.
+
+	* muninn/Factories/CGEfactory.cpp: Added functionally to read in
+	the hisgory given by the setting read_statistics_log_filename.
+
+	* muninn/MLE/MLE.h: Added prototype for the new MLE::new_estimate
+	function.
+
+	* muninn/MLE/MLE.cpp: Added implementation of the new
+	MLE::new_estimate function.
+
+	* muninn/MLE/MLEestimate.h: Added missing doxygen documentation.
+
+	* muninn/utils/ArrayAligner.h: Added functionality for aligning
+	to arrays.
+
+	* muninn/utils/TArray.h: Made TArray::extended const
+	member functions.
+
+	* muninn/utils/TArrayUtils.h: Added arg_min functions.
+
+2012-03-05  Jes Frellsen  <frellsen@binf>
+
+	* scripts/details/myhist.py: Fix function myhist, so that xmax is
+	compared to the right bin edge (rather than the left).
+
+2012-02-08  Jes Frellsen  <frellsen@binf>
+
+	* muninn/CGE.h: Added try-catch around the calc_bin_with_extention
+	calls to catch the MaximalNumberOfBinsExceed exception.
+
+	* muninn/Binners/NonUniformDynamicBinner.h: Added the
+	max_number_of_bins option.
+	
+	* muninn/Exceptions/MaximalNumberOfBinsExceed.h: Added the
+	MaximalNumberOfBinsExceed exception.
+	
+	* muninn/Exceptions/MessageException.h: Added doxygen comments
+	
+	* muninn/Factories/CGEfactory.cpp: Using max_number_of_bins when
+	constructing the NonUniformDynamicBinner.
+	
+	* muninn/Factories/CGEfactory.h: Added max_number_of_bins and
+	separator settings.
+	 
+2012-02-08  Jes Frellsen  <frellsen@binf>
+
+	* README.txt: Minor correction.
+	
+2012-02-08  Jes Frellsen  <frellsen@binf>
+
+	* muninn/CGE.h (CGE.~CGE): Corrected bug in deleting the binner.
+
+2012-01-13  Jes Frellsen  <frellsen@binf>
+
+	* muninn/UpdateSchemes/IncreaseFactorScheme.h: Corrected
+	const-correctness for get_this_max().
+

@@ -1,0 +1,89 @@
+\chapter{Muninn module (\texttt{muninn})}
+\label{cha:muninn-module}
+
+This module is an interface to the Muninn generalized ensemble
+framework. For details, we refer to the main publication \cite{frellsen12}.
+% , and the user manual available at \url{}.
+
+\section{Scripts}
+\label{sec:muninn-scripts}
+
+The module includes a number of Phaistos-specific Muninn scripts,
+facilitating the analysis of simulations conducted through Muninn.
+
+\subsection{1D plot (\texttt{plot\_1d.py})}
+\label{sec:1d-plot}
+
+This script allows you to plot the free energy as a function of a
+given reaction coordinate. The script takes its input in a column
+format, where the relevant columns are specified as parameters. By
+default, the program assumes that column two holds the total energy,
+and column three the reaction coordinate. This is compatible with the
+observable output in Phaistos (where column one contains an ID).
+
+\optiontitle{Command line options}
+\begin{optiontable}
+  \option{muninn-log-file}{string}{}{Path to Muninn log file.}
+  \option{observable-file}{string}{}{Path to data file in column format.}
+  \option{column-index-energy}{int}{1}{Column index at which energies are found (zero-based indexing).}
+  \option{column-index-x}{int}{2}{Column index at which x-values are found (zero-based indexing).}
+\end{optiontable}
+
+
+\subsection{2D plot (\texttt{plot\_2d.py})}
+\label{sec:2d-plot}
+
+This script is similar to the 1D case, but creates a color-coded 2D
+plot of the free energy as function of two reaction coordinates. As
+for the 1D case, input is assumed to be in column format, and the
+default columns used are column two (energy), three (reaction
+coordinate 1) and four (reaction coordinate 2).
+
+\optiontitle{Command line options}
+\begin{optiontable}
+  \option{muninn-log-file}{string}{}{Path to Muninn log file.}
+  \option{observable-file}{string}{}{Path to data file in column format.}
+  \option{column-index-energy}{int}{1}{Column index at which energies are found (zero-based indexing).}
+  \option{column-index-x}{int}{1}{Column index at which x-values are found (zero-based indexing).}
+  \option{column-index-y}{int}{2}{Column index at which y-values are found (zero-based indexing).}
+\end{optiontable}
+
+
+\subsection{Assign weights (\texttt{assign\_weights.py})}
+\label{sec:assign-weights}
+
+For further processing, it can be convenient to calculate the Muninn
+weights for a set of PDB files. This script will return a list of (ID,
+weight) pairs given an input file containing IDs and energies. By
+default the input format is assumed to have IDs in the first column
+and energy in the second.
+
+\optiontitle{Command line options}
+\begin{optiontable}
+  \option{muninn-log-file}{string}{}{Path to Muninn log file.}
+  \option{observable-file}{string}{}{Path to data file in column format.}
+  \option{column-index-id}{int}{0}{Column index at which IDs are found (zero-based indexing).}
+  \option{column-index-energy}{int}{1}{Column index at which energies are found (zero-based indexing).}
+\end{optiontable}
+
+
+% \subsection{Reweight PDB ensemble (\texttt{reweight\_pdb\_ensemble.py})}
+% \label{sec:reweight-ensemble}
+
+% This script allows you to draw canonical samples from a directory of PDB
+% structures sampled from a generalized ensemble. The energies of the
+% original samples must be specified either as part of their filename,
+% or as part of an column input data file (as described above). Note
+% that this script only produces accurate results if you generate
+% significantly fewer samples than the size of your original PDB data
+% set.
+
+% \optiontitle{Command line options}
+% \begin{optiontable}
+%   \option{muninn-log-file}{string}{}{Path to Muninn log file.}
+%   \option{pdb-directory}{string}{}{Directory in which PDB files are found.}
+%   \option{observable-file}{string}{}{Optional observable file containing energies for each PDB file.}
+%   \option{iterations}{int}{100}{Number of generated samples - note: this should be significantly smaller than the number of files in pdb-directory.}
+% \end{optiontable}
+
+

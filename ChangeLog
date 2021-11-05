@@ -1,0 +1,1074 @@
+2013-04-29  Jan Valentin <janvalentin>
+
+	* src/energy/term_angle.h Added. Provides an observable which dumps
+	  angle data. In settings one can choose to dump all angle data or
+	  only the data for the dihedral angels.
+
+	* modules/applications/bin/calc_rmsd.cpp Updated. The options class
+	  has been changed and it now supports the calculation of truncated
+	  RMSD's.
+
+2013-03-21  Wouter Boomsma  <wb>
+
+	* modules/trajectory/bin/trajectory_subset.cpp Added. Program for
+	  extracting a subset from a trajectory file, either by specifying
+	  an iteration range, or by weighted sampling (useful for
+	  extracting a Boltzmann distributed ensemble from a generelized
+	  ensemble).
+
+	* modules/trajectory/src/protein/xtc_chain.h Minor optimizations.
+
+	* modules/profasi/bin/phaistos_cpp/global_option_definitions.cpp
+	   Removed clash-fast from profasi alias (in line with the
+	   profasi-cached alias)
+
+2013-03-12  Wouter Boomsma  <wb>
+
+	* modules/muninn/scripts/muninn_weights.py Added. This script
+	allows you to add a column of muninn weights to an observable file.
+
+	* scripts/plot_columns.py, scripts/plot_hist.py Input is now read
+	as structured arrays, rather than normal arrays. This makes it
+	possible to read in text fields and numeric fields in the same array.
+
+2013-02-25  Wouter Boomsma  <wb>
+
+	* src/utils/program_option_parser.cpp After last parsing round,
+	check whether there are partial matches among the unregistered
+	options, and if so, send the unrecognized options along to this
+	option in short format.
+
+	* src/utils/program_options_short_format_parser.h Grammar for
+	the short command line option format used in phaistos. Makes it
+	possible to parse this format directly into a boost ptree.
+
+	* src/utils/program_option_parser.h Added CallBackVariable type,
+	which makes it possible to define members in a Settings object which
+	notify the Settings object with a callback whenever the value changes.
+
+	* src/utils/settings.h Added SettingsCallBack classes which wrap
+	a Settings object and a pointer to one of its member functions
+	into a single object.
+
+2013-02-08  Wouter Boomsma  <wb>
+
+	* scripts/plot_columns.py Added --legend-labels  option for changing legend
+	  labels.
+
+2013-01-21  Wouter Boomsma  <wb>
+
+	* modules/trajectory/src/protein/xtc_chain.h Added. Contains support
+	  for reading and writing chains in XTC trajectory format.
+
+	* modules/applications/bin/evaluate_observable.cpp Added support
+	  for reading in trajectory files.
+
+	* src/utils/utils.h Bugfix in generate_log_filename(). Zero padding
+	  of negative energy values did not work correctly.
+
+2013-01-17  Wouter Boomsma  <wb>
+
+	* scripts/ Added scripts directory. All files in this directory
+	  and files in scripts directories in any module will be copied
+	  to the scripts directory in the build directory.
+
+	* scripts/plot_columns.py Script for plotting columns of an observable
+	  file.
+
+	* scripts/plot_hist.py Added. Script for plotting histograms of
+	  columns in an observable file.
+
+	* modules/muninn/scripts/plot_reweighted_hist.py Script for plotting
+	  reweighted histograms of columns in an observable file.
+
+	* modules/CMakeLists.txt All module script directories are now copied
+	  to build scripts directory
+
+	* modules/muninn/external/CMakeLists.txt The external muninn scripts
+	  are now copied to the build scripts dir.
+
+2013-01-14  Wouter Boomsma  <wb>
+
+	* modules/muninn/src/monte_carlo/monte_carlo_muninn.h Default setting
+	  for histograms_per_reinit changed to 0, meaning that muninn will
+	  no longer reinitialize per default.
+
+2013-01-11 Mikael Borg <borg>
+
+	* */CMakeLists.txt Added directives for building binary packages
+	  Depending on build host, make package can create rpm or deb packages.
+	  Note that only executables, data files and manual are included in the
+	  binary package, and that the install prefix is set to /opt.
+
+2013-01-07  Wouter Boomsma  <wb>
+
+	* modules/mumu Module added.
+
+	* modules/visible_volume Module added.
+
+2012-12-03  Wouter Boomsma  <wb>
+
+	* CMakeLists.txt Increase version number to 1.0-rc3
+
+	* doc/manual.tex Added section on observable-pdb.
+
+	* modules/trajectory/doc/observable.tex Added description
+	  of observable-xtc-trajectory.
+
+	* * Various minor modifications to make code compile with
+	    gcc4.7 and boost1.52.
+
+2012-11-22  Wouter Boomsma  <wb>
+
+	* src/monte_carlo/mcmc_metropolis_hastings.h Renamed to
+	  src/monte_carlo/monte_carlo_metropolis_hastings.h
+	  (McmcMetropolisHastings -> MonteCarloMetropolisHastings)
+
+	* src/monte_carlo/mcmc_simulated_annealing.h Renamed to
+	  src/monte_carlo/monte_carlo_simulated_annealing.h
+	  (McmcSimulatedAnnealing -> MonteCarloSimulatedAnnealing
+
+	* src/monte_carlo/optimization_greedy.h Renamed to
+	  src/monte_carlo/monte_carlo_greedy_optimization.h
+	  (OptimizationGreedy -> MonteCarloGreedyOptimization)
+
+	* modules/muninn/src/monte_carlo/mcmc_muninn.h Renamed to
+	  modules/muninn/src/monte_carlo/monte_carlo_muninn.h
+	  (McmcMuninn -> MonteCarloMuninn)
+
+2012-11-12  Wouter Boomsma  <wb>
+
+	* bin/phaistos_option_definitions.h Added options for adding offsets
+	  to chemical shift input values.
+
+	* src/models/backbone_dbn/backbone_dbn.h Added options for adding offsets
+	  to chemical shift input values.
+
+2012-11-09  Wouter Boomsma  <wb>
+
+	* src/protein/residue.cpp|.h Added get_protonation_dependent_name() method,
+	  returning residue names including potential protonation state information.
+
+	* src/protein/definitions.h Added CYS:HG1->HG atom name conversion, and HSD->HIS,
+	  HSE->HIS residue name conversion.
+
+2012-10-29  Jan Valentin <janvalentin>
+
+	* src/energy/term_backbone_dbn.h
+	* bin/phaistos_option_definitions.h
+	  The option eliminate-move-bias was added to the backbone-dbn energy for speed
+	  efficiency in cases where the move bias should be divided out, when using dbn
+	  moves.
+	* src/moves/move_pivot_local.h
+	* src/moves/move_priors.h
+	  There was a bug in move-pivot-local which made backboneDBN out of sync.
+	  This is now fixed.
+
+2012-10-26  Wouter Boomsma  <wb>
+
+	* src/protein/atom.cpp Added support for HD1,HD2 in ASP
+	  and HE1,HE2 in GLU.
+
+2012-10-22  Wouter Boomsma  <wb>
+
+	* modules/phaistos_cpp/bin/phaistos.cpp
+	  The initial.pdb file that is dumped at the beginning of each simulation
+	  is now dumped AFTER a call to monte_carlo->reinitialization, which
+	  means that it will be clash free (unless declash_on_reinitialize=false).
+	  Some programs, such as VMD, require a clash-free pdb structure in
+	  order to correctly decode .xtc files.
+
+2012-10-03  Wouter Boomsma  <wb>
+
+	* src/energy/observable_pdb.h Added preprocessor conditional to make
+	  boost::filesystem::filename() work both in boost < 1.46 and >= 1.46.
+
+	* modules/phaistos_cpp/bin/phaistos.cpp Phaistos now dumps initial
+	  conformation as a .pdb file. This makes it easier to work with .xtc
+	  output, which requires a single .pdb file for conversions back to pdb.
+
+2012-09-30  Wouter Boomsma  <wb>
+
+	* modules/phaistos_cpp/bin/phaistos.cpp Removed compactify procedure.
+
+2012-09-30  Wouter Boomsma  <wb>
+
+	* src/modules/trajectory Added functionality for dumping Gromacs .xtc
+	  trajectory files.
+
+	* src/energy/observable_pdb.h PDB-dumping functionality moved
+	  to observable.
+
+	* modules/git/src/energy/observable_git.h GIT-dumping functionality
+	  moved to observable.
+
+	* modules/phaistos_cpp/bin/phaistos.cpp Simplified StepCode for
+	  fold procedure.
+
+	* modules/git/src/git.h (set_output_file) Made it possible
+	  to change output files on the fly.
+
+	* bin/phaistos_option_definitions.h (SettingsModifier) Added
+	  code to allow passing of object that is already in observable.
+
+	* src/energy/energy_term.h (EnergyTermCommon::clone_to_observable) Added
+	  overloading code to allow passing of object that is already in observable.
+
+	* src/energy/energy_term.h (EnergyTerm) Added thread_index member variable.
+
+	* src/energy/observable_base.h (IndependentObservable) Added class
+	  making it possible to specify that observable is not controlled
+	  by the default I/O in ObservableCollection.
+
+	* src/energy/observable_base.h (observe_finalize) Added method to
+	  allow communication between observables.
+
+	* src/energy/observable_collection.h Base classes introduced
+	  for code not covered by templates.
+
+	* src/energy/* (observe()) All observables have been modified to
+	  take the current iteration number as an argument.
+
+	* src/monte_carlo/monte_carlo.h (MonteCarloMultiThread::move) iteration_counter
+	  is no longer multiplied by the number of threads.
+
+	* src/protein/chain.h (Chain::output_as_pdb) Added model_index parameter.
+
+2012-09-05  Wouter Boomsma  <wb>
+
+	* src/moves/move_sidechain_uniform.h Bugfix: setting move-length-max
+	  to > 1 resulted in crash.
+
+	* src/energy/term_angle_histogram.h Bugfix: settings.bins was not
+	  used.
+
+2012-09-04  Wouter Boomsma  <wb>
+
+	* src/protein/definitions.h Bugfix in atom_name_translation_map.
+
+2012-07-16  Wouter Boomsma  <wb>
+
+	* CMakeLists Increased version number to 1.0-rc2.
+
+	* doc/Doxyfile.in PROJECT_NUMBER is now automatically read from the CMakeLists file.
+
+	* doc/manual.tex Minor changes to bring command line options in sync with
+	  the current release.
+
+	* src/protein/iterators/atom_iterator.h Increase robustness in case of
+	  chains of length 0.
+
+	* bin/phaistos_option_definitions.h Added error message when no chain intialization
+	  data is provided by the user.
+
+	* modules/phaistos_cpp/bin/phaistos.cpp Added error message when specified pdb file
+	  is not found.
+
+	* modules/opls/bin/phaistos_cpp/includes.cpp Fixed opls-mc-dynamics mode specification
+	  (sc -> sidechain)
+
+	* * Updated Doxygen comments.
+
+2012-06-26  Wouter Boomsma  <wb>
+
+	* src/moves/move.h (Move::Settings) Added weight as a setting attribute
+	  for all moves.
+
+	* src/moves/move_collection.h (MoveCollection::add_move()) Removed
+	  weight parameter. The weight of a move is now set through the
+	  settings object of the move itself.
+
+	* bin/phaistos_option_definitions.h All calls to add_move() modified
+	  to no longer explicitly set weight.
+
+	* modules/crisp/bin/phaistos_cpp/global_definitions.cpp All calls to
+	  add_move() modified to no longer explicitly set weight.
+
+	* modules/sidechain_dbns/bin/phaistos_cpp/global_definitions.cpp
+	  All calls to add_move() modified to no longer explicitly set weight.
+
+2012-06-26  Wouter Boomsma  <wb>
+
+	* modules/pleiades/bin/pleiades_rmsd.cpp Added pdb-list-file option,
+	  making it possible to pass a file containing pdb filenames.
+
+	* modules/pleiades/bin/pleiades_rmsd.cpp (get_all_pdb_files) Split
+	  functionality into a get_pdb_files_from_directory() and a
+	  get_pdb_files_from_file() function, to support new pdb-list-file option.
+
+	* modules/pleiades/bin/pleiades_rmsd.cpp (random_shuffle) Added function
+	  for shuffling an array. This is a generalized version which can also
+	  deal with weighted samples.
+
+	* modules/pleiades/src/cluster_rmsd.cpp (ClusterRmsd::get_median) Added
+	  support for median evaluations using knowledge of current energies.
+
+	* src/energy/term_rmsd.h (calc_rmsd_truncated) Merged with calc_rmsd
+	  since they had the same functionality.
+
+	* src/energy/term_rmsd.h (TermRmsd::residue_start,TermRmsd::residue_end)
+	  removed attributes since they are already present in settings object.
+
+2012-04-25  Wouter Boomsma  <wb>
+
+	* src/energy/term_q_factor.h Added option to calculate weighted
+	  q-factors.
+
+2012-04-25  Jes Frellsen  <frellsen@binf>
+
+	* modules/muninn/bin/phaistos_cpp/monte_carlo_options.cpp: Added
+	option read-fixed-weights-filename.
+
+2012-04-23  Wouter Boomsma  <wb>
+
+	* modules/applications/bin/evaluate_observable.cpp Added functionality
+	  for reading in weights as part of a pdb_list file (as a second column).
+	  This means that reweighted averages can now be calculated using
+	  observables. Currently, only contact map has been tested in this scenario.
+
+	* src/energy/energy_term.h (EnergyTerm) Added extra_weight member
+	  variable. This is an additional weight which can be modified
+	  dynamically during a simulation, in contrast to the constant
+	  weight in the settings object.
+
+	* src/energy/energy_term.h (EnergyTerm::get_weight()) Added. Returns
+	  product of constant settings weight and dynamics extra_weight.
+
+	* src/energy/term_contact_map.h Added support for weighted contact
+	  maps.
+
+	* src/energy/observable_collection.h (ObservableCollection::evaluate())
+	  Now called evaluate_weighted() on energy terms, rather than evaluate().
+	  This means weights of energy terms are now taken into account in
+	  observables as well.
+
+	* src/energy/term_rmsd.h (TermRmsd) Changed type of reference_chain
+	  from chain to chain pointer.
+
+	* src/models/backbone_dbn/backbone_dbn.h (SettingsNodeCis) Added
+          initialize_cis_from_pdb flag determining whether cis node should
+	  be initialized when reading input from a PDB file.
+
+	* src/protein/chain.h (Chain) Changed type of name attribute from
+	  string pointer to string.
+
+2012-04-20  Wouter Boomsma  <wb>
+
+	* src/protein/protein_data.h (ProteinData::get_phi_psi()) First phi angle and last psi
+	  angle in chain are now defined using N-terminal hydrogen and C-terminal oxygen.
+
+2012-04-05  Wouter Boomsma  <wb>
+
+	* bin/phaistos_option_definitions.h Option renamed: energy-local-dbn -> energy-backbone-dbn
+
+	* bin/phaistos_option_definitions.h Option renamed: move-dbn -> move-backbone-dbn
+
+	* bin/phaistos_option_definitions.h|modules/sidechain_dbns/src/phaistos_cpp/global_*
+	  Options renamed: move-sc-* -> move-sidechain-*
+
+	* src/energy/*|modules/*/src/energy/* All energy term class files have been
+	  renamed so the file name matches the class name. In particular, this means
+	  that all energy term class filenames now have the prefix "term_".
+
+	* src/energy/local_dbn.h Enforced naming consistency: TermLocalDbn -> TermBackboneDBN
+
+	* src/energy/local_dbn.h Renamed to backbone_dbn.h
+
+	* src/moves/move_dbn.h Enforced naming consistency: MoveDbn -> MoveBackboneDBN.
+
+	* src/moves/move_dbn.h Renamed to move_backbone_dbn.h
+
+	* src/moves/move_sc_uniform.h Renamed to move_sidechain_uniform.h
+
+	* src/moves/move_sc_uniform.h Enforced naming consistency: MoveScUniform -> MoveSidechainUniform.
+
+	* src/moves/move_sc_rotamer.h Renamed to move_sidechain_rotamer.h
+
+	* src/moves/move_sc_rotamer.h Enforced naming consistency: MoveScRotamer -> MoveSidechainRotamer.
+
+	* src/moves/move_sc_local.h Renamed to move_sidechain_local.h
+
+	* src/moves/move_sc_local.h Enforced naming consistency: MoveScLocal -> MoveSidechainLocal.
+
+	* src/models/backbone_dbn/backbone_dbn.h Enforced naming consistency: Dbn -> DBN.
+
+	* modules/sidechain_dbns/src/energy/sidechain_dbn.h Enforced naming consistency: TermSidechainCached -> TermSidechainDBN
+
+	* modules/sidechain_dbns/src/moves/move_sc_dbn.h Renamed to move_sidechain_dbn.h
+
+	* modules/sidechain_dbns/src/moves/move_sc_dbn.h Enforced naming consistency: MoveScDbn -> MoveSidechainDBN
+
+	* modules/sidechain_dbns/src/moves/move_sc_dbn_local.h Renamed to move_sidechain_dbn_local.h
+
+	* modules/sidechain_dbns/src/moves/move_sc_dbn_local.h Enforced naming consistency: MoveScDbnLocal -> MoveSidechainDBNLocal
+
+	* modules/sidechain_dbns/src/moves/move_sc_dbn_multi.h Renamed to move_sidechain_dbn_multi.h
+
+	* modules/sidechain_dbns/src/moves/move_sc_dbn_multi.h Enforced naming consistency: MoveScDbnMulti -> MoveSidechainDBNMulti
+
+2012-04-02  Wouter Boomsma  <wb>
+
+	* modules/profasi/src/energy/profasi_hydrogen_bond.h (TermProfasiHydrogenBondImproved)
+	  Fixed caching bug - first energy after declashing was always wrong.
+
+2012-03-13  Wouter Boomsma  <wb>
+
+	* modules/pleiades/bin/pleiades_rmsd.cpp Added weighting clustering
+	  functionality.
+
+	* modules/pleiades/src/cluster_rmsd.cpp Added weighting clustering
+	  functionality.
+
+	* modules/pleiades/bin/pleiades.cpp Changed sort() call to use
+	  operator>.
+
+	* modules/pleiades/src/cluster_git.h Changed operator< to operator>
+
+2012-03-08  Jes Frellsen  <frellsen@binf>
+
+	* modules/muninn/bin/phaistos_cpp/monte_carlo_options.cpp: Added
+	option read-statistics-log-filename.
+
+2012-02-08  Jes Frellsen  <frellsen@binf>
+
+	* modules/muninn/bin/phaistos_cpp/monte_carlo_options.cpp: Added
+	the max-number-of-bins option.
+
+2012-02-07  Wouter Boomsma  <wb>
+
+	* modules/applications/bin/evaluate_observable.cpp
+	  Added --pdb-list-file option (for cases where the
+	  the number of pdb file arguments exceeds the limit).
+
+2012-01-23  Jes Frellsen  <frellsen@binf>
+
+	* doc/manual.tex: Minor corrections.
+
+	* modules/crisp/doc/move.tex: Minor corrections.
+
+	* modules/muninn/doc/monte_carlo.tex: Minor corrections.
+
+	* modules/opls/doc/appendix.tex: Minor corrections.
+
+	* modules/sidechain_dbns/doc/move.tex: Minor corrections.
+
+	* modules/typhon/doc/appendix.tex: Minor corrections.
+
+2012-01-20  Jes Frellsen  <frellsen@binf>
+
+	* doc/manual.tex: Tried to recover some of the lost corrections.
+
+	* modules/git/doc/appendix.tex: Minor corrections.
+
+	* modules/muninn/doc/monte_carlo.tex: Minor corrections.
+
+	* modules/opls/doc/appendix.tex: Minor corrections.
+
+2012-01-20  Jes Frellsen  <frellsen@binf>
+
+	* doc/manual.tex: Introduced the concept of Phaistos energy.
+
+	* modules/muninn/doc/monte_carlo.tex: Reformulated the explanation
+	of Muninn beta.
+
+	* modules/typhon/doc/appendix.tex: Changed the reference to the
+	energy chapter.
+
+2012-01-20  Jes Frellsen  <frellsen@binf>
+
+	* modules/muninn/doc/appendix.tex: Commented out Muninn scripts
+	that are not included in the distribution yet.
+
+2012-01-20  Jes Frellsen  <frellsen@binf>
+
+	* doc/manual.tex: Reviewed and revised.
+
+	* modules/applications_backbone_dbn/doc/appendix.tex: Reviewed and
+	revised.
+
+	* modules/git/doc/appendix.tex: Reviewed and revised.
+
+	* modules/muninn/doc/appendix.tex: Reviewed and revised.
+
+	* modules/opls/doc/appendix.tex: Reviewed and revised.
+
+	* modules/pleiades/doc/appendix.tex: Reviewed and revised.
+
+	* modules/saxs/doc/appendix.tex: Reviewed and revised.
+
+	* modules/saxs/doc/energy.tex: Corrected \AA.
+
+	* modules/sidechain_dbns/doc/appendix.tex: Reviewed and revised.
+
+	* modules/typhon/doc/appendix.tex: Reviewed and revised.
+
+2012-01-19  Jes Frellsen  <frellsen@binf>
+
+	* bin/phaistos_option_definitions.h: Improved help text for:
+	Simulated-Annealing, Clash-fast, local-db.
+
+	* modules/muninn/bin/phaistos_cpp/monte_carlo_options.cpp: Changed
+	help text for setting initial-beta.
+
+	* src/energy/clash_fast.h: Improved documentation of settings
+	boolean_mode and minimum_residue_distance.
+
+	* src/energy/local_dbn.h: Improved documentation of settings
+	always_full_update and enable_dbn_update.
+
+	* doc/manual.tex: Reviewed and revised the manual up to
+	appendices.
+
+	* modules/muninn/doc/monte_carlo.tex: Reviewed and revised the
+	manual up to appendices.
+
+	* modules/opls/doc/energy.tex: Reviewed and revised the manual up
+	to appendices.
+
+	* modules/profasi/doc/energy.tex: Reviewed and revised the manual
+	up to appendices.
+
+	* modules/saxs/doc/energy.tex: Reviewed and revised the manual up
+	to appendices.
+
+	* modules/sidechain_dbns/doc/energy.tex: Reviewed and revised the
+	manual up to appendices.
+
+	* modules/sidechain_dbns/doc/move.tex: Added missing trailing dot
+	in options.
+
+	* modules/typhon/doc/energy.tex: Added missing trailing dot in
+	options.
+
+2012-01-19  Wouter Boomsma  <wb>
+
+	* src/utils/program_option_parser.h (AddOptions) Added special
+	  case for strings, which are now automatically wrapped in
+	  WrappedStringPointer.
+
+	* src/utils/program_option_parser.h (WrappedStringPointer) Added.
+	  All string-valued options are now wrapped in this class - in order to
+	  make it possible to strip additional quotes when values are extracted.
+
+	* src/utils/program_option_parser.h (program_option_parser_unquote_string)
+	  Added non const version.
+
+	* src/utils/program_option_parser.h (OptionValue::at()) In the case of strings
+	  this function now always makes sure that additional quotes are removed. This
+	  is to make it compatible for newer versions of boost.
+
+2012-01-18  Jes Frellsen  <frellsen@binf>
+
+	* doc/manual.tex: Reviewed and revised the manual up to and
+	including the move chapter.
+
+	* doc/references.bib: Corrected reference.
+
+	* modules/crisp/doc/move.tex: Reviewed and revised the
+	documentation.
+
+	* modules/sidechain_dbns/doc/move.tex: Reviewed and revised the
+	documentation.
+
+2012-01-18  Wouter Boomsma  <wb>
+
+	* bin/phaistos_option_definitions.h Added missing enums to generate_output call.
+
+	* src/moves/move_sc_local.h Moved Mode enum out of class, and renamed to
+	  MoveScLocalMode.
+
+	* src/moves/move_dbn.h Moved ResampleMode enum out of class, and renamed to
+	  MoveDbnResampleMode.
+
+	* src/utils/program_option_parser.h Bugfix related to program_option parser
+	  in newer versions of boost.
+
+2012-01-13  Wouter Boomsma  <wb>
+
+	* CMakeLists.txt Changed version number to 1.0-rc1.
+
+	* modules/muninn/external Muninn now fully integrated through svn:external
+
+	* cmake/modules/FindMUNINN.cmake Added support for integrated compilation of
+	  muninn.
+
+	* modules/muninn/src/CMakeLists.txt Added support for integrated compilation
+	  of muninn.
+
+	* modules/muninn/external/CMakeLists.txt Added. Code for integrated compilation.
+
+	* modules/muninn/settings.cmake Removed. The Muninn module is now enabled by
+	  default.
+
+2012-01-13  Jes Frellsen  <frellsen@binf>
+
+	* modules/muninn/src/monte_carlo/mcmc_muninn.h: Added missing include.
+
+2012-01-13  Jes Frellsen  <frellsen@binf>
+
+	* bin/phaistos_option_definitions.h: Switched from GeEnum to
+	Muninn::GeEnum
+
+	* modules/muninn/bin/phaistos_cpp/monte_carlo_options.cpp: Adopted
+	the options to the settings class for the CGEfactory.
+
+	* modules/muninn/src/monte_carlo/mcmc_muninn.h: McmcMuninn now
+	makes use of the CGEfactory.
+
+	* modules/pleiades/bin/pleiades.cpp: Added include of
+	CanonicalAveragerFromStatisticsLog from Muninn.
+
+2012-01-05  Wouter Boomsma  <wb>
+
+	* modules/muninn/src/monte_carlo/mcmc_muninn.h The burnin fraction now
+	  calculates a burnin size based on the size of the current Muninn
+	  simulation round, rather than the first simulation round.
+
+	* modules/applications/bin/evaluate_observable.cpp Added same-ensemble
+	  option, which will assume that all pdb-files are structures from the
+	  same ensemble. This is faster and makes it possible to record statistics
+	  in your observables (previously, a new observable collection was
+	  constructed for each pdb file).
+
+2012-01-04  Wouter Boomsma  <wb>
+
+	* src/energy/observable.h (Observable::observe) Added register_only
+	  flag, to indicate that a call is used only for registration purposes, and
+	  that the output will not be used.
+
+	* src/energy/observable_base.h (ObservableBase::observe) Added register_only
+	  flag, to indicate that a call is used only for registration purposes, and
+	  that the output will not be used.
+
+	* src/energy/observable_collection.h Calls to Observable::observe() are now
+	  passed a flag indicating whether result will be outputted or whether
+	  the call is for registration only. This allows the author of an observable
+	  to save some time in cases where no output is needed.
+
+	* src/energy/contact_map.h Rewritten. Added observable making it
+	  possible to monitor contact maps during the course of a
+	  simulation.
+
+	* src/energy/q_factor.h (TermQFactor) Class now inherits contact map
+	  functionality from TermContactMapBase. This energy is now compatible
+	  with the contact maps outputted from the contact_map observable.
+
+	* src/protein/definitions.h Added input operator for AtomEnum and IterateEnum.
+
+2011-12-07  Wouter Boomsma  <wb>
+
+	* CMakeLists.txt Added PHAISTOS_INCLUDE_CHAIN_CA and
+	  PHAISTOS_INCLUDE_OMEGA_DBNS options controlling whether
+	  the ChainCA chain and omega-versions of the DBN models are
+	  supported. The default is OFF. This speeds up compilation
+	  times considerably.
+
+	* modules/phaistos_cpp/bin/phaistos.cpp Made ChainCA and
+	  OmegaDBN support optional.
+
+	* src/energy/q_factor.h Added measure of nativeness.
+
+2011-11-25  Tim Harder <mail@tim-harder.de>
+
+	* modules/typhon/* fixed a couple minor things such as
+	commandline options
+
+	* modules/[typhon|git|pleiades]/bin/*  added ifdef statements
+	around the env variables to avoid crashes if those are not
+	set properly.
+
+	* modules/[typhon|pleiades|sidechain_dbns]/doc/* minor updates
+	to the manual, corrected spelling and so on.
+
+2011-11-23  Wouter Boomsma  <wb>
+
+	* src/utils/program_option_parser.h In recent versions of boost
+	  lexical_cast fails if an empty string is returned by overloaded
+	  << operator. Fixed OptionShorthand output operator to overcome
+	  this problem.
+
+2011-11-21  Wouter Boomsma  <wb>
+
+	* src/protein/definitions.h Added all DSSP secondary structures
+	  types to StrToSS class.
+
+2011-11-16  Wouter Boomsma  <wb>
+
+	* src/energy/* random_number_engine argument added
+	  to all energy term constructors
+
+	* modules/*/src/energy/* random_number_engine argument added
+	  to all energy term constructors
+
+2011-11-14  Wouter Boomsma  <wb>
+
+	* src/energy/energy_term_wrapper.h Added. Observable reporting the
+	  value of another energy term.
+
+	* src/energy/energy_sum.h Added. Observable reporting the sum of
+	  another energy function.
+
+	* modules/applications/bin/evaluate_observable.cpp Added --energy
+	  option. This option can be used to specify normal energies of which
+	  one is interested in evaluating the sum as an observable. Use the
+	  @energy-sum and @energy-terms special observable names to refer to
+	  the calculated energies.
+
+	* bin/phaistos_option_definitions.h Added two special observable
+	  command line options: @energy-sum and @energy-terms, which can
+	  be used to refer to the main energy function from the observable.
+
+	* src/energy/observable.h (Observable) Constructor now takes a
+	  reference energy function as argument.
+
+	* src/energy/energy.h Added sum member variable.
+
+	* src/monte_carlo/monte_carlo.h Added get_energy_function method.
+
+2011-11-11  Wouter Boomsma  <wb>
+
+	* doc/manual.tex Revision of manual.
+
+	* modules/*/doc/* Revision of manual.
+
+2011-11-09  Wouter Boomsma  <wb>
+
+	* data/backbone_dbn_parameters/p_TORUS_CS_H60_BIC-3165650.txt Added. Best model.
+
+	* data/backbone_dbn_parameters/p_TORUS_CS_H60_BIC-3165650_mocapy.dat Added. Best model - Mocapy format.
+
+	* data/backbone_dbn_parameters/p_TORUS_CS_H75_BIC-3168981.txt Added. Second best model.
+
+	* data/backbone_dbn_parameters/p_TORUS_CS_H75_BIC-3168981_mocapy.dat Added. Second best model - Mocapy format.
+
+	* src/models/backbone_dbn/default_parameters_torus_cs_dbn.h Updated default
+	  parameter file for TorusCs DBN model.
+
+2011-11-07  Wouter Boomsma  <wb>
+
+	* bin/phaistos_option_definitions.h Added MODULE_SUPPORT flag, allowing
+	  programs using the command line parser to specify that they do not require
+	  information from other modules.
+
+	* modules/applications_backbone_dbn/bin/* Set MODULE_SUPPORT=0 for all binaries
+	  in this directory.
+
+2011-11-04  Wouter Boomsma  <wb>
+
+	* * Minor corrections to make code compilable with Intel compiler.
+
+2011-11-04  Wouter Boomsma  <wb>
+
+	* modules/applications_backbone_dbn/bin/predictor.cpp All predictor modes
+	  now report predicted sequence. Additional information only reported
+	  if verbose=true.
+
+	* src/models/backbone_dbn/nodes/hidden.h Fixed inconsistency in function
+	  parameter order in various get_emission functions.
+
+	* src/models/backbone_dbn/nodes/discrete.h Fixed inconsistency in function
+	  parameter order in various get_emission functions.
+
+	* src/models/backbone_dbn/nodes/nope.h Fixed inconsistency in function
+	  parameter order in various get_emission functions.
+
+	* src/utils/utils.h (operator>>(istream, std::vector<TYPE>)) None numeric
+	  string values now interpreted as UNINITIALIZED.
+
+2011-11-04  Wouter Boomsma  <wb>
+
+	* src/energy/observable_collection.h Increased robustness of ObservableCollection
+	  when used with non-compatible energy terms.
+
+2011-10-24  Wouter Boomsma  <wb>
+
+	* modules/crisp/src/moves/move_bgs.h Rewrote move to use a vector of Dof
+	  objects rather than a DofIterator. This was done to make it possible to
+	  add an option to skip proline phi angles (skip-proline-phi).
+
+	* src/moves/move_priors.h Added version of get_log_bias() that take a
+	  vector of Dof objects instead of a DofIterator.
+
+	* src/protein/iterators/dof_iterator.h (DofIterator::AngleEnum) Moved to
+	  src/protein/definitions, replacing AngleTypeEnum.
+
+	* src/protein/definitions.h (AngleTypeEnum) Removed
+
+2011-10-14  Wouter Boomsma  <wb>
+
+	* modules/sidechain_dbns/ Module added.
+
+	* modules/typhon/ Module added.
+
+2011-10-14  Wouter Boomsma  <wb>
+
+	* modules/crisp/src/moves/move_bgs.h Renamed Move_BGS to MoveBGS.
+
+	* modules/crisp/src/moves/move_cra.h Renamed Move_CRA to MoveCRA.
+
+	* modules/crisp/src/moves/move_crisp.h Renamed Move_CRISP to MoveCRISP.
+
+	* src/moves/* Renamed all implicit-???-energy names to implicit-energy.
+
+	* src/protein/pdb_input.cpp (get_dssp_string) Added.
+
+2011-10-07  Jes Frellsen  <frellsen@binf>
+
+	* src/monte_carlo/monte_carlo.h: Removed invalid occurences of typename.
+	* modules/profasi/src/energy/profasi_sidechain_charge.h: Removed invalid occurences of typename.
+	* modules/profasi/src/energy/profasi_proline_phi_torsion.h: Removed invalid occurences of typename.
+	* modules/profasi/src/energy/profasi_local_sidechain.h: Removed invalid occurences of typename.
+	* modules/profasi/src/energy/profasi_local.h: Removed invalid occurences of typename.
+	* modules/profasi/src/energy/profasi_hydrophobicity.h: Removed invalid occurences of typename.
+	* modules/profasi/src/energy/profasi_hydrogen_bond.h: Removed invalid occurences of typename.
+	* modules/profasi/src/energy/profasi_excluded_volume_local.h: Removed invalid occurences of typename.
+	* modules/profasi/src/energy/profasi_excluded_volume.h: Removed invalid occurences of typename.
+	* modules/profasi/bin/phaistos_cpp/global_option_definitions.cpp: Removed invalid occurences of typename.
+	* modules/profasi/bin/phaistos_cpp/global_definitions.cpp: Removed invalid occurences of typename.
+	* modules/opls/src/energy/opls_vdw.h: Removed invalid occurences of typename.
+	* modules/opls/src/energy/opls_torsion.h: Removed invalid occurences of typename.
+	* modules/opls/src/energy/opls_non_bonded.h: Removed invalid occurences of typename.
+	* modules/opls/src/energy/opls_imptor.h: Removed invalid occurences of typename.
+	* modules/opls/src/energy/opls_charge.h: Removed invalid occurences of typename.
+	* modules/opls/src/energy/opls_bond_stretch.h: Removed invalid occurences of typename.
+	* modules/opls/src/energy/opls_angle_bend.h: Removed invalid occurences of typename.
+	* modules/opls/src/energy/gbsa.h: Removed invalid occurences of typename.
+	* modules/opls/bin/phaistos_cpp/global_definitions.cpp: Removed invalid occurences of typename.
+	* modules/opls/bin/phaistos_cpp/global_option_definitions.cpp: Removed invalid occurences of typename.
+
+2011-10-06  Wouter Boomsma  <wb>
+
+	* doc/manual.tex Manual updated.
+
+	* modules/applications/evaluate_observable.cpp New program
+	  to allow easy evaluation of energies/observables.
+
+	* src/energy/helix_content.h (TermHelixContent) Added observable
+	  for calculating the helix content of a structure.
+
+	* src/energy/angle_histogram.h (TermAngleHistogram) Added observable
+	  to calculate statistics on angular distributions.
+
+	* src/energy/observable_collection.h (ObservableCollection)
+	  Added collection of observables. The main code for managing the
+	  output of observables
+
+	* src/energy/observable.h (Observable) Basic observable definition.
+
+	* src/energy/observable_base.h (ObservableBase) Added base class
+	  for Observables.
+
+	* src/utils/settings.h (Settings) Settings base class. All
+	  local settings classes now inherit from this.
+
+	* modules/profasi Added Profasi module.
+
+	* modules/opls Added OPLS module.
+
+	* modules/crisp Added CRISP module.
+
+	* modules/saxs Added SAXS module.
+
+	* bin/calc_rmsd.cpp Moved to application module
+
+	* bin/calc_rg.cpp Moved to application module
+
+	* bin/calc_q_score.cpp Moved to application module
+
+	* bin/phaistos_option_definitions.h Added. The option definitions
+	  from phaistos.cpp were moved into this separate header file.
+
+	* src/protein/atom.cpp (Atom::output_as_pdb) Added optional
+	  b_factor_string argument.
+
+	* src/protein/residue.cpp (Residue::output_as_pdb) Added optional
+	  b_factor_string argument and b-factor parsing functionality.
+
+	* src/protein/chain.h (Chain::output_as_pdb) Added optional
+	  b_factor_string argument.
+
+	* src/monte_carlo/monte_carlo.h (get_chain) Added method to
+	  monte_carlo class hierarchy.
+
+2011-09-07  Wouter Boomsma  <wb>
+
+	* src/moves/move_pivot_local.h Bugfix: Move now checks whether
+	  omega angles are supported by prior before attempting to access
+	  them.
+
+	* src/moves/move_priors.h Added functionality to check whether
+	  a specified dof is supported by a given prior.
+
+2011-09-01 Tim harder <harder>
+
+	* models/pleiades/* got the RMSD based clustering pleiades_rmsd
+	  up to par. Now prints the options nicely and is a little more
+	  robust when parsing corrupted pdb files.
+	  Also added a little bit to the manual.
+
+	* modules/phaistos_modules/typhon/* added documentation to the
+	  code and expanded the manual part.
+
+	* modules/phaistos_modules/sidechain_dbns/* cleaned up the
+	  code a little bit, added documentation and added the
+	  manual entries
+
+	* modules/phaistos_modules/typhon/src/energy/
+	  moved the following files the energy_archieve, since they
+	  are not part of Typhon.
+	  * hb.h
+	  * rgfixed.h
+	  * hbond_geometry.h
+	  * data/models/hbond_30nodes_8.3212718
+
+2011-09-01  Wouter Boomsma  <wb>
+
+	* src/models/backbone_dbn/backbone_dbn.h Removed Omega node from
+	  TorusDbn and TorusCsDbn models. The omega node is now available
+	  in separate models called TorusOmegaDbn and TorusCsOmegaDbn.
+
+	* src/moves/move_dbn.h Minor bugfix: dbn move did not mark
+	  omega angles as fixed, which led to an inconsistent bias.
+
+	* src/moves/move_priors.h (DihedralPriorDbn) Small adjustment to
+	  support TorusDbn models without omega node.
+
+2011-08-25  Jes Frellsen  <frellsen@binf>
+
+	* modules/muninn/src/monte_carlo/mcmc_muninn.h: Changed default
+	value for restricted_individual_support to false.
+
+2011-08-04  Wouter Boomsma  <wb>
+
+	* src/energy/local_dbn.h The DBN energy now maintains its own
+	  copy of the DBN, rather than sharing it with the moves. The
+	  conditional_on_h_seq was removed (it was partially broken
+	  anyway).
+
+	* src/moves/move_dbn.h The DBN move was updated to use the
+	  new partial accept/reject member functions of BackboneDbn.
+
+	* src/models/backbone_dbn/backbone_dbn.h (set_sequence_vector)
+	  Added set_observed flag controlling whether the observed status
+	  should be updated automatically when setting a sequence of values.
+
+	* src/models/backbone_dbn/nodes/node.h (accept,reject) Added
+	  optional start_index and end_index making it possible to
+	  accept/reject a partial update.
+
+	* src/models/backbone_dbn/nodes/node.h (set_sequence) Added
+	  set_observed flag controlling whether the observed status
+	  should be updated automatically  when setting a sequence of
+	  values.
+
+	* src/models/backbone_dbn/nodes/node.h (accept,reject) Added
+	  optional start_index and end_index making it possible to
+	  accept/reject a partial update.
+
+2011-08-03  Wouter Boomsma  <wb>
+
+	* src/energy/local_dbn.h (TermLocalDbn) Added window_size option
+	  allowing the user to calculate likelihoods based on a window
+	  around the changed values, rather than evaluating the complete
+	  likelihood in each iteration.
+
+	* src/protein/residue.cpp (standardize_atoms) rename HD22 to HD21
+	  if HD21 is not present.
+
+	* doc/manual.tex Updated.
+
+2011-07-07  Wouter Boomsma  <wb>
+
+	* src/protein/definitions.h (atom_name_translation_map) Added
+	  a map where atom name translations can easily be specified.
+	  Both general translations and residue-specific translations
+	  are supported.
+
+	* src/protein/definitions.h (string_to_atom) Atom name strings
+	  are now looked up in atom_name_translation_map and translated
+	  if found in map.
+
+	* src/protein/protein_data.h (ProteinData) residue entry is now
+	  the original PDB string rather than an integer value.
+
+2011-07-05  Wouter Boomsma  <wb>
+
+	* bin/phaistos.cpp (initialize_chain) Refseq information is
+	  now read from pdb file also when --init-from-pdb=false.
+
+	* src/protein/protein_data.h (ProteinData::get_resseq) Added.
+
+	* src/protein/chain_fb.h|chain_ca.h Added ref_seq parameter
+	  to non-pdb constructors for cases where the chain is
+	  not initialized from a pdb file, but where a pdb file is
+	  available so resseq information can be extracted.
+
+2011-07-04  Tim Harder <harder@binf>
+
+	* modules/pleides/doc added default values
+
+	* modules/git/doc added default values
+
+2011-06-30  Jes Frellsen  <frellsen@binf>
+
+	* src/monte_carlo/optimization_greedy.h: Added the file and the
+	OptimizationGreedy class
+
+	* src/monte_carlo/monte_carlo.h: Corrected the Optimization
+	interface
+
+	* bin/phaistos.cpp: Added options for OptimizationGreedy
+
+2011-06-24  Jes Frellsen  <frellsen@binf>
+
+	* modules/muninn/src/CMakeLists.txt: Corrected small bug
+
+2011-06-24  Jes Frellsen  <frellsen@binf>
+
+	* modules/muninn/src/CMakeLists.txt: Moved the setting of the
+	MUNINN_* in parent scope out of FindMUNINN.cmake and into this
+	file.
+
+	* cmake/modules/FindMUNINN.cmake: Introduced the variable
+	MUNINN_DEFINITIONS, to fix the problem with the -DHAVE_MUNINNLIB
+	definition.
+
+2011-06-20  Mikael Borg <borg>
+
+	* added contactmap energy term
+
+2011-06-14  Wouter Boomsma  <wb>
+
+	* modules/muninn Moved Muninn code to a separate module.
+
+2011-06-13  Wouter Boomsma  <wb>
+
+	* modules/pleiades Added Pleiades clustering module.
+
+2011-06-13  Wouter Boomsma  <wb>
+
+	* modules/git Added Gauss Integral Tuned (GIT) module
+	  for compact representation of dumped protein structures.
+
+2011-06-02  Wouter Boomsma  <wb>
+
+	* bin/* Cleaned up and documented executables.
+
+	* / Added support for long long when the system supports it.
+
+	* src/utils/* Added Doxygen documentation to all functions.
+
+	* doc Switched from texinfo to latex for user manual.
+
+2011-05-18  Jes Frellsen  <frellsen@binf>
+
+	* bin/phaistos.cpp: Added module includes for main_initialize.cpp,
+	main_finalize.cpp and options.cpp
+
+	* src/protein/iterators/pair_iterator_chaintree.h
+	(within_minimum_residue_distance): Fixed bug (entity2->entity)
+
+	* src/moves/move_info.h: Added member variables
+	modified_positions_start and modified_positions_end. These are
+	also updated in add_info(..)
+

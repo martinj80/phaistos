@@ -1,0 +1,70 @@
+\chapter[BackboneDBN applications module]{BackboneDBN applications module\\(\texttt{applications\_backbone\_dbn})}
+\label{cha:backbone-dbn-apps}
+
+The \texttt{applications\_backbone\_dbn} module contains a number of
+small applications that interface to the various backbone
+probabilistic models available in Phaistos (see chapter
+\ref{cha:probabilistic-models}). The programs follow the command line
+syntax of the \texttt{phaistos.cpp} program, and models are set up
+using the \texttt{backbone-dbn} option in the same way as described in chapter
+\ref{cha:probabilistic-models}.
+
+\section{Sampler (\texttt{sampler.cpp})}
+\label{sec:sampler}
+
+This program provides functionality to draw samples from a model. This
+involves a forward-backtrack sampling in the range specified (using
+the \texttt{start-index}, \texttt{end-index} options), and a
+subsequent sampling of values for the output nodes. From the command
+line, it is possible to specify which output nodes you want to sample
+(\texttt{sample-aa}, \texttt{sample-ss}, and
+\texttt{sample-angles}). The \texttt{iterations} option specifies how
+many samples to generate.
+
+
+\section{Predictor (\texttt{predictor.cpp})}
+\label{sec:predictor}
+
+The \texttt{predictor.cpp} program uses either Viterbi decoding or
+Posterior decoding to \emph{predict} a sequence of output values. This
+choice is made using the \texttt{mode} option. The Viterbi mode works
+by finding the most probably hidden node sequence path through the
+model, and then outputting the corresponding emission probabilities
+for each position. Posterior decoding works by choosing the state with
+maximum probability at each position in the sequence, and then
+outputting the corresponding emission probabilities. Using the
+\texttt{output-mode} option, you can choose to predict either the
+amino acid sequence (\texttt{aa}) or the secondary structure sequence
+(\texttt{ss}).
+
+
+\section{Likelihood (\texttt{likelihood.cpp})}
+\label{sec:likelihood}
+
+This program simply calculates the probability of the input given the
+model. You can specify the range of the sequence to evaluate
+(\texttt{start-index} and \texttt{end-index}). Optionally, you can choose
+to subtract the likelihood of the amino acid sequence from the total
+likelihood -- this will give you the likelihood \emph{conditioned} on
+the amino acid sequence.
+
+
+\section{Entropy (\texttt{entropy.cpp})}
+\label{sec:entropy}
+
+The \texttt{entropy.cpp} calculates the structural entropy for a given amino
+acid sequence. This can be viewed as a measure of the flexibility of a
+sequence, or the entropy of the unfolded state of a sequence. This is carried
+out by estimating $\langle P \ln P \rangle$ through resampling local structures
+conditioned on the amino acid sequence. Note that only local structure is taken
+into account, effects such as steric repulsion are not. 
+
+\section{Check mutations (\texttt{check\_mutations.cpp})}
+\label{sec:check-mutations}
+
+The \texttt{check\_mutations.cpp} program calculates the change in log
+likelihood of the local structure for every possible single mutation of a
+protein structure. In other words, the changes reflect whether a
+given point mutation is compatible with the local structure of the WT structure. 
+
+

@@ -1,0 +1,134 @@
+\section{Generalized Ensembles: Muninn (\texttt{muninn})}
+\label{sec:muninn}
+
+
+The Metropolis-Hastings method sometimes suffers from long convergence
+time. This is partly due to the fact that the forcefields used for
+simulations correspond to very rugged energy landscapes. The
+simulation might spend a large part of its time on irrelevant local
+minima. Frequently, simulations get stuck for such extended periods that it
+is questionable whether ergodicity is obtained.
+
+A potential solution to this problem is to sample from a different
+distribution with fewer ergodicity problems while keeping track of
+enough information to make it possible to reweight the produced samples to
+correspond to samples from the original target distribution.
+
+Muninn is a framework to conduct these types of simulations. In the
+default case, Muninn will sample from the \emph{multicanonical}
+distribution \cite{berg1992multicanonical}, which corresponds to a uniform distribution over
+energies. The method approximates the density of states using
+histograms over energy bins. Using the density of states, the ensemble
+produced by a Muninn simulation can be transformed back into a
+canonical ensemble at any specified temperature. Phaistos includes a
+number of scripts to facilitate this reweigthing (See chapter
+\ref{cha:muninn-module}).
+
+There are a substantial number of settings in Muninn. In most cases,
+the default values will produce good results. The most important
+settings are probably the \texttt{min-beta} and \texttt{max-beta},
+which will set a limit to the range of temperatures explored by Muninn
+during the simulation.
+
+It should be emphasized that in Phaistos, the Muninn beta values are
+unitless. This means that the Muninn beta value $\beta_{\mathrm{m}}$
+corresponds to the target distribution
+
+\begin{equation}
+P_{\beta_{\mathrm{m}}}(x) \propto \exp (-\beta_{\mathrm{m}} E_{\phi}(x) )\ ,
+\end{equation}
+
+\noindent where $E_{\phi}(x)$ is the Phaistos energy for the structure
+$x$ as describe in section \ref{sec:energy_convention}. For a physical
+energy function the Phaistos energy is $E_{\phi}(x) \propto
+\beta_{\mathrm{p}} E(x)$, where $E(x)$ is the physical energy for the
+structure $x$, $\beta_{\mathrm{p}} = (kT)^{-1}$ is the thermodynamic
+beta (specified by the \texttt{weight} option for the energy) and the
+temperature $T$ always is a fixed value. This means that the
+distribution can be expressed as
+
+\begin{equation}
+P_{\beta_{\mathrm{m}}}(x) \propto \exp (-\beta_{\mathrm{m}}\beta_{\mathrm{p}} E_{\phi}(x) )\ .
+\end{equation}
+
+\noindent Clearly, this expression is just a normal Boltzmann
+distribution $P_{\beta'} = \exp(-\beta' E_{\phi}(x))$ with $\beta' =
+(kT')^{-1} = \beta_{\mathrm{m}}\beta_{\mathrm{p}}$. This means that
+$P_{\beta_{\mathrm{m}}}$ is equal to the Boltzmann distribution
+$P_{\beta'}$ where $T' = \frac{T}{\beta_{\mathrm{m}}}$, and
+consequently we have the relation
+
+\begin{equation}
+\beta_{\mathrm{m}} = \frac{T}{T'}  \ .
+\end{equation}
+
+\noindent As an example, assume that we want to explorer the
+temperature range between $273\,\mathrm{K}$ and $1000\,\mathrm{K}$. If
+the weight for the physical energy function is set a weight
+corresponding to $T = 300\,\mathrm{K}$ then \texttt{min-beta} and
+\texttt{max-beta} should be set as
+\begin{align}
+\texttt{max-beta} &= \frac{300\,\mathrm{K}}{273\,\mathrm{K}} \approx 1.09890 \\[1em]
+\texttt{min-beta} &= \frac{300\,\mathrm{K}}{1000\,\mathrm{K}} = 0.3 \ .
+\end{align}
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{energy-min}{real}{-inf}{Lower bound on energy.}
+  \option{energy-max}{real}{inf}{Upper bound on energy.}
+  \option{histograms-per-reinit}{int}{4}{Number of histogram updates between every reinitialization (zero or negative means no reinitialization will be done).}
+  \option{burnin-fraction}{real}{2}{The fraction of \texttt{initial-max} used for burn-in (in each thread).}
+  \option{use-energy2}{bool}{false}{Use the secondary energy as an additional energy in muninn - not used to estimate histograms.}
+  \option{weight-scheme}{}{multicanonical}{Which weight scheme to use: \texttt{invk} or \texttt{multicanonical}.}
+  \option{slope-factor-up}{real}{0.3}{Slope factor use for the linear extrapolation of the weights, when the weights are increasing in the direction away from the main area of support.}
+  \option{slope-factor-down}{real}{3}{Slope factor use for the linear extrapolation of the weights, when the weights are decreasing in the direction away from the main area of support.}
+  \option{min-beta}{real}{-inf}{The minimal beta value to be used based on thermodynamics and in the extrapolation.}
+  \option{max-beta}{real}{inf}{The maximal beta value to be used based on thermodynamics.}
+  \option{initial-beta}{real}{uninitialized}{The initial beta value to be used (if uninitialized it takes the same value as \texttt{min-beta}).}
+  \option{resolution}{real}{0.2}{The resolution for the non-uniform binner.}
+  \option{initial-width-is-max-left}{bool}{true}{Use the initial bin with as maximal bin width, when expanding to the left.}
+  \option{initial-width-is-max-right}{bool}{false}{Use the initial bin with as maximal bin width, when expanding to the right.}
+  \option{statistics-log-filename}{string}{muninn.txt}{The filename (including full path for the Muninn statistics logfile (default is \texttt{Muninn\_[PID].txt} and is obtained by removing this option from the config file or setting it to "").}
+  \option{read-statistics-log-filename}{string}{}{The filename for reading the Muninn statistics logfile. If the value difference from
+the empty string (""), this log file is read and the history is set based on the content.}
+  \option{log-mode}{}{all}{The log mode of Muninn: \texttt{current} or \texttt{all}.}
+  \option{read-statistics-log-filename}{string}{}{The filename for reading the Muninn statistics logfile. If the value difference from
+the empty string (""), this log file is read and the history is set based on the content.}
+  \option{read-fixed-weights-filename}{string}{}{The filename for reading a set of fixed weights for a given region. If the value difference from the empty string (""), this file is read and the weights are fixed in the given region.}
+  \option{initial-max}{int}{5000}{Number of iterations used in first round of sampling.}
+  \option{memory}{int}{40}{The number of consecutive histograms to keep in memory.}
+  \option{min-count}{int}{30}{The minimal number of counts in a bin in order to have support in that bin.}
+  \option{restricted-individual-support}{bool}{false}{Restrict the support of the individual histograms to only cover the support for the given histogram.}
+  \option{dynamic-binning}{bool}{true}{Use dynamic binning.}
+  \option{max-number-of-bins}{int}{1000000}{The maximal number of bins allowed to be used by the binner}
+  \option{bin-width}{real}{0.1}{Bin width used for non-dynamic binning.}
+  \option{verbose}{int}{3}{The verbose level of Muninn}
+\end{optiontable}
+
+
+\subsection{Setting the beta values}
+As mentioned, the most important settings for Muninn are probably the
+beta values: \texttt{min-beta}, \texttt{max-beta} and
+\texttt{initial-beta}. Convergence of the ensemble
+(\texttt{multicanonical} or \texttt{invk}) rely highly on the choice
+of these settings.
+
+The \texttt{max-beta} should in general be set to or just above the
+beta value of interest, which usually is 1. The \texttt{min-beta}
+value should on the other hand be less than the beta value that
+corresponds to the critical temperature, since the critical
+temperature is considered to be the boundary where the protein goes
+from an unfolded to a folded state. However, the critical temperature
+is rarely known, and in that case \texttt{min-beta} value should be
+set close to zero. However, the lower \texttt{min-beta} is the more
+time the system will spend in the unfolded state.
+
+The \texttt{initial-beta} value is by default set equal to
+\texttt{min-beta}. During the burnin, Muninn samples from the
+distribution with $\beta_{\mathrm{m}}=\texttt{initial-beta}$. This
+means that \texttt{initial-beta} should be set so that during the
+burin time, the Markov chain should be able to reach a state which is
+representable for this distribution.
+
+The \texttt{min-beta} and \texttt{init-beta} values are highly system
+dependent.

@@ -1,0 +1,332 @@
+\chapter{Typhon module (\texttt{typhon})}
+
+TYPHON is a novel approach to exploring the conformational space of
+proteins based on probabilistic models of protein structure.  The
+incorporated models, namely TorusDBN \cite{boomsma2008gpm} and
+BASILISK \cite{harder2010beyond}, ensure that the samples are
+protein--like on a local length scale. In order to control the overall
+structure of the protein, different types of distance based restraints
+can be defined. Over the course of the simulation, the probabilistic
+models will thus explore the conformational space of the protein that
+is allowed by the given restraints.
+
+There are four types of interactions currently supported in TYPHON:
+
+\begin{description}
+\item[Hydrogen Bonds] All sorts of intra-protein hydrogen bonds are
+  supported and detected (using the DSSP HBond score). The bond is
+  defined by four distances: N--O, N--C, H--O and H--C.  The specific
+  parameters where obtain from high resolution structures.
+\item[Disulfide bridges] Disulfide bridges are detected based on their
+  geometry. Additionally to the sulfur-sulfur bond, the bond geometry
+  is stabilized by three additional Gaussian contacts.
+\item[$\mathrm{C}_\alpha$-$\mathrm{C}_\alpha$ contacts] Per default $\mathrm{C}_\alpha$-$\mathrm{C}_\alpha$
+  contacts of residues that are far in the amino acid chain (5 or more
+  residue) but close in space (6 {\AA}ngstrom or less) are included in
+  the network. To ignore those please use the
+  \texttt{--ignore-gaussians} option.
+\item[Arbitrary atom-atom interaction] One can specify any atom pair
+  interaction by adding it to the network file. This can for example
+  be used to {\emph{pull}} certain parts of the structure closer
+  together or make sure that they stay at a certain distance.
+\end{description}
+
+\section{The TYPHON program (\texttt{typhon.cpp})}
+\label{sec:typhon-executable}
+
+The TYPHON distance-restraint functionality is available as an energy
+term for the Phaistos framework, described in section
+\ref{sec:constr-dist-term}. For convenience, we also provide a
+\texttt{typhon} executable specifically tailored for the Typhon
+functionality.
+
+\subsubsection{Common options}
+\begin{optiontable}
+
+  \option{verbose}{bool}{false}{Produce a verbose output (highly recommended if
+  you want to see what is going on).}  
+
+  \option{debug}{bool}{false}{Print debugging information.}
+
+  \option{analyze}{bool}{false}{Analyze and print the restraint network
+    only, no sampling will be performed. This options is useful when
+    initially analyzing and modifying the restrain network.}
+
+  \option{iterations}{int}{10,000,000}{For how many iterations to run the
+    simulation.}
+
+  \option{burnin}{int}{1,000}{How many iterations to skip before starting to
+    sample.}
+
+  \option{reinitialize-interval}{int}{0}{How often to
+    reinitialize to the native structure, in number of iterations.}
+
+  \option{seed}{int}{\emph{current timestamp}}{It is possible to use specific seeds for the
+    random number generator. Usually you should leave this empty to
+    generate a seed based on the current system time. This will ensure
+    different seeds for all runs started. The seed is a natural
+    number.}
+\end{optiontable}
+
+\subsubsection{Input options}
+\begin{optiontable}
+
+  \option{pdb-file}{filename}{\emph{required}}{Protein structure to start from, in the
+    PDB file format.}
+
+  \option{ss-file}{filename}{}{Optional input of the expected secondary
+    structure in the Phaistos secondary structure file format, which
+    in short is a one lined file with a C,E or H for each residue
+    position in the structure.  Where C would be a coil conformation,
+    E an extended strand and H a helical conformation.}
+
+  \option{restore}{filename}{}{To restore a network from a
+    previous run or a modified network. Expects the path to the
+    network file as an argument.}
+\end{optiontable}
+
+\subsubsection{Output options}
+\begin{optiontable}
+
+  \option{output-directory}{path}{./samples/}{Where to store the generated structures. }
+
+  \option{dump-interval}{int}{10000}{How often should a structure be saved, in number of iterations.}
+  
+  \option{dump-git}{bool}{false}{Activates the output in the form of GIT vectors as well.}
+
+  \option{create-phaistos-structure}{bool}{false}{Create a "native"
+    structure with all atoms at the beginning of the run. This option
+    can be useful for visualization purposes and when investigating
+    and/or modifying the restraint network. Note: Typhon may add atoms
+    to the input structure (i.e. missing hydrogens).}
+
+\end{optiontable}
+
+\subsubsection{Network options}
+\begin{optiontable}
+
+  \option{no-prune}{bool}{false}{Do not prune/optimize the hydrogen bond
+    network. Per default hbonds with multiple partners are removed
+    along with very weak bonds due to high solvent accessibility. }
+
+  \option{ignore-hbonds}{bool}{false}{Disregard any hydrogen bonds found
+    (overwrites the restore network option, meaning that no hydrogen
+    bonds will be present in the network, even if they were specified
+    in the network file).}
+
+  \option{ignore-sc-hbonds}{bool}{false}{Disregard any side chain - side
+    chain hydrogen bonds found (overwrites the restore network
+    option).}
+
+  \option{ignore-bbsc-hbonds}{bool}{false}{Disregard any backbone - side
+    chain hydrogen bonds found (overwrites the restore network
+    option).}
+
+  \option{ignore-ssbonds}{bool}{false}{Disregard any disulfide bridges
+    found (overwrites the restore network option).}
+
+  \option{ignore-gaussians}{bool}{false}{Disregard any Gaussian contacts
+    found (overwrites the restore network option).}
+
+  \option{init-hbond-from-native}{bool}{false}{Per default we use
+    parameters estimated from the top 500 set to describe the bond
+    geometry. Set this flag to initialize hydrogen bond distances from
+    the native structure.}
+
+  \option{ca-cutoff}{real}{6}{Cutoff distance in {\AA}ngstrom to be
+    considered a $\mathrm{C}_\alpha$ contact.}
+
+  \option{ca-skip}{int}{5}{How many residues to skip along the chain
+    before considering a $\mathrm{C}_\alpha$ contact. Default is set to 5.  }
+\end{optiontable}
+
+
+\subsubsection{Path options}
+
+If you specify the \texttt{PHAISTOS\_ROOT} environmental variable
+pointing to your Phaistos build directory you should not have to worry
+about these options, see section \ref{sec:locating-data-files} for
+details.
+
+\begin{optiontable}
+
+  % \option{dbn-parameter-dir}{path}{../data/backbone\_dbn\_parameters/}{In which directory
+  \option{dbn-parameter-dir}{path}{}{In which directory
+    can the TorusDBN parameter set be found. }
+
+  % \option{dbn-parameter-file}{filename}{p\_TORUS\_H55\_BIC-2070230\_FULL\_SABMARK\_NEW\_SS.txt}{Which TorusDBN
+  \option{dbn-parameter-file}{filename}{}{Which TorusDBN
+    parameter set to use.}
+
+  % \option{sc-dbn-file}{filename}{../data/mocapy\_dbns/basilisk.dbn}{Which BASILISK DBN to use for the side chain movements.}
+  \option{sc-dbn-file}{filename}{}{Which BASILISK DBN to use for the side chain movements.}
+
+\end{optiontable}
+
+
+\subsubsection{Move options}
+
+\begin{optiontable}
+
+  \option{sc-move-weight}{real}{5}{How many sidechain moves per backbone (CRISP) move. Per default we recommend 
+    doing five moves, since this will amount in roughly an equal amount of motion in the 
+    backbone (CRISP 5 residues) and side chains (BASILISK 1 residue). }
+
+  % \option{use-local-sc-move}{bool}{}{Use local sidechain moves, allows
+  %   for more detailed dynamics. Different move type of side chain
+  %   move, where the side chain is more likely to remain in the current
+  %   rotameric state. }
+
+  %\option{local-move-weight}{real}{1}{How many local sidechain moves
+  %  per CRISP move. Default is again set to five, but you may want to
+  %  balance the overall sidechain movements to match the backbone
+  % movement.}
+
+\end{optiontable}
+
+
+\subsubsection{Sampling options}
+
+\begin{optiontable}
+  \option{ignore-ss}{bool}{false}{Allows to sample backbone conformations
+    without secondary structure input. This will generally lead to a
+    broader sampling of the backbone conformational space. }
+\end{optiontable}
+
+\subsubsection{Dehydron options}
+
+For more information and details on the dehydron concept see
+reference \cite{fernandez2003dehydron}.
+
+\begin{optiontable}
+  \option{dehydron-bb-cutoff}{real}{14}{Consider backbone hydrogen bonds
+    below ($d<=\texttt{cutoff}$) as dehydrated aka weak/broken. All weak hydrogen
+    bonds will be removed. }
+
+  \option{dehydron-bbsc-cutoff}{real}{9}{Consider backbone-side chain
+    hydrogen bonds below ($d<=\texttt{cutoff}$) as dehydrated aka weak/broken.}
+
+  \option{dehydron-sc-cutoff}{real}{7}{Consider side chain hydrogen
+    bonds below ($d<=\texttt{cutoff}$) as dehydrated aka weak/broken.}
+
+\end{optiontable}
+
+
+\subsection{Examples (cookbook style)}
+\label{sec:examples-typhon}
+
+In this section we discuss a few application scenarios and how those
+can be handled in TYPHON. We are not discussing the installation
+process again as this was covered in chapter
+\ref{cha:installation}. However, we would like to stress the advantage
+of setting an environmental variable called \texttt{PHAISTOS\_ROOT}
+pointing to your Phaistos build directory, see section
+\ref{sec:locating-data-files}. With the \texttt{PHAISTOS\_ROOT} setup,
+you should be able to run TYPHON and obtain the help message:
+
+\begin{verbatim}
+$ ./typhon -h
+\end{verbatim}
+
+\noindent Before starting a simulations it is probably a good idea to
+inspect the network as it was detected by TYPHON. Per default TYPHON
+adds all hydrogen bonds it finds to the network along with a number of
+long range $\mathrm{C}_\alpha$-$\mathrm{C}_\alpha$ contacts.
+
+\begin{verbatim}
+$ ./typhon --pdb-file 2GB1.pdb --analyze --verbose \\
+   --generate-pymol 
+\end{verbatim}
+
+\noindent This command will do several things. First specifying the
+\texttt{--analyze} flag, we are signaling TYPHON to only calculate the
+interaction network, print the result and finish without running any
+simulation. The \texttt{--verbose} flag indicates, that all output is
+printed and \texttt{--generate-pymol} triggers the output of a PyMOL
+script visualizing the restraint network. The following command will
+launch PyMOL and load the network as detected by TYPHON:
+
+\begin{verbatim}
+$ pymol load_pymol_network.py 
+\end{verbatim}
+
+\noindent From here the network can be manipulated with the expert
+knowledge available through you. You know a certain bond has been
+shown to be weak or especially important. You can modify the network
+at will and use the \texttt{--restore} option to load the optimized
+network for your simulation.
+
+All that is really required for a dynamics simulation is a PDB file describing the protein 
+structure. We do recommend to use the verbose option in order to receive a more detailed,
+step by step output:
+
+\begin{verbatim}
+$ ./typhon --pdb-file 2GB1.pdb --verbose 
+\end{verbatim}
+
+Of course, in a more realistic application scenario you will want to specify more 
+parameters, such as where to store the generated samples, how long to run the simulation, 
+and which network to use:
+ 
+\begin{verbatim}
+$ ./typhon --pdb-file 2GB1.pdb --verbose --iterations 50000000 \
+  --output-directory /my/storage/typhon/runID/samples \
+  --restore optimized-network.net
+\end{verbatim}
+
+
+\subsection{Frequently asked questions (FAQ)}
+\label{sec:faq-typhon}
+
+
+\begin{description}
+
+\item[What is a dehydron?] The concept of dehydrons is based on the
+  observation that hydrogen bonds are less stable if they are exposed
+  to the solvent, since water molecules will be competing for the
+  charge.  Fern{\'a}dez and coworkers found an easy way to determine the
+  solvent accessibility of a hydrogen bond, by counting the unpolar
+  carbon atoms within a certain sphere around the bond \cite{fernandez2003dehydron}. In TYPHON, all
+  weakly shielded hydrogen bonds are removed from the restraint
+  network.  You can include all hydrogen bond by either decreasing the
+  cutoff or using the \texttt{--no-prune} option.
+
+\item[The program cannot find the DBN models] The DBN files are
+  required to load the structural prior models or their parameters to
+  be a little more specific. Those files can be found in your Phaistos
+  build directory in the subfolder \texttt{./data}. You can either
+  specify the paths directly (see command-line options above) or, a
+  little easier, specify the \texttt{PHAISTOS\_ROOT} environmental
+  variable to point to your Phaistos build directory.
+
+\item[How can I cite TYPHON?] Harder, T., Borg, M., Boomsma, W.,
+  R{\o}gen, P., Hamelryck, T. (2011) Fast large-scale clustering of
+  protein structures using Gauss integrals. Bioinformatics. Accepted.
+
+\end{description}
+
+
+\section{Typhon in \texttt{phaistos.cpp}}
+\label{sec:typhon-in-phaistos}
+
+The main functional component in Typhon is an energy term called
+\texttt{con\-strain-dis\-tan\-ces}. As described in chapter
+\ref{sec:energies}, this energy term can be included in any
+\texttt{phaistos.cpp} simulation. For convenience, the set of moves
+and energies used in the \texttt{typhon.cpp} executable are grouped
+together in a Phaistos mode called \texttt{typhon}. As an example, the
+typhon simulation corresponding with the command
+
+\begin{verbatim}
+$ ./typhon --verbose --pdb-file 1enh.pdb --ss-file 1enh.dssp
+\end{verbatim}
+
+\noindent can be run through \texttt{phaistos.cpp} using
+
+\begin{verbatim}
+$ ./phaistos --pdb-file 1enh.pdb --init-from-pdb \
+  --mode typhon --ss-file 1enh.dssp
+\end{verbatim}
+
+\noindent This makes it easy to experiment with different move sets
+and energies.

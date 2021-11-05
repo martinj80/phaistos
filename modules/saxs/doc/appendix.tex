@@ -1,0 +1,90 @@
+\chapter{SAXS module (\texttt{saxs})} \label{cha:saxs-module}
+
+Small angle X-ray scattering (SAXS) is an experimental technique which
+can readily provide low resolution structural information on proteins
+in solution. The experiment requires relatively low amount of sample:
+typical quantities are a volume of $\sim15\,\mu l$, and a sample
+concentration of $\sim$1.0\, mg/ml~\cite{SvergFT-1987}.
+
+SAXS was originally developed for structure analysis of condensed
+matter in isotropic environments and the first applications date back
+to the 1930s, with the publication of studies on metal
+alloys~\cite{Guini-1939}. The method was later extended to other
+materials, included biological macromolecules in solution~\cite{KratkG-1982}.
+
+The information that can be obtained directly from a SAXS experiment
+includes the radius of gyration, volume, molecular mass (provided a
+known reference is available) and possibly a coarse-grained
+description of the electron distribution in the sample. These
+parameters are inferred from inverse Fourier analysis of the SAXS
+experiment, and are limited by the noise level of the
+instrumentation. In particular, the determination of the electronic
+distribution function $p\left(r\right)$ requires a number of
+regularization steps whose relative weight is unclear. Manual tuning
+is therefore typically required to produce satisfactory
+results~\cite{SemenS-1991}.
+
+Since the 1980s, improvement in the instrumentation has led to
+reliable analyses of polymeric systems, and increase in computation
+power during the 1990s allowed for Bayesian regularization of the
+inverse Fourier analysis, providing better estimators and more
+rigorous error analysis~\cite{Hanse-1990}.  The latter is
+unfortunately still not routinely applied.
+
+Historically, analysis of obtained SAXS curves was limited to a
+comparison to scattering curves describing simple geometrical bodies
+with known analytical solutions. As sufficient computational power
+became available, this analysis was extended with the possibility of
+evaluating forward models of SAXS data from a hypothetical
+experiment. These structural proposals are typically compared to the
+experimental result in order to validate one or more structural
+models~\cite{KochVS-2003,KratkG-1982,SvergFT-1987}.
+
+There are two main approaches for calculating a theoretical SAXS curve
+from the structure (the forward model). One is based the approximation
+of the electronic inhomogeneity via spherical harmonics
+expansion~\cite{svergun1995crysol}, the other evaluates the pairwise
+interactions occurring between elementary scatterers by means of
+direct Fourier transforms~\cite{glatter1982small}.  The spherical
+harmonics approach is computationally attractive, but it is also quite
+sensitive to the correct determination of the atomic volume of each
+individual scatterer. Further, the algorithm enforces a compact,
+quasi-globular shape, and the evaluation has to be completely
+recomputed even in case of a minor update in the proposal. For this
+reason, Monte Carlo protocols do not fully benefit of this method.
+
+The SAXS module in Phaistos follows the description using
+pairwise interactions. This is based on the Debye formula~\cite{Debye-1915}
+
+\begin{equation}
+I(q)=\sum_{i=1}^{M}\sum_{j=1}^{M}F_{i}(q)F_{j}(q)\frac{\sin(q\cdot r_{ij})}{q\cdot r_{ij}} \ ,
+\end{equation}
+
+\noindent where the experimental SAXS curve $I(q)$ is defined as the
+sum of the pairwise interactions between the $M$ bodies in the
+system. These are individually described by the product of the form
+factors, $F_{i}(q)$, with the structure factors depending on the
+distance between them ($r_{ij}$) and the scattering momentum
+$q=\frac{4\pi}{\lambda}\sin\theta$. Here, $\theta / 2$ is the
+scattering angle between the incoming beams, and $\lambda$ the X-ray
+wavelength. This approach is computationally more expensive than the
+spherical harmonics evaluation ($O(n^2)$) but allows for partial
+updates in the structure and hence caching. Importantly, it is not
+limited by assumptions on the protein shape.
+
+An attractive performance can be achieved by reducing the number of
+elementary scatterers. By grouping neighboring atoms in a set of
+\emph{dummy bodies}, the $I(q)$ profile can be conveniently
+approximated at least to the current experimental
+resolutions~\cite{stovgaard2010calculation}. The Phaistos SAXS module
+includes parameters for two levels of coarse-graining. The one-body
+model describes each protein residue a single scattering body, whereas
+the two-body model used one (common) dummy body for the backbone part
+of the residue and one for the side chain scattering. The two-body
+model is significantly more accurate for resolutions above $q \approx
+0.2 \mathrm{\AA}^{-1}$ while the one-body model evaluates around three
+times faster.  A detailed description of the coarse-grained models can
+be found in the publication~\cite{stovgaard2010calculation}.
+
+The SAXS module is implemented as an energy term for Phaistos and the
+configuration is described in Section~\ref{sec:saxs-energy}.

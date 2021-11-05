@@ -1,0 +1,128 @@
+\section{CRISP local move (\texttt{crisp})}
+
+CRISP (Concerted Rotations Involving Self-consistent Proposals) is a
+Monte Carlo move that produces deformations in a small segment of the
+protein backbone, keeping the positions of all atoms outside the
+segment fixed.  Compared to other local move approaches
+\cite{betancourt2005efficient, ulmschneider2003monte}, CRISP makes it
+possible to generate subtle and uniform tentative updates without
+disrupting the local geometry of the chain.  For a complete
+description of the method, please refer to our recent paper on the
+move \cite{bottaro2012crisp}.
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{move-length-min}{int}{5}{(see below)}
+  \option{move-length-max}{int}{5}{By default a CRISP move modifies
+    all the bond and torsion backbone angles of 5 consecutive residues
+    at a time.  The number of residues involved in a single update is
+    randomly chosen in the interval [\texttt{move-length-min},\texttt{move-length-max}].}
+  \option{std-dev-phi-psi}{real (degrees)}{5}{Parameter controlling
+    the amplitude (in degrees) of $\phi$ and $\psi$ angles variation. Large values
+    correspond to large changes.  The default value of this setting, together with the default value of 
+    \texttt{std-dev-bond-angle} and \texttt{std-dev-omega} are optimized for using OPLSaa potential in
+    combination with GB/SA solvation energy.}
+  \option{std-dev-bond-angle}{real (degrees)}{0.8}{Parameter
+    controlling the amplitude (in degrees) of bond angles variation. Large values
+    correspond to large changes.}  
+  \option{std-dev-omega}{real (degrees)}{0.8}{Parameter controlling
+    the amplitude (in degrees) of omega angles variation. Large values correspond
+    to large changes.}
+  \option{only-internal-moves}{bool}{false}{Whether to perform only
+    internal moves or both internal and end-moves. End-moves consist
+    of small variations of bond- and torsion angles.}
+  \option{sample-omega}{bool}{true}{Whether to modify omega angles,
+    in addition to $\phi$,$\psi$ and bond angles during prerotation.}
+\end{optiontable}
+
+CRISP can also be used in combination with the TorusDBN model, using the
+move-crisp-dbn-eh version.  In this case, a standard CRISP move is
+performed. Upon the update, the likelihood of the new structure is
+calculated according to the TorusDBN model (for torsion angles) and to
+the Engh-Huber values (for bond-angles) \cite{engh1991accurate}.  The
+approach is equivalent to proposing tentative structures according to
+the prior distribution governing bond and torsion degrees of freedom.
+
+\notification{IMPORTANT: The dbn-eh version of this move introduces an implicit energy to the simulation.}
+
+\optiontitle{Settings specific for dbn-eh version}
+\begin{optiontable}
+  \option{consistency-window-size}{int}{10}{Size of window
+    used (to each side) when bringing the dbn back to consistency.  A
+    good value for the window size is $>7$, and a negative window size
+    means that the full hidden node sequence is resampled.}
+  \option{bias-window-size}{int}{10}{Size of window used when
+    calculating bias. Approximates the move bias as
+    $P(X[i-w,j+w])/P(X'[i-w,j+w])$, where $w$ in the window size and $[i,j]$
+    is the interval where angles have been changed. A good value for
+    the window size is $w>7$, and a negative window size means that the
+    full bias is used.}
+\end{optiontable}
+
+
+\section{Semi-local move (\texttt{semilocal})}
+\label{sec:semi-local-move}
+
+The BGS (Biased Gaussian Step) move is a semi-local move in which all
+the angular degrees of freedom in a small stretch of the chain are
+modified \cite{favrin2001monte}.  The atomic positions from the
+move-end to the end of the chain are rigidly updated.  In the BGS move,
+tentative updates are drawn from a Gaussian distribution that favors
+approximately local deformations of the chain.
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{move-length-min}{int}{4}{(see below)}
+  \option{move-length-max}{int}{4}{By default a BGS move modifies 8
+    $(\phi, \psi)$ angles in 4 consecutive residues.  The number of
+    residues involved in a single update is randomly chosen in the
+    interval [\texttt{move-length-min},\texttt{move-length-max}].}
+  \option{only-internal-moves}{bool}{false}{Whether to perform only
+    internal moves or both internal and end-moves. End-moves consist
+    is small variations of bond- and torsion angles}
+  \option{sample-omega}{bool}{true}{Whether to modify omega angles, in
+    addition to $(\phi, \psi)$ and bond angles.}
+  \option{sample-bond-angle}{bool}{false}{Whether to modify backbone
+    bond angles, in addition to $(\phi, \psi)$ torsion angles.}
+  \option{sample-constraint-a}{real}{300}{Global parameter controlling
+    the size of the update. Large values correspond to small
+    variations.}    
+  \option{sample-constraint-b}{real}{10}{Parameter controlling the
+    locality constraint. Large values correspond to a heavy constraint
+    on the end-point displacement.}
+  \option{omega-scaling}{real}{8}{If sample-omega is true, the allowed
+    omega angles variation is scaled down by this factor compared to
+    $(\phi, \psi)$ angles.}
+  \option{bond-angle-scaling}{real}{8}{If sample-bond-angle is true, the
+    allowed bond-angles variation is scaled down by this factor
+    compared to $(\phi, \psi)$ angles.}
+\end{optiontable}
+
+This move also has an \texttt{dbn-eh} version, which works in the same
+way as explained for the CRISP move.
+
+\notification{IMPORTANT: The dbn-eh version of this move introduces an implicit energy to the simulation.}
+
+
+\section{CRA local move (\texttt{cra})}
+
+CRA (Concerted Rotations with Angles) is a Monte Carlo move that
+produces deformations in a small segment of the protein backbone,
+keeping the positions of all atoms outside the segment fixed.  The
+method is constructed around the same idea as the BGS move: limiting
+the movement of the endpoint of the pre-rotation, in order to increase
+the probability of finding a solution for the post-rotation
+\cite{ulmschneider2003monte}.
+
+
+\optiontitle{Settings}
+\begin{optiontable}
+  \option{move-length-min}{int}{5}{(see below)}
+  \option{move-length-max}{int}{5}{By default a CRA move modifies
+    all the bond and torsion backbone angles of 5 consecutive residues
+    at a time.  The number of residues involved in a single update is
+    randomly chosen in the interval [\texttt{move-length-min},\texttt{move-length-max}]}
+  \option{implicit-energy}{bool}{false}{Whether to include an implicit energy for the bond angles.
+If set to true and no other moves that modifies bond angles are used, the bond angle term can be omitted in the energy function.}
+% (in case bond angle term is present in the energy function)}
+\end{optiontable}
