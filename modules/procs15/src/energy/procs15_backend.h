@@ -1324,8 +1324,8 @@ public:
                list_of_tables[108] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TRP_ca.npy").get_5d_array(),gridsize5d); loaded_tables[108] = true;
                list_of_tables[114] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TYR_ca.npy").get_5d_array(),gridsize5d); loaded_tables[114] = true;
                list_of_tables[120] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_ca.npy").get_4d_array()); loaded_tables[120] = true; //should be 4d_ or 5d_array
-               //list_of_tables[120] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "SEP_ca.npy").get_5d_array(),gridsize5d); loaded_tables[120] = true; //test with 5d_array
           }
+
           if (load_cb){
                std::cout << "CB " << std::flush;               
                list_of_tables[1] =  new ArrayWrapperStandard(cnpy::npy_load(path+"ALA_cb.npy").get_3d_array());  loaded_tables[1] = true;
@@ -1348,7 +1348,7 @@ public:
                list_of_tables[103] = new ArrayWrapperInterpolate(cnpy::npy_load(path+"VAL_cb.npy").get_4d_array(),gridsize4d); loaded_tables[103] = true;
                list_of_tables[109] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TRP_cb.npy").get_5d_array(),gridsize5d); loaded_tables[109] = true;
                list_of_tables[115] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TYR_cb.npy").get_5d_array(),gridsize5d); loaded_tables[115] = true;
-               //list_of_tables[121] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "SEP_cb.npy").get_4d_array(), gridsize4d); loaded_tables[121] = true;
+               list_of_tables[121] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_cb.npy").get_4d_array()); loaded_tables[121] = true;
           }
 
           if (load_co){
@@ -1373,7 +1373,7 @@ public:
                list_of_tables[104] = new ArrayWrapperInterpolate(cnpy::npy_load(path+"VAL_co.npy").get_4d_array(),gridsize4d); loaded_tables[104] = true;
                list_of_tables[110] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TRP_co.npy").get_5d_array(),gridsize5d); loaded_tables[110] = true;
                list_of_tables[116] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TYR_co.npy").get_5d_array(),gridsize5d); loaded_tables[116] = true;
-               //list_of_tables[122] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "SEP_co.npy").get_4d_array(), gridsize4d); loaded_tables[122] = true;
+               list_of_tables[122] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_co.npy").get_4d_array()); loaded_tables[122] = true;
           }
           if (load_n){
                std::cout << "N " << std::flush;
@@ -1397,7 +1397,7 @@ public:
                list_of_tables[105] = new ArrayWrapperInterpolate(cnpy::npy_load(path+"VAL_nh.npy").get_4d_array(),gridsize4d); loaded_tables[105] = true;
                list_of_tables[111] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TRP_nh.npy").get_5d_array(),gridsize5d); loaded_tables[111] = true;
                list_of_tables[117] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TYR_nh.npy").get_5d_array(),gridsize5d); loaded_tables[117] = true;
-               //list_of_tables[123] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "SEP_nh.npy").get_4d_array(), gridsize4d); loaded_tables[123] = true;
+               list_of_tables[123] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_nh.npy").get_4d_array()); loaded_tables[123] = true;
           }	
           if (load_hn){
                std::cout << "HN " << std::flush;
@@ -1421,7 +1421,7 @@ public:
                list_of_tables[106] = new ArrayWrapperInterpolate(cnpy::npy_load(path+"VAL_hn.npy").get_4d_array(),gridsize4d); loaded_tables[106] = true;
                list_of_tables[112] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TRP_hn.npy").get_5d_array(),gridsize5d); loaded_tables[112] = true;
                list_of_tables[118] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TYR_hn.npy").get_5d_array(),gridsize5d); loaded_tables[118] = true;
-               //list_of_tables[124] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "SEP_hn.npy").get_4d_array(), gridsize4d); loaded_tables[124] = true;
+               list_of_tables[124] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_hn.npy").get_4d_array()); loaded_tables[124] = true;
           }
 
           if (load_ha){
@@ -1446,7 +1446,7 @@ public:
                list_of_tables[107] = new ArrayWrapperInterpolate(cnpy::npy_load(path+"VAL_ha.npy").get_4d_array(),gridsize4d); loaded_tables[107] = true;
                list_of_tables[113] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TRP_ha.npy").get_5d_array(),gridsize5d); loaded_tables[113] = true;
                list_of_tables[119] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TYR_ha.npy").get_5d_array(),gridsize5d); loaded_tables[119] = true;
-               //list_of_tables[125] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "SEP_ha.npy").get_4d_array(), gridsize4d); loaded_tables[125] = true;
+               list_of_tables[125] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_ha.npy").get_4d_array()); loaded_tables[125] = true;
          }
 
 

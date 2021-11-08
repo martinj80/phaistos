@@ -445,15 +445,22 @@ public:
                ring_current_corrections = get_ring_current_corrections(res1, chain);
                shieldings = get_shieldings(res1);
 
-               if (res1->residue_type == SEP )
+               /*if (res1->residue_type == SEP || res1->residue_type == SER)
                {
                    std::cout << "DEBUG:" << std::endl;
                    std::cout << res1 << std::endl;
+
+                   std::cout << "chi_atoms:" << res1->chi_atoms << std::endl;
+                   std::cout << "minor_dof_atoms:" << res1->minor_dof_atoms << std::endl;
+                    
+                   std::cout << "sidechain_status:" << res1->sidechain_status << std::endl;
+                   std::cout << "has_sidechain:" << res1->has_sidechain() << std::endl;
+                    
                    std::cout << "primary_h_bond_corrections:" << primary_h_bond_corrections << std::endl;
                    std::cout << "secondary_h_bond_corrections:" << secondary_h_bond_corrections << std::endl;
                    std::cout << "ring_current_corrections" << ring_current_corrections << std::endl;
                    std::cout << "shieldings" << shieldings << std::endl;
-               }
+               }*/
 
                if ((settings.load_hn) && (settings.use_water_correction == true) && (std::abs(primary_h_bond_corrections[4]) < 0.000001) && (res1->residue_type != PRO)) {
                      contributions[res1->index][8][2] = -water_bonding_correction;
