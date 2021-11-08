@@ -291,6 +291,7 @@ inline std::istream &operator>>(std::istream &input, AtomEnum &a) {
 //////////////////////// Residue ///////////////////////////
 ////////////////////////////////////////////////////////////
 
+//Added by MJ: SEP residues
 //! Residue type enumeration
 enum ResidueEnum {ALA=0,CYS,ASP,GLU,PHE,GLY,
 		  HIS,ILE,LYS,LEU,MET,ASN,
