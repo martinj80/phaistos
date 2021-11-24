@@ -621,18 +621,36 @@ public:
              	    break;
 
                case SER:
-             	    r = read_chi_index(R);
-             	    r.resize(1);
-             	    return r;
-             	    break;
-               
-                //Added by MJ
-               case SEP:
-                   r = read_chi_index(R);
-                   r.resize(1);
-                   return r;
-                   break;
+                    r = read_chi_index(R);
+                    r.resize(1);
+                    return r;
+                    break;
 
+                //Added by MJ:
+               case SEP:
+               {                
+                    const Vector_3D n_pos = (R)[N]->position;
+                    const Vector_3D ca_pos = (R)[CA]->position;
+                    const Vector_3D cb_pos = (R)[CB]->position;
+                    const Vector_3D og_pos = (R)[OG]->position;
+                    
+                    const FPtype chi1_double = calc_dihedral(n_pos, cb_pos, ca_pos, og_pos);
+                    const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
+                    std::cout << "\nDEBUG2: Reading SEP chi in procs15_backend.h" << std::endl;
+                    std::cout << "chi1 = " << chi1_double << " rad (" << chi1_int << " deg)" << std::endl;
+                    r.push_back(chi1_int);
+
+                    //const Vector_3D p_pos = (R)[P]->position;
+                    //const FPtype chi2_double = calc_dihedral(ca_pos, cb_pos, og_pos, p_pos);
+                    //const unsigned int chi2_int = ((chi2_double * rad_to_degrees) > 0.0) ? floor((chi2_double * rad_to_degrees) + 0.5) : 360 + ceil((chi2_double * rad_to_degrees) - 0.5);
+                    //std::cout << "chi2 = " << chi2_double << " rad (" << chi2_int << " deg)" << std::endl;
+                    //r.push_back(chi2_int);
+
+                    std::cout << r << std::endl;
+
+                    return r;
+                    break;
+               }
                case CYS:
                     r = read_chi_index(R);
              	    r.resize(1);
@@ -972,14 +990,14 @@ public:
                    break;}
 
                //Added by MJ           
-               //case SEP: {
-               //    acceptor1.acceptor_oxygen = (res1)[OG];
-               //    acceptor1.acceptor_second_atom = (res1)[CB];
-               //    acceptor1.acceptor_third_atom = (res1)[P];
-               //    acceptor1.acceptor_type = AcceptorPhosphate; //define new type???
+               case SEP: {
+                   acceptor1.acceptor_oxygen = (res1)[OG];
+                   acceptor1.acceptor_second_atom = (res1)[CB];
+                   acceptor1.acceptor_third_atom = (res1)[P];
+                   acceptor1.acceptor_type = AcceptorAlcohol;
 
-               //    hbond_acceptors.push_back(acceptor1);
-               //    break; }
+                   hbond_acceptors.push_back(acceptor1);
+                   break; }
                
 
                case THR:{

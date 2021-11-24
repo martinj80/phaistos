@@ -190,6 +190,9 @@ void Residue::standardize_atoms() {
           }
 
           break;
+    //Added by MJ: possibly add for SEP and others
+     case SEP:
+         break;
      case ILE:
           if (has_atom(HG11)) {
                rename_atom(HG11, make_vector(HG12, HG13), HG12);
@@ -874,6 +877,9 @@ void Residue::add_sidechain(AtomSelectionEnum atom_selection, const std::vector<
                if (!has_atom(OG))
                     atoms.push_back(new Atom(OG, this, atoms.size(), UNINITIALIZED, chi[0]));     
                break;
+               //Added by MJ: possibly add for SEP and others
+          case SEP:
+              break;
           case THR:
                if (!has_atom(OG1))
                     atoms.push_back(new Atom(OG1, this, atoms.size(), UNINITIALIZED, chi[0]));    

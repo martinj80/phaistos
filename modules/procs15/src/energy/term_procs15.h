@@ -99,7 +99,7 @@ public:
                                         }
                                         break;
                                    }
-
+                                    //Added by MJ: CHECK FOR SEP
                                    case AcceptorAlcohol: {
 
                                         const Vector_3D h_pos = (*res1)[H]->position;
@@ -445,10 +445,14 @@ public:
                ring_current_corrections = get_ring_current_corrections(res1, chain);
                shieldings = get_shieldings(res1);
 
-               /*if (res1->residue_type == SEP || res1->residue_type == SER)
+               if (res1->residue_type == SEP
+                   //|| res1->residue_type == SER
+                   //|| res1->residue_type == THR
+                   //|| res1->residue_type == THR //pthr
+                   )
                {
-                   std::cout << "DEBUG:" << std::endl;
-                   std::cout << res1 << std::endl;
+                   std::cout << "\nDEBUG1:" << std::endl;
+                   std::cout << res1 << "\n(chi values for SEP are incorrect, correct values are defined for procs15 calculation.)" << std::endl;
 
                    std::cout << "chi_atoms:" << res1->chi_atoms << std::endl;
                    std::cout << "minor_dof_atoms:" << res1->minor_dof_atoms << std::endl;
@@ -460,7 +464,7 @@ public:
                    std::cout << "secondary_h_bond_corrections:" << secondary_h_bond_corrections << std::endl;
                    std::cout << "ring_current_corrections" << ring_current_corrections << std::endl;
                    std::cout << "shieldings" << shieldings << std::endl;
-               }*/
+               }
 
                if ((settings.load_hn) && (settings.use_water_correction == true) && (std::abs(primary_h_bond_corrections[4]) < 0.000001) && (res1->residue_type != PRO)) {
                      contributions[res1->index][8][2] = -water_bonding_correction;
@@ -600,14 +604,13 @@ public:
                if (settings.include_n_previous_residue_correction) chemical_shifts[res1->index][3]  -= shieldings[3];
                if (settings.include_ha_previous_residue_correction) chemical_shifts[res1->index][0] -= shieldings[5];
 
-               std::cout << "DEBUG: HERE4" << std::endl;
                chemical_shifts[res1->index][1] -= shieldings[0+6];
                chemical_shifts[res1->index][5] -= shieldings[1+6];
                chemical_shifts[res1->index][4] -= shieldings[2+6];
                chemical_shifts[res1->index][3] -= shieldings[3+6];
                chemical_shifts[res1->index][2] -= shieldings[4+6];
                chemical_shifts[res1->index][0] -= shieldings[5+6];
-               std::cout << "DEBUG: HERE5" << std::endl;
+
                if (settings.include_ca_following_residue_correction) chemical_shifts[res1->index][1] -= shieldings[0+12];
                if (settings.include_cb_following_residue_correction) chemical_shifts[res1->index][5] -= shieldings[1+12];
                if (settings.include_co_following_residue_correction) chemical_shifts[res1->index][4] -= shieldings[2+12];
@@ -628,7 +631,7 @@ public:
                if (settings.include_hn_primary_ha_hbond) chemical_shifts[res1->index][2] += primary_h_bond_corrections[4+6];
                if (settings.include_n_primary_ha_hbond)  chemical_shifts[res1->index][3] += primary_h_bond_corrections[3+6];
                if (settings.include_ha_primary_ha_hbond) chemical_shifts[res1->index][0] += primary_h_bond_corrections[5+6];
-               std::cout << "DEBUG: HERE6" << std::endl;
+
                if (settings.include_ca_secondary_hn_hbond) chemical_shifts[res1->index][1] += secondary_h_bond_corrections[0];
                if (settings.include_cb_secondary_hn_hbond) chemical_shifts[res1->index][5] += secondary_h_bond_corrections[1];
                if (settings.include_co_secondary_hn_hbond) chemical_shifts[res1->index][4] += secondary_h_bond_corrections[2];

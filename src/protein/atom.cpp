@@ -1605,21 +1605,17 @@ void Atom::init(AtomEnum atom_type, Residue *residue, int index) {
 
          case O1P:
              //// Chi 3
-             //residue->set_chi_atom(this, 2);
-             //residue->sidechain_status = true;
-             //residue->set_minor_dof_atom(this, ANGLE);
+             residue->set_chi_atom(this, 2);
+             residue->sidechain_status = true;
              residue->set_minor_dof_atom(this, ANGLE);
-             residue->set_minor_dof_atom(this, DIHEDRAL);
+             /*residue->set_minor_dof_atom(this, ANGLE);
+             residue->set_minor_dof_atom(this, DIHEDRAL);*/
 
              covalent_neighbours.push_back(std::pair<AtomEnum, int>(P, 0));
              this->mass = definitions::atom_o_weight;
              break;
 
          case O2P:
-             //// Chi 4
-             //residue->set_chi_atom(this, 3);
-             //residue->sidechain_status = true;
-             //residue->set_minor_dof_atom(this, ANGLE);
              residue->set_minor_dof_atom(this, ANGLE);
              residue->set_minor_dof_atom(this, DIHEDRAL);
 
@@ -1628,10 +1624,6 @@ void Atom::init(AtomEnum atom_type, Residue *residue, int index) {
              break;
 
          case O3P:
-             //// Chi 5
-             //residue->set_chi_atom(this, 4);
-             //residue->sidechain_status = true;
-             //residue->set_minor_dof_atom(this, ANGLE);
              residue->set_minor_dof_atom(this, ANGLE);
              residue->set_minor_dof_atom(this, DIHEDRAL);
 
