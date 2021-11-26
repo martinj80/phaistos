@@ -634,6 +634,7 @@ public:
                     const Vector_3D cb_pos = (R)[CB]->position;
                     const Vector_3D og_pos = (R)[OG]->position;
                     
+		    //Why does it give correct value only with this setting?
                     const FPtype chi1_double = calc_dihedral(n_pos, cb_pos, ca_pos, og_pos);
                     const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
                     std::cout << "\nDEBUG2: Reading SEP chi in procs15_backend.h" << std::endl;
