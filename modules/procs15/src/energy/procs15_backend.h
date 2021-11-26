@@ -634,21 +634,24 @@ public:
                     const Vector_3D cb_pos = (R)[CB]->position;
                     const Vector_3D og_pos = (R)[OG]->position;
                     
-		    //Why does it give correct value only with this setting?
-                    const FPtype chi1_double = calc_dihedral(n_pos, cb_pos, ca_pos, og_pos);
+		            //Why does it give correct chi angle value only with manual calculation as indicated below?
+                    //If used with read_chi_index(R), which effectively uses Residue::get_sidechain_dof_values() the value is incorrect.
+                    //Is it because of atom sorting?
+                    const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, og_pos);
                     const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
+                    r.push_back(chi1_int);
+
                     std::cout << "\nDEBUG2: Reading SEP chi in procs15_backend.h" << std::endl;
                     std::cout << "chi1 = " << chi1_double << " rad (" << chi1_int << " deg)" << std::endl;
-                    r.push_back(chi1_int);
+                    std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
 
                     //const Vector_3D p_pos = (R)[P]->position;
                     //const FPtype chi2_double = calc_dihedral(ca_pos, cb_pos, og_pos, p_pos);
                     //const unsigned int chi2_int = ((chi2_double * rad_to_degrees) > 0.0) ? floor((chi2_double * rad_to_degrees) + 0.5) : 360 + ceil((chi2_double * rad_to_degrees) - 0.5);
-                    //std::cout << "chi2 = " << chi2_double << " rad (" << chi2_int << " deg)" << std::endl;
                     //r.push_back(chi2_int);
-
-                    std::cout << r << std::endl;
-
+                    
+                    //std::cout << "chi2 = " << chi2_double << " rad (" << chi2_int << " deg)" << std::endl;
+                    
                     return r;
                     break;
                }

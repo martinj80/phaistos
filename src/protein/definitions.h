@@ -189,6 +189,7 @@ inline bool is_atom_XH(AtomEnum atom_type) {
      return atom_type_XH[atom_type];
 }
 
+//Added by MJ
 //! Check if atom is a phosphorus
 //!
 //! \param atom_type Type of atom

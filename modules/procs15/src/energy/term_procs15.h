@@ -438,28 +438,26 @@ public:
 
 
           for (ResidueIterator<ChainFB> res1(chain); !(res1).end(); ++res1) {
-               //std::cout << "Calculating " << res1->residue_type << res1->index << std::endl;
                
                primary_h_bond_corrections = get_primary_h_bond_corrections(res1, chain);
                secondary_h_bond_corrections = get_secondary_h_bond_corrections(res1, chain);
                ring_current_corrections = get_ring_current_corrections(res1, chain);
                shieldings = get_shieldings(res1);
 
+               //Added by MJ: For debuging purposes only
                if (res1->residue_type == SEP
-                   //|| res1->residue_type == SER
+                   || res1->residue_type == SER
                    //|| res1->residue_type == THR
                    //|| res1->residue_type == THR //pthr
                    )
                {
-                   std::cout << "\nDEBUG1:" << std::endl;
-                   std::cout << res1 << "\n(chi values for SEP are incorrect, correct values are defined for procs15 calculation.)" << std::endl;
+                   std::cout << "\nDEBUG1: reading SER or SEP in term_procs15.h" << std::endl;
+                   std::cout << res1 << "\n(chi values for SEP are incorrect, correct values are defined only in procs15 calculation.)" << std::endl;
 
                    std::cout << "chi_atoms:" << res1->chi_atoms << std::endl;
                    std::cout << "minor_dof_atoms:" << res1->minor_dof_atoms << std::endl;
-                    
                    std::cout << "sidechain_status:" << res1->sidechain_status << std::endl;
                    std::cout << "has_sidechain:" << res1->has_sidechain() << std::endl;
-                    
                    std::cout << "primary_h_bond_corrections:" << primary_h_bond_corrections << std::endl;
                    std::cout << "secondary_h_bond_corrections:" << secondary_h_bond_corrections << std::endl;
                    std::cout << "ring_current_corrections" << ring_current_corrections << std::endl;
