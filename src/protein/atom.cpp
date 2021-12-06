@@ -1723,6 +1723,112 @@ void Atom::init(AtomEnum atom_type, Residue *residue, int index) {
                break;
           }
           break;
+
+     case TPO:
+         switch (atom_type) {
+         case CB:
+             residue->set_minor_dof_atom(this, ANGLE);
+             residue->set_minor_dof_atom(this, DIHEDRAL);
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(CA, 0));
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(OG1, 0));
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(CG2, 0));
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(HB, 0));
+             this->mass = definitions::atom_c_weight;
+             break;
+         case OG1:
+             // Chi 1
+             residue->set_chi_atom(this, 0);
+             residue->sidechain_status = true;
+             residue->set_minor_dof_atom(this, ANGLE);
+
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(CB, 0));
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(HG1, 0));
+             this->mass = definitions::atom_o_weight;
+             break;
+         case CG2:
+             residue->sidechain_status = true;
+             residue->set_minor_dof_atom(this, ANGLE);
+             residue->set_minor_dof_atom(this, DIHEDRAL);
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(CB, 0));
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(HG21, 0));
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(HG22, 0));
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(HG23, 0));
+             this->mass = definitions::atom_c_weight;
+             break;
+         case HB:
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(CB, 0));
+             residue->set_minor_dof_atom(this, ANGLE);
+             residue->set_minor_dof_atom(this, DIHEDRAL);
+             this->mass = definitions::atom_h_weight;
+             break;
+
+         case P:
+             // Chi 2
+             residue->set_chi_atom(this, 1);
+             residue->sidechain_status = true;
+             residue->set_minor_dof_atom(this, ANGLE);
+
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(OG1, 0));
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(O1P, 0));
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(O2P, 0));
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(O3P, 0));
+             this->mass = definitions::atom_p_weight;
+             break;
+
+         case O1P:
+             //// Chi 4
+             residue->set_chi_atom(this, 3);
+             residue->sidechain_status = true;
+             residue->set_minor_dof_atom(this, ANGLE);
+             /*residue->set_minor_dof_atom(this, ANGLE);
+             residue->set_minor_dof_atom(this, DIHEDRAL);*/
+
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(P, 0));
+             this->mass = definitions::atom_o_weight;
+             break;
+
+         case O2P:
+             residue->set_minor_dof_atom(this, ANGLE);
+             residue->set_minor_dof_atom(this, DIHEDRAL);
+
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(P, 0));
+             this->mass = definitions::atom_o_weight;
+             break;
+
+         case O3P:
+             residue->set_minor_dof_atom(this, ANGLE);
+             residue->set_minor_dof_atom(this, DIHEDRAL);
+
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(P, 0));
+             this->mass = definitions::atom_o_weight;
+             break;
+
+         case HG21:
+             // Chi 3 (Hydrogen degree-of-freedom)
+             residue->set_chi_atom(this, 2);
+             residue->sidechain_status = true;
+             residue->set_minor_dof_atom(this, ANGLE);
+
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(CG2, 0));
+             this->mass = definitions::atom_h_weight;
+             break;
+         case HG22:
+             residue->set_minor_dof_atom(this, ANGLE);
+             residue->set_minor_dof_atom(this, DIHEDRAL);
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(CG2, 0));
+             this->mass = definitions::atom_h_weight;
+             break;
+         case HG23:
+             residue->set_minor_dof_atom(this, ANGLE);
+             residue->set_minor_dof_atom(this, DIHEDRAL);
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(CG2, 0));
+             this->mass = definitions::atom_h_weight;
+             break;
+         default:
+             break;
+         }
+         break;
+
      case VAL:
           switch (atom_type) {
           case CB:
@@ -2076,6 +2182,165 @@ void Atom::init(AtomEnum atom_type, Residue *residue, int index) {
                break;
           }
           break;
+          //Added by MJ:
+     case PTR:
+          switch (atom_type) {
+              case CB:
+                  residue->set_minor_dof_atom(this, ANGLE);
+                  residue->set_minor_dof_atom(this, DIHEDRAL);
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CA, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CG, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(HB2, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(HB3, 0));
+                  this->mass = definitions::atom_c_weight;
+                  break;
+              case CG:
+                  // Chi 1
+                  residue->set_chi_atom(this, 0);
+                  residue->sidechain_status = true;
+                  residue->set_minor_dof_atom(this, ANGLE);
+
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CB, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CD1, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CD2, 0));
+                  this->mass = definitions::atom_c_weight;
+                  break;
+              case CD1:
+                  // Chi 2
+                  residue->set_chi_atom(this, 1);
+                  residue->sidechain_status = true;
+                  residue->set_minor_dof_atom(this, ANGLE);
+
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CG, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CE1, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(HD1, 0));
+                  this->mass = definitions::atom_c_weight;
+                  break;
+              case CD2:
+                  residue->sidechain_status = true;
+                  residue->set_minor_dof_atom(this, DIHEDRAL);
+
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CG, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CE2, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(HD2, 0));
+                  this->mass = definitions::atom_c_weight;
+                  break;
+              case CE1:
+                  residue->sidechain_status = true;
+
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CD1, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CZ, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(HE1, 0));
+                  this->mass = definitions::atom_c_weight;
+                  break;
+              case CE2:
+                  residue->sidechain_status = true;
+
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CD2, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CZ, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(HE2, 0));
+                  this->mass = definitions::atom_c_weight;
+                  break;
+              case CZ:
+                  residue->sidechain_status = true;
+
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(OH, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CE1, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CE2, 0));
+                  this->mass = definitions::atom_c_weight;
+                  break;
+              case OH:
+                  residue->sidechain_status = true;
+                  residue->set_minor_dof_atom(this, ANGLE);
+                  residue->set_minor_dof_atom(this, DIHEDRAL);
+
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CZ, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(HH, 0));
+                  this->mass = definitions::atom_o_weight;
+                  break;
+              case HB2:
+                  residue->set_minor_dof_atom(this, ANGLE);
+                  residue->set_minor_dof_atom(this, DIHEDRAL);
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CB, 0));
+                  this->mass = definitions::atom_h_weight;
+                  break;
+              case HB3:
+                  residue->set_minor_dof_atom(this, ANGLE);
+                  residue->set_minor_dof_atom(this, DIHEDRAL);
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CB, 0));
+                  this->mass = definitions::atom_h_weight;
+                  break;
+              case HD1:
+                  residue->set_minor_dof_atom(this, ANGLE);
+                  residue->set_minor_dof_atom(this, DIHEDRAL);
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CD1, 0));
+                  this->mass = definitions::atom_h_weight;
+                  break;
+              case HD2:
+                  residue->set_minor_dof_atom(this, ANGLE);
+                  residue->set_minor_dof_atom(this, DIHEDRAL);
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CD2, 0));
+                  this->mass = definitions::atom_h_weight;
+                  break;
+              case HE1:
+                  residue->set_minor_dof_atom(this, ANGLE);
+                  residue->set_minor_dof_atom(this, DIHEDRAL);
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CE1, 0));
+                  this->mass = definitions::atom_h_weight;
+                  break;
+              case HE2:
+                  residue->set_minor_dof_atom(this, ANGLE);
+                  residue->set_minor_dof_atom(this, DIHEDRAL);
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(CE2, 0));
+                  this->mass = definitions::atom_h_weight;
+                  break;
+
+              case P:
+                  // Chi 3
+                  residue->set_chi_atom(this, 2);
+                  residue->sidechain_status = true;
+                  residue->set_minor_dof_atom(this, ANGLE);
+
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(OH, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(O1P, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(O2P, 0));
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(O3P, 0));
+                  this->mass = definitions::atom_p_weight;
+                  break;
+
+              case O1P:
+                  // Chi 4
+                  residue->set_chi_atom(this, 3);
+                  residue->sidechain_status = true;
+                  residue->set_minor_dof_atom(this, ANGLE);
+                  /*residue->set_minor_dof_atom(this, ANGLE);
+                  residue->set_minor_dof_atom(this, DIHEDRAL);*/
+
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(P, 0));
+                  this->mass = definitions::atom_o_weight;
+                  break;
+
+              case O2P:
+                  residue->set_minor_dof_atom(this, ANGLE);
+                  residue->set_minor_dof_atom(this, DIHEDRAL);
+
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(P, 0));
+                  this->mass = definitions::atom_o_weight;
+                  break;
+
+              case O3P:
+                  residue->set_minor_dof_atom(this, ANGLE);
+                  residue->set_minor_dof_atom(this, DIHEDRAL);
+
+                  covalent_neighbours.push_back(std::pair<AtomEnum, int>(P, 0));
+                  this->mass = definitions::atom_o_weight;
+                  break;
+
+              default:
+                  break;
+              }
+              break;
+
      default:
           break;
      }

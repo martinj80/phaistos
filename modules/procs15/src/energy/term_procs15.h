@@ -447,8 +447,8 @@ public:
                //Added by MJ: For debuging purposes only
                if (
                    res1->residue_type == SEP || res1->residue_type == SER
-                   //|| res1->residue_type == THR || res1->residue_type == THR //pthr
-                   //|| res1->residue_type == TYR || res1->residue_type == TYR //ptyr
+                   || res1->residue_type == THR || res1->residue_type == TPO
+                   || res1->residue_type == TYR || res1->residue_type == PTR
                    )
                {
                    std::cout << "\nDEBUG1: reading (Phosphorylated)SER/THR/TYR in term_procs15.h" << std::endl;

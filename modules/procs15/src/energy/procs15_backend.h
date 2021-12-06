@@ -570,163 +570,207 @@ public:
 
           std::vector<unsigned int> r;
 
-          switch (R.residue_type){
+          switch (R.residue_type) {
 
-               case ALA:
-                    return r;
-             	    break;
+          case ALA:
+              return r;
+              break;
 
-               case GLY:
-                    return r;
-                    break;
+          case GLY:
+              return r;
+              break;
 
-               case VAL: //! Special case for Val
-                    {
-                    const Vector_3D n_pos   = (R)[N]->position;
-                    const Vector_3D ca_pos  = (R)[CA]->position; 
-                    const Vector_3D cb_pos  = (R)[CB]->position;
-                    const Vector_3D cg1_pos = (R)[CG1]->position;
-                    const Vector_3D cg2_pos = (R)[CG2]->position;
+          case VAL: //! Special case for Val
+          {
+              const Vector_3D n_pos = (R)[N]->position;
+              const Vector_3D ca_pos = (R)[CA]->position;
+              const Vector_3D cb_pos = (R)[CB]->position;
+              const Vector_3D cg1_pos = (R)[CG1]->position;
+              const Vector_3D cg2_pos = (R)[CG2]->position;
 
-                    const FPtype dihedral_cg1_cg2 = calc_dihedral(cg1_pos, ca_pos, cb_pos, cg2_pos);
+              const FPtype dihedral_cg1_cg2 = calc_dihedral(cg1_pos, ca_pos, cb_pos, cg2_pos);
 
-                    if ( dihedral_cg1_cg2 > 0){
+              if (dihedral_cg1_cg2 > 0) {
 
-                         const FPtype chi1_double = calc_dihedral(n_pos,ca_pos,cb_pos,cg1_pos);
-                         const unsigned int chi1_int  = ((chi1_double*rad_to_degrees) > 0.0) ? floor( (chi1_double*rad_to_degrees)  + 0.5) : 360 + ceil((chi1_double*rad_to_degrees)  - 0.5);
-
-
-                         r.push_back(chi1_int);
-
-                         return r;
-                    } 
-                    else {
-
-                         const FPtype chi1_double = calc_dihedral(n_pos,ca_pos,cb_pos,cg2_pos);
-                         const unsigned int chi1_int  = ((chi1_double*rad_to_degrees) > 0.0) ? floor( (chi1_double*rad_to_degrees)  + 0.5) : 360 + ceil((chi1_double*rad_to_degrees)  - 0.5);
+                  const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, cg1_pos);
+                  const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
 
 
-                         r.push_back(chi1_int);
+                  r.push_back(chi1_int);
 
-                         return r;
-                    }
+                  return r;
+              }
+              else {
 
-                    break;
-                    }
+                  const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, cg2_pos);
+                  const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
 
-               case THR:
-             	    r = read_chi_index(R);
-             	    r.resize(2);
-             	    return r;
-             	    break;
 
-                //Added by MJ:
-               case TPO:
-                   r = read_chi_index(R);
-                   r.resize(2);
-                   return r;
-                   break;
+                  r.push_back(chi1_int);
 
-               case SER:
-                    r = read_chi_index(R);
-                    r.resize(1);
-                    return r;
-                    break;
+                  return r;
+              }
 
-                //Added by MJ:
-               case SEP:
-               {                
-                    const Vector_3D n_pos = (R)[N]->position;
-                    const Vector_3D ca_pos = (R)[CA]->position;
-                    const Vector_3D cb_pos = (R)[CB]->position;
-                    const Vector_3D og_pos = (R)[OG]->position;
+              break;
+          }
+
+          case THR:
+              r = read_chi_index(R);
+              r.resize(2);
+              return r;
+              break;
+
+              //Added by MJ:
+           case TPO:
+          {
+                const Vector_3D n_pos = (R)[N]->position;
+                const Vector_3D ca_pos = (R)[CA]->position;
+                const Vector_3D cb_pos = (R)[CB]->position;
+                const Vector_3D og_pos = (R)[OG1]->position;
+                const Vector_3D p_pos = (R)[P]->position;
+                //const Vector_3D hg_pos = (R)[HG21]->position;
+
+                //Why does it give correct chi angle value only with manual calculation as indicated below?
+                //If used with read_chi_index(R), which effectively uses Residue::get_sidechain_dof_values() the value is incorrect.
+                //Is it because of atom sorting?
+                const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, og_pos);
+                const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
+                r.push_back(chi1_int);
+
+                const FPtype chi2_double = calc_dihedral(ca_pos, cb_pos, og_pos, p_pos);
+                const unsigned int chi2_int = ((chi2_double * rad_to_degrees) > 0.0) ? floor((chi2_double * rad_to_degrees) + 0.5) : 360 + ceil((chi2_double * rad_to_degrees) - 0.5);
+                r.push_back(chi2_int);
+
+                std::cout << "\nDEBUG2: Reading TPO chi in procs15_backend.h" << std::endl;
+                std::cout << "calc_dihedral(n_pos, ca_pos, cb_pos, og_pos) = " << chi1_double << " rad (+" << chi1_int << " deg)" << std::endl;
+                std::cout << "calc_dihedral(ca_pos, cb_pos, og_pos, p_pos) = " << chi2_double << " rad (+" << chi2_int << " deg)" << std::endl;
+                std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
+
+                return r;
+                break;
+          }
+            case SER:
+                r = read_chi_index(R);
+                r.resize(1);
+                return r;
+                break;
+
+            //Added by MJ:
+            case SEP:
+            {                
+                //should be as const?
+                const Vector_3D n_pos = (R)[N]->position;
+                const Vector_3D ca_pos = (R)[CA]->position;
+                const Vector_3D cb_pos = (R)[CB]->position;
+                const Vector_3D og_pos = (R)[OG]->position;
                     
-		            //Why does it give correct chi angle value only with manual calculation as indicated below?
-                    //If used with read_chi_index(R), which effectively uses Residue::get_sidechain_dof_values() the value is incorrect.
-                    //Is it because of atom sorting?
-                    const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, og_pos);
-                    const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
-                    r.push_back(chi1_int);
+		        //Why does it give correct chi angle value only with manual calculation as indicated below?
+                //If used with read_chi_index(R), which effectively uses Residue::get_sidechain_dof_values() the value is incorrect.
+                //Is it because of atom sorting?
+                const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, og_pos);
+                const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
+                r.push_back(chi1_int);
 
-                    std::cout << "\nDEBUG2: Reading SEP chi in procs15_backend.h" << std::endl;
-                    std::cout << "calc_dihedral(n_pos, ca_pos, cb_pos, og_pos) = " << chi1_double << " rad (+" << chi1_int << " deg)" << std::endl;
-                    std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
+                std::cout << "\nDEBUG2: Reading SEP chi in procs15_backend.h" << std::endl;
+                std::cout << "calc_dihedral(n_pos, ca_pos, cb_pos, og_pos) = " << chi1_double << " rad (+" << chi1_int << " deg)" << std::endl;
+                std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
 
-                    //const Vector_3D p_pos = (R)[P]->position;
-                    //const FPtype chi2_double = calc_dihedral(ca_pos, cb_pos, og_pos, p_pos);
-                    //const unsigned int chi2_int = ((chi2_double * rad_to_degrees) > 0.0) ? floor((chi2_double * rad_to_degrees) + 0.5) : 360 + ceil((chi2_double * rad_to_degrees) - 0.5);
-                    //r.push_back(chi2_int);
+                //const Vector_3D p_pos = (R)[P]->position;
+                //const FPtype chi2_double = calc_dihedral(ca_pos, cb_pos, og_pos, p_pos);
+                //const unsigned int chi2_int = ((chi2_double * rad_to_degrees) > 0.0) ? floor((chi2_double * rad_to_degrees) + 0.5) : 360 + ceil((chi2_double * rad_to_degrees) - 0.5);
+                //r.push_back(chi2_int);
                     
-                    //std::cout << "chi2 = " << chi2_double << " rad (" << chi2_int << " deg)" << std::endl;
+                //std::cout << "chi2 = " << chi2_double << " rad (" << chi2_int << " deg)" << std::endl;
                     
-                    return r;
-                    break;
-               }
-               case CYS:
-                    r = read_chi_index(R);
-             	    r.resize(1);
-             	    return r;
-             	    break;
+                return r;
+                break;
+            }
+            case CYS:
+                r = read_chi_index(R);
+                r.resize(1);
+                return r;
+                break;
 
-               case ILE:
-             	    r = read_chi_index(R);
-             	    r.resize(2);
-             	    return r;
-             	    break;
+            case ILE:
+                r = read_chi_index(R);
+                r.resize(2);
+                return r;
+                break;
 
-               case LEU:
-                    r = read_chi_index(R);
-             	    r.resize(2);
-             	    return r;
-             	    break;
+            case LEU:
+                r = read_chi_index(R);
+                r.resize(2);
+                return r;
+                break;
 
-               case ASN:
-                    r = read_chi_index(R);
-                    r.resize(2);
-                    return r;
-                    break;
+            case ASN:
+                r = read_chi_index(R);
+                r.resize(2);
+                return r;
+                break;
 
-               case TYR:
-                    r = read_chi_index(R);
-                    r.resize(2);
-                    return r;
-                    break;
+            case TYR:
+                r = read_chi_index(R);
+                r.resize(2);
+                return r;
+                break;
 
-                //added by MJ:
-               case PTR:
-                   r = read_chi_index(R);
-                   r.resize(2);
-                   return r;
-                   break;
+            //added by MJ:
+            case PTR:
+            {
+                const Vector_3D n_pos = (R)[N]->position;
+                const Vector_3D ca_pos = (R)[CA]->position;
+                const Vector_3D cb_pos = (R)[CB]->position;
+                const Vector_3D cg_pos = (R)[CG]->position;
+                const Vector_3D cd_pos = (R)[CD1]->position;
 
-               case PRO:
-                    r = read_chi_index(R);
-                    r.resize(0);
-                    return r;
-                    break;
+                //Why does it give correct chi angle value only with manual calculation as indicated below?
+                //If used with read_chi_index(R), which effectively uses Residue::get_sidechain_dof_values() the value is incorrect.
+                //Is it because of atom sorting?
+                const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, cg_pos);
+                const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
+                r.push_back(chi1_int);
 
-               case LYS:
-                    r = read_chi_index(R);
-                    r.resize(4);
-                    return r;
-                    break;
+                const FPtype chi2_double = calc_dihedral(ca_pos, cb_pos, cg_pos, cd_pos);
+                const unsigned int chi2_int = ((chi2_double * rad_to_degrees) > 0.0) ? floor((chi2_double * rad_to_degrees) + 0.5) : 360 + ceil((chi2_double * rad_to_degrees) - 0.5);
+                r.push_back(chi2_int);
 
-               case GLN:
-                    r = read_chi_index(R);
-                    r.resize(3);
-                    return r;
-                    break;
+                std::cout << "\nDEBUG2: Reading PTR chi in procs15_backend.h" << std::endl;
+                std::cout << "calc_dihedral(n_pos, ca_pos, cb_pos, cg_pos) = " << chi1_double << " rad (+" << chi1_int << " deg)" << std::endl;
+                std::cout << "calc_dihedral(ca_pos, cb_pos, cg_pos, cd_pos) = " << chi2_double << " rad (+" << chi2_int << " deg)" << std::endl;
+                std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
 
-               case MET:
-                    r = read_chi_index(R);
-                    r.resize(3);
-                    return r;
-                    break;
+                return r;
+                break;
+            }
+            case PRO:
+                r = read_chi_index(R);
+                r.resize(0);
+                return r;
+                break;
 
-               default:
-                    r = read_chi_index(R);
-                    return r;
-                    break;
+            case LYS:
+                r = read_chi_index(R);
+                r.resize(4);
+                return r;
+                break;
+
+            case GLN:
+                r = read_chi_index(R);
+                r.resize(3);
+                return r;
+                break;
+
+            case MET:
+                r = read_chi_index(R);
+                r.resize(3);
+                return r;
+                break;
+
+            default:
+                r = read_chi_index(R);
+                return r;
+                break;
           }
      }
 
