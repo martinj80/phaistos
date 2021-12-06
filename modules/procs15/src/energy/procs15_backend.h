@@ -620,6 +620,13 @@ public:
              	    return r;
              	    break;
 
+                //Added by MJ:
+               case TPO:
+                   r = read_chi_index(R);
+                   r.resize(2);
+                   return r;
+                   break;
+
                case SER:
                     r = read_chi_index(R);
                     r.resize(1);
@@ -642,7 +649,7 @@ public:
                     r.push_back(chi1_int);
 
                     std::cout << "\nDEBUG2: Reading SEP chi in procs15_backend.h" << std::endl;
-                    std::cout << "chi1 = " << chi1_double << " rad (" << chi1_int << " deg)" << std::endl;
+                    std::cout << "calc_dihedral(n_pos, ca_pos, cb_pos, og_pos) = " << chi1_double << " rad (+" << chi1_int << " deg)" << std::endl;
                     std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
 
                     //const Vector_3D p_pos = (R)[P]->position;
@@ -684,6 +691,13 @@ public:
                     r.resize(2);
                     return r;
                     break;
+
+                //added by MJ:
+               case PTR:
+                   r = read_chi_index(R);
+                   r.resize(2);
+                   return r;
+                   break;
 
                case PRO:
                     r = read_chi_index(R);
@@ -1013,6 +1027,16 @@ public:
                    hbond_acceptors.push_back(acceptor1);
                    break;}
 
+                //Added by MJ:
+               case TPO: {
+                   acceptor1.acceptor_oxygen = (res1)[OG1];
+                   acceptor1.acceptor_second_atom = (res1)[CB];
+                   acceptor1.acceptor_third_atom = (res1)[P];
+                   acceptor1.acceptor_type = AcceptorAlcohol;
+
+                   hbond_acceptors.push_back(acceptor1);
+                   break; }
+
                case TYR:{
                    acceptor1.acceptor_oxygen      = (res1)[OH];
                    acceptor1.acceptor_second_atom = (res1)[CZ];
@@ -1021,6 +1045,16 @@ public:
 
                    hbond_acceptors.push_back(acceptor1);
                    break;}
+                //Added by MJ:
+               case PTR: {
+                   acceptor1.acceptor_oxygen = (res1)[OH];
+                   acceptor1.acceptor_second_atom = (res1)[CZ];
+                   acceptor1.acceptor_third_atom = (res1)[P];//???
+                   acceptor1.acceptor_type = AcceptorAlcohol;
+
+                   hbond_acceptors.push_back(acceptor1);
+                   break; }
+
 
                case ASN:{
                    acceptor1.acceptor_oxygen      = (res1)[OD1];
@@ -1125,6 +1159,29 @@ public:
                     aromatic_rings.push_back(current_ring);
                     break;
                }
+
+
+                //Added by MJ:
+               case PTR: {
+                   AromaticRing current_ring;
+
+                   Vector_3D CE1sc, CE2sc, CGsc, CZsc;
+                   CE1sc = (res1)[CE1]->position;
+                   CE2sc = (res1)[CE2]->position;
+                   CGsc = (res1)[CG]->position;
+                   CZsc = (res1)[CZ]->position;
+                   Vector_3D Tyr_Centroid = (CGsc + CZsc) * 0.5;
+                   Vector_3D Tyr_Normal = cross_product((CE1sc - CGsc), (CE2sc - CGsc)).normalize();
+                   Tyr_Normal = Tyr_Normal + Tyr_Centroid;
+
+                   current_ring.ring_center = Tyr_Centroid;
+                   current_ring.ring_normal_vector = Tyr_Normal;
+                   current_ring.ring_type = RingPhenol;
+
+                   aromatic_rings.push_back(current_ring);
+                   break;
+               }
+
                case HIS: {
                     AromaticRing current_ring;
 
@@ -1261,16 +1318,16 @@ public:
                assert(false);
           }
 
-          std::string procs15_residue_names[21] = {"ALA","CYS","ASP",
+          std::string procs15_residue_names[23] = {"ALA","CYS","ASP",
                                                    "GLU","PHE","GLY",
                                                    "HIS","ILE","LYS",
                                                    "LEU","MET","ASN",
                                                    "PRO","GLN","ARG",
                                                    "SER","THR","VAL",
-                                                   "TRP","TYR", "SEP"};
+                                                   "TRP","TYR", "SEP", "TPO", "PTR"};
    
           if ( load_ca == true ) {          
-               for ( unsigned int i = 0; i < 21; i++){
+               for ( unsigned int i = 0; i < 23; i++){
                     if (!file_exists(numpypath+procs15_residue_names[i]+"_ca.npy")){
                          std::cerr << "ERROR (ProCS15) File " << numpypath << procs15_residue_names[i]+"_ca.npy" << " doesn't exist check data-folder keyword" << std::endl;
                     } 
@@ -1278,7 +1335,7 @@ public:
           }
 
           if ( load_cb == true ) {           
-               for ( int i = 0; i < 21; i++){
+               for ( int i = 0; i < 23; i++){
                     if (!file_exists(numpypath+procs15_residue_names[i]+"_cb.npy")){
                          std::cerr << "ERROR (ProCS15) File " << numpypath << procs15_residue_names[i]+"_cb.npy" << " doesn't exist check data-folder keyword" << std::endl;
                     } 
@@ -1287,7 +1344,7 @@ public:
           }
 
           if ( load_co == true ) { 
-               for ( int i = 0; i < 21; i++){
+               for ( int i = 0; i < 23; i++){
                     if (!file_exists(numpypath+procs15_residue_names[i]+"_co.npy")){
                          std::cerr << "ERROR (ProCS15) File " << numpypath << procs15_residue_names[i]+"_co.npy" << " doesn't exist check data-folder keyword" << std::endl;
                     } 
@@ -1295,7 +1352,7 @@ public:
           }
 
           if ( load_n == true ) {           
-               for ( int i = 0; i < 21; i++){
+               for ( int i = 0; i < 23; i++){
                     if (!file_exists(numpypath+procs15_residue_names[i]+"_nh.npy")){
                          std::cerr << "ERROR (ProCS15) File " << numpypath << procs15_residue_names[i]+"_nh.npy" << " doesn't exist check data-folder keyword" << std::endl;
                     } 
@@ -1303,7 +1360,7 @@ public:
           }
 
           if ( load_hn == true ) {           
-               for ( int i = 0; i < 21; i++){
+               for ( int i = 0; i < 23; i++){
                     if (!file_exists(numpypath+procs15_residue_names[i]+"_hn.npy")){
                          std::cerr << "ERROR (ProCS15) File " << numpypath << procs15_residue_names[i]+"_hn.npy" << " doesn't exist check data-folder keyword" << std::endl;
                     } 
@@ -1311,7 +1368,7 @@ public:
           }
 
           if ( load_ha == true ) {           
-               for ( int i = 0; i < 21; i++){
+               for ( int i = 0; i < 23; i++){
                     if (!file_exists(numpypath+procs15_residue_names[i]+"_ha.npy")){
                          std::cerr << "ERROR (ProCS15) File " << numpypath << procs15_residue_names[i]+"_ha.npy" << " doesn't exist check data-folder keyword" << std::endl;
                     } 
@@ -1345,7 +1402,9 @@ public:
                list_of_tables[102] = new ArrayWrapperInterpolate(cnpy::npy_load(path+"VAL_ca.npy").get_4d_array(),gridsize4d); loaded_tables[102] = true;
                list_of_tables[108] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TRP_ca.npy").get_5d_array(),gridsize5d); loaded_tables[108] = true;
                list_of_tables[114] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TYR_ca.npy").get_5d_array(),gridsize5d); loaded_tables[114] = true;
-               list_of_tables[120] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_ca.npy").get_4d_array()); loaded_tables[120] = true; //should be 4d_ or 5d_array
+               list_of_tables[120] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_ca.npy").get_4d_array()); loaded_tables[120] = true; //should be 4d_ or 5d_array if adding chi from P
+               list_of_tables[126] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "TPO_ca.npy").get_5d_array(), gridsize5d); loaded_tables[126] = true; //should be 5d_ or 6d_array if adding chi from P
+               list_of_tables[132] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "PTR_ca.npy").get_5d_array(), gridsize5d); loaded_tables[132] = true; //should be 5d_ or 6d_array if adding chi from P
           }
 
           if (load_cb){
@@ -1370,7 +1429,9 @@ public:
                list_of_tables[103] = new ArrayWrapperInterpolate(cnpy::npy_load(path+"VAL_cb.npy").get_4d_array(),gridsize4d); loaded_tables[103] = true;
                list_of_tables[109] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TRP_cb.npy").get_5d_array(),gridsize5d); loaded_tables[109] = true;
                list_of_tables[115] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TYR_cb.npy").get_5d_array(),gridsize5d); loaded_tables[115] = true;
-               list_of_tables[121] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_cb.npy").get_4d_array()); loaded_tables[121] = true;
+               list_of_tables[121] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_cb.npy").get_4d_array()); loaded_tables[121] = true;             //should be 4d_ or 5d_array if adding chi from P
+               list_of_tables[127] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "TPO_cb.npy").get_5d_array(), gridsize5d); loaded_tables[127] = true; //should be 5d_ or 6d_array if adding chi from P
+               list_of_tables[133] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "PTR_cb.npy").get_5d_array(), gridsize5d); loaded_tables[133] = true; //should be 5d_ or 6d_array if adding chi from P
           }
 
           if (load_co){
@@ -1395,7 +1456,9 @@ public:
                list_of_tables[104] = new ArrayWrapperInterpolate(cnpy::npy_load(path+"VAL_co.npy").get_4d_array(),gridsize4d); loaded_tables[104] = true;
                list_of_tables[110] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TRP_co.npy").get_5d_array(),gridsize5d); loaded_tables[110] = true;
                list_of_tables[116] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TYR_co.npy").get_5d_array(),gridsize5d); loaded_tables[116] = true;
-               list_of_tables[122] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_co.npy").get_4d_array()); loaded_tables[122] = true;
+               list_of_tables[122] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_cb.npy").get_4d_array()); loaded_tables[122] = true;             //should be 4d_ or 5d_array if adding chi from P
+               list_of_tables[128] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "TPO_cb.npy").get_5d_array(), gridsize5d); loaded_tables[128] = true; //should be 5d_ or 6d_array if adding chi from P
+               list_of_tables[134] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "PTR_cb.npy").get_5d_array(), gridsize5d); loaded_tables[134] = true; //should be 5d_ or 6d_array if adding chi from P
           }
           if (load_n){
                std::cout << "N " << std::flush;
@@ -1419,7 +1482,9 @@ public:
                list_of_tables[105] = new ArrayWrapperInterpolate(cnpy::npy_load(path+"VAL_nh.npy").get_4d_array(),gridsize4d); loaded_tables[105] = true;
                list_of_tables[111] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TRP_nh.npy").get_5d_array(),gridsize5d); loaded_tables[111] = true;
                list_of_tables[117] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TYR_nh.npy").get_5d_array(),gridsize5d); loaded_tables[117] = true;
-               list_of_tables[123] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_nh.npy").get_4d_array()); loaded_tables[123] = true;
+               list_of_tables[123] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_nh.npy").get_4d_array()); loaded_tables[123] = true;             //should be 4d_ or 5d_array if adding chi from P
+               list_of_tables[129] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "TPO_nh.npy").get_5d_array(), gridsize5d); loaded_tables[129] = true; //should be 5d_ or 6d_array if adding chi from P
+               list_of_tables[135] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "PTR_nh.npy").get_5d_array(), gridsize5d); loaded_tables[135] = true; //should be 5d_ or 6d_array if adding chi from P
           }	
           if (load_hn){
                std::cout << "HN " << std::flush;
@@ -1443,7 +1508,9 @@ public:
                list_of_tables[106] = new ArrayWrapperInterpolate(cnpy::npy_load(path+"VAL_hn.npy").get_4d_array(),gridsize4d); loaded_tables[106] = true;
                list_of_tables[112] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TRP_hn.npy").get_5d_array(),gridsize5d); loaded_tables[112] = true;
                list_of_tables[118] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TYR_hn.npy").get_5d_array(),gridsize5d); loaded_tables[118] = true;
-               list_of_tables[124] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_hn.npy").get_4d_array()); loaded_tables[124] = true;
+               list_of_tables[124] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_hn.npy").get_4d_array()); loaded_tables[124] = true;             //should be 4d_ or 5d_array if adding chi from P
+               list_of_tables[130] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "TPO_hn.npy").get_5d_array(), gridsize5d); loaded_tables[130] = true; //should be 5d_ or 6d_array if adding chi from P
+               list_of_tables[136] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "PTR_hn.npy").get_5d_array(), gridsize5d); loaded_tables[136] = true; //should be 5d_ or 6d_array if adding chi from P
           }
 
           if (load_ha){
@@ -1468,7 +1535,9 @@ public:
                list_of_tables[107] = new ArrayWrapperInterpolate(cnpy::npy_load(path+"VAL_ha.npy").get_4d_array(),gridsize4d); loaded_tables[107] = true;
                list_of_tables[113] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TRP_ha.npy").get_5d_array(),gridsize5d); loaded_tables[113] = true;
                list_of_tables[119] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TYR_ha.npy").get_5d_array(),gridsize5d); loaded_tables[119] = true;
-               list_of_tables[125] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_ha.npy").get_4d_array()); loaded_tables[125] = true;
+               list_of_tables[125] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_ha.npy").get_4d_array()); loaded_tables[125] = true;             //should be 4d_ or 5d_array if adding chi from P
+               list_of_tables[131] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "TPO_ha.npy").get_5d_array(), gridsize5d); loaded_tables[131] = true; //should be 5d_ or 6d_array if adding chi from P
+               list_of_tables[137] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "PTR_ha.npy").get_5d_array(), gridsize5d); loaded_tables[137] = true; //should be 5d_ or 6d_array if adding chi from P
          }
 
 
@@ -1515,8 +1584,8 @@ public:
                        << std::endl;
           halphabond_array_alcohol = new HbondDataWrapper(cnpy::npy_load(procsnumpypath+"delta_halphabond_alcohol_221_91_361_6.npy").get_4d_array());
 
-          list_of_tables.reserve(6*21);
-          for (unsigned i=0; i<126; i++) loaded_tables.push_back(false);
+          list_of_tables.reserve(6*23);
+          for (unsigned i=0; i<138; i++) loaded_tables.push_back(false);
 
 	      std::cout << "Loading Chemical shift data: "; 
           load_data_linearinterpolation( load_ca, load_cb, load_co, load_n, load_hn, load_ha, procsnumpypath );
@@ -1553,8 +1622,8 @@ public:
           halphabond_array_carboxy = other.halphabond_array_carboxy;
           halphabond_array_alcohol = other.halphabond_array_alcohol;
 
-          list_of_tables.reserve(6*21);
-          for (unsigned i=0; i < 126; i++)(list_of_tables[i] = other.list_of_tables[i]);
+          list_of_tables.reserve(6*23);
+          for (unsigned i=0; i < 138; i++)(list_of_tables[i] = other.list_of_tables[i]);
 
           loaded_tables = other.loaded_tables;
           atypevector = other.atypevector;

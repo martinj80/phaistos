@@ -296,32 +296,29 @@ inline std::istream &operator>>(std::istream &input, AtomEnum &a) {
 //Added by MJ: SEP: Ser-PO3, TPO: Thr-PO3, PTR: Tyr-PO3 residues
 //! Residue type enumeration
 enum ResidueEnum {ALA=0,CYS,ASP,GLU,PHE,GLY,
-		  HIS,ILE,LYS,LEU,MET,ASN,
-		  PRO,GLN,ARG,SER,THR,VAL,
-		  TRP,TYR,SEP,AA_UNDEF,
+		          HIS,ILE,LYS,LEU,MET,ASN,
+		          PRO,GLN,ARG,SER,THR,VAL,
+		          TRP,TYR,SEP,TPO,PTR,AA_UNDEF,
 
-		  // Special residue names from ASTRAL RAF
-		  _2AS,  _3AH,  _5HP,  ACL,  AGM,  AIB,  ALM,  ALO,  ALY,  ARM,  ASA,  ASB,  ASK,  ASL,  ASQ,  ASX,  AYA,  BCS,  BHD,  BMT,  BNN,  BUC,  BUG,  C5C,  C6C,  CCS,  CEA,  CGU,  CHG,  CLE,  CME,  CSD,  CSO,  CSP,  CSS,  CSW,  CSX,  CXM,  CY1,  CY3,  CYG,  CYM,  CYQ,  DAH,  DAL,  DAR,  DAS,  DCY,  DGL,  DGN,  DHA,  DHI,  DIL,  DIV,  DLE,  DLY,  DNP,  DPN,  DPR,  DSN,  DSP,  DTH,  DTR,  DTY,  DVA,  EFC,  FLA,  FME,  GGL,  GL3,  GLX,  GLZ,  GMA,  GSC,  HAC,  HAR,  HIC,  HIP,  HMR,  HPQ,  HTR,  HYP,  IIL,  IYR,  KCX,  LLP,  LLY,  LTR,  LYM,  LYZ,  MAA,  MEN,  MHS,  MIS,  MLE,  MPQ,  MSA,  MSE,  MVA,  NEM,  NEP,  NLE,  NLN,  NLP,  NMC,  OAS,  OCS,  OMT,  PAQ,  PCA,  PEC,  PHI,  PHL,  PR3,  PRR,  PTR,  SAC,  SAR,  SCH,  SCS,  SCY,  SEL,  SET,  SHC,  SHR,  SMC,  SOC,  STY,  SVA,  TIH,  TPL,  TPO,  TPQ,  TRG,  TRO,  TYB,  TYQ,  TYS,  TYY,  UNK, RESIDUE_ENUM_SIZE};
+		          // Special residue names from ASTRAL RAF
+		          _2AS,  _3AH,  _5HP,  ACL,  AGM,  AIB,  ALM,  ALO,  ALY,  ARM,  ASA,  ASB,  ASK,  ASL,  ASQ,  ASX,  AYA,  BCS,  BHD,  BMT,  BNN,  BUC,  BUG,  C5C,  C6C,  CCS,  CEA,  CGU,  CHG,  CLE,  CME,  CSD,  CSO,  CSP,  CSS,  CSW,  CSX,  CXM,  CY1,  CY3,  CYG,  CYM,  CYQ,  DAH,  DAL,  DAR,  DAS,  DCY,  DGL,  DGN,  DHA,  DHI,  DIL,  DIV,  DLE,  DLY,  DNP,  DPN,  DPR,  DSN,  DSP,  DTH,  DTR,  DTY,  DVA,  EFC,  FLA,  FME,  GGL,  GL3,  GLX,  GLZ,  GMA,  GSC,  HAC,  HAR,  HIC,  HIP,  HMR,  HPQ,  HTR,  HYP,  IIL,  IYR,  KCX,  LLP,  LLY,  LTR,  LYM,  LYZ,  MAA,  MEN,  MHS,  MIS,  MLE,  MPQ,  MSA,  MSE,  MVA,  NEM,  NEP,  NLE,  NLN,  NLP,  NMC,  OAS,  OCS,  OMT,  PAQ,  PCA,  PEC,  PHI,  PHL,  PR3,  PRR,    SAC,  SAR,  SCH,  SCS,  SCY,  SEL,  SET,  SHC,  SHR,  SMC,  SOC,  STY,  SVA,  TIH,  TPL,  TPQ,  TRG,  TRO,  TYB,  TYQ,  TYS,  TYY,  UNK, RESIDUE_ENUM_SIZE};
 
 
 //! Three-letter residue names
-const static char *residue_name[RESIDUE_ENUM_SIZE]={"ALA","CYS","ASP",
-                                                    "GLU","PHE","GLY",
-                                                    "HIS","ILE","LYS",
-                                                    "LEU","MET","ASN",
-                                                    "PRO","GLN","ARG",
-                                                    "SER","THR","VAL",
-                                                    "TRP","TYR","SEP","???",
+const static char *residue_name[RESIDUE_ENUM_SIZE]={"ALA","CYS","ASP","GLU","PHE","GLY",
+                                                    "HIS","ILE","LYS","LEU","MET","ASN",
+                                                    "PRO","GLN","ARG","SER","THR","VAL",
+                                                    "TRP","TYR","SEP","TPO","PTR","???",
 
-                                                    // Special residue names from ASTRAL RAF
-                                                    "2AS",  "3AH",  "5HP",  "ACL",  "AGM",  "AIB",  "ALM",  "ALO",  "ALY",  "ARM",  "ASA",  "ASB",  "ASK",  "ASL",  "ASQ",  "ASX",  "AYA",  "BCS",  "BHD",  "BMT",  "BNN",  "BUC",  "BUG",  "C5C",  "C6C",  "CCS",  "CEA",  "CGU",  "CHG",  "CLE",  "CME",  "CSD",  "CSO",  "CSP",  "CSS",  "CSW",  "CSX",  "CXM",  "CY1",  "CY3",  "CYG",  "CYM",  "CYQ",  "DAH",  "DAL",  "DAR",  "DAS",  "DCY",  "DGL",  "DGN",  "DHA",  "DHI",  "DIL",  "DIV",  "DLE",  "DLY",  "DNP",  "DPN",  "DPR",  "DSN",  "DSP",  "DTH",  "DTR",  "DTY",  "DVA",  "EFC",  "FLA",  "FME",  "GGL",  "GL3",  "GLX",  "GLZ",  "GMA",  "GSC",  "HAC",  "HAR",  "HIC",  "HIP",  "HMR",  "HPQ",  "HTR",  "HYP",  "IIL",  "IYR",  "KCX",  "LLP",  "LLY",  "LTR",  "LYM",  "LYZ",  "MAA",  "MEN",  "MHS",  "MIS",  "MLE",  "MPQ",  "MSA",  "MSE",  "MVA",  "NEM",  "NEP",  "NLE",  "NLN",  "NLP",  "NMC",  "OAS",  "OCS",  "OMT",  "PAQ",  "PCA",  "PEC",  "PHI",  "PHL",  "PR3",  "PRR",  "PTR",  "SAC",  "SAR",  "SCH",  "SCS",  "SCY",  "SEL",  "SET",  "SHC",  "SHR",  "SMC",  "SOC",  "STY",  "SVA",  "TIH",  "TPL",  "TPO",  "TPQ",  "TRG",  "TRO",  "TYB",  "TYQ",  "TYS",  "TYY",  "UNK"};
+            // Special residue names from ASTRAL RAF
+            "2AS",  "3AH",  "5HP",  "ACL",  "AGM",  "AIB",  "ALM",  "ALO",  "ALY",  "ARM",  "ASA",  "ASB",  "ASK",  "ASL",  "ASQ",  "ASX",  "AYA",  "BCS",  "BHD",  "BMT",  "BNN",  "BUC",  "BUG",  "C5C",  "C6C",  "CCS",  "CEA",  "CGU",  "CHG",  "CLE",  "CME",  "CSD",  "CSO",  "CSP",  "CSS",  "CSW",  "CSX",  "CXM",  "CY1",  "CY3",  "CYG",  "CYM",  "CYQ",  "DAH",  "DAL",  "DAR",  "DAS",  "DCY",  "DGL",  "DGN",  "DHA",  "DHI",  "DIL",  "DIV",  "DLE",  "DLY",  "DNP",  "DPN",  "DPR",  "DSN",  "DSP",  "DTH",  "DTR",  "DTY",  "DVA",  "EFC",  "FLA",  "FME",  "GGL",  "GL3",  "GLX",  "GLZ",  "GMA",  "GSC",  "HAC",  "HAR",  "HIC",  "HIP",  "HMR",  "HPQ",  "HTR",  "HYP",  "IIL",  "IYR",  "KCX",  "LLP",  "LLY",  "LTR",  "LYM",  "LYZ",  "MAA",  "MEN",  "MHS",  "MIS",  "MLE",  "MPQ",  "MSA",  "MSE",  "MVA",  "NEM",  "NEP",  "NLE",  "NLN",  "NLP",  "NMC",  "OAS",  "OCS",  "OMT",  "PAQ",  "PCA",  "PEC",  "PHI",  "PHL",  "PR3",  "PRR",  "SAC",  "SAR",  "SCH",  "SCS",  "SCY",  "SEL",  "SET",  "SHC",  "SHR",  "SMC",  "SOC",  "STY",  "SVA",  "TIH",  "TPL",   "TPQ",  "TRG",  "TRO",  "TYB",  "TYQ",  "TYS",  "TYY",  "UNK"};
 
 //Added by MJ: S corresponding to SEP enum - maybe causes problems???
 //! One-letter residue names
-const static char *residue_name_short[RESIDUE_ENUM_SIZE] = {"A","C","D","E","F","G","H","I","K","L","M","N","P","Q","R","S","T","V","W","Y","S","X",
+const static char *residue_name_short[RESIDUE_ENUM_SIZE] = {"A","C","D","E","F","G","H","I","K","L","M","N","P","Q","R","S","T","V","W","Y","S","T","Y","X",
 
-                                                            // Special residue names from ASTRAL RAF
-                                                            "D",  "H",  "E",  "R",  "R",  "A",  "A",  "T",  "K",  "R",  "D",  "D",  "D",  "D",  "D",  "B",  "A",  "C",  "D",  "T",  "A",  "C",  "L",  "C",  "C",  "C",  "C",  "E",  "A",  "L",  "C",  "A",  "C",  "C",  "C",  "C",  "C",  "M",  "C",  "C",  "C",  "C",  "C",  "F",  "A",  "R",  "D",  "C",  "E",  "Q",  "A",  "H",  "I",  "V",  "L",  "K",  "A",  "F",  "P",  "S",  "D",  "T",  "W",  "Y",  "V",  "C",  "A",  "M",  "E",  "G",  "Z",  "G",  "E",  "G",  "A",  "R",  "H",  "H",  "R",  "F",  "W",  "P",  "I",  "Y",  "K",  "K",  "K",  "W",  "K",  "K",  "A",  "N",  "H",  "S",  "L",  "G",  "G",  "M",  "V",  "H",  "H",  "L",  "L",  "L",  "G",  "S",  "C",  "M",  "Y",  "E",  "C",  "F",  "F",  "C",  "A",  "Y",  "S",  "G",  "C",  "C",  "C",  "S",  "S",    "C",  "K",  "C",  "C",  "Y",  "S",  "A",  "W",  "T",  "A",  "K",  "W",  "Y",  "Y",  "Y",  "Y",  "X"};
+            // Special residue names from ASTRAL RAF
+            "D",  "H",  "E",  "R",  "R",  "A",  "A",  "T",  "K",  "R",  "D",  "D",  "D",  "D",  "D",  "B",  "A",  "C",  "D",  "T",  "A",  "C",  "L",  "C",  "C",  "C",  "C",  "E",  "A",  "L",  "C",  "A",  "C",  "C",  "C",  "C",  "C",  "M",  "C",  "C",  "C",  "C",  "C",  "F",  "A",  "R",  "D",  "C",  "E",  "Q",  "A",  "H",  "I",  "V",  "L",  "K",  "A",  "F",  "P",  "S",  "D",  "T",  "W",  "Y",  "V",  "C",  "A",  "M",  "E",  "G",  "Z",  "G",  "E",  "G",  "A",  "R",  "H",  "H",  "R",  "F",  "W",  "P",  "I",  "Y",  "K",  "K",  "K",  "W",  "K",  "K",  "A",  "N",  "H",  "S",  "L",  "G",  "G",  "M",  "V",  "H",  "H",  "L",  "L",  "L",  "G",  "S",  "C",  "M",  "Y",  "E",  "C",  "F",  "F",  "C",  "A", "S",  "G",  "C",  "C",  "C",  "S",  "S",    "C",  "K",  "C",  "C",  "Y",  "S",  "A",  "W",  "A",  "K",  "W",  "Y",  "Y",  "Y",  "Y",  "X"};
 
 
 //! Translate index to short residue names
@@ -510,14 +507,14 @@ public:
           str_to_aa_map.insert(std::make_pair("PHL",PHL));
           str_to_aa_map.insert(std::make_pair("PR3",PR3));
           str_to_aa_map.insert(std::make_pair("PRR",PRR));
-          str_to_aa_map.insert(std::make_pair("PTR",PTR));
+          str_to_aa_map.insert(std::make_pair("PTR",PTR)); //phosphorylated TYR
           str_to_aa_map.insert(std::make_pair("SAC",SAC));
           str_to_aa_map.insert(std::make_pair("SAR",SAR));
           str_to_aa_map.insert(std::make_pair("SCH",SCH));
           str_to_aa_map.insert(std::make_pair("SCS",SCS));
           str_to_aa_map.insert(std::make_pair("SCY",SCY));
           str_to_aa_map.insert(std::make_pair("SEL",SEL));
-          str_to_aa_map.insert(std::make_pair("SEP",SEP));
+          str_to_aa_map.insert(std::make_pair("SEP",SEP)); //phosphorylated SER
           str_to_aa_map.insert(std::make_pair("SET",SET));
           str_to_aa_map.insert(std::make_pair("SHC",SHC));
           str_to_aa_map.insert(std::make_pair("SHR",SHR));
@@ -527,7 +524,7 @@ public:
           str_to_aa_map.insert(std::make_pair("SVA",SVA));
           str_to_aa_map.insert(std::make_pair("TIH",TIH));
           str_to_aa_map.insert(std::make_pair("TPL",TPL));
-          str_to_aa_map.insert(std::make_pair("TPO",TPO));
+          str_to_aa_map.insert(std::make_pair("TPO",TPO)); //phosphorylated THR
           str_to_aa_map.insert(std::make_pair("TPQ",TPQ));
           str_to_aa_map.insert(std::make_pair("TRG",TRG));
           str_to_aa_map.insert(std::make_pair("TRO",TRO));

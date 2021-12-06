@@ -877,9 +877,40 @@ void Residue::add_sidechain(AtomSelectionEnum atom_selection, const std::vector<
                if (!has_atom(OG))
                     atoms.push_back(new Atom(OG, this, atoms.size(), UNINITIALIZED, chi[0]));     
                break;
-               //Added by MJ: possibly add for SEP and others
+
+          //Phosphorylated aminoacids - START
+           //Added by MJ: possibly add for SEP and others
           case SEP:
+              if (!has_atom(OG))
+                  atoms.push_back(new Atom(OG, this, atoms.size(), UNINITIALIZED, chi[0]));
               break;
+
+          case TPO:
+              if (!has_atom(OG1))
+                  atoms.push_back(new Atom(OG1, this, atoms.size(), UNINITIALIZED, chi[0]));
+              if (!has_atom(CG2))
+                  atoms.push_back(new Atom(CG2, this, atoms.size()));
+              break;
+
+          case PTR:
+
+              if (!has_atom(CG))
+                  atoms.push_back(new Atom(CG, this, atoms.size(), UNINITIALIZED, chi[0]));
+              if (!has_atom(CD1))
+                  atoms.push_back(new Atom(CD1, this, atoms.size(), UNINITIALIZED, chi[1]));
+              if (!has_atom(CD2))
+                  atoms.push_back(new Atom(CD2, this, atoms.size()));
+              if (!has_atom(CE1))
+                  atoms.push_back(new Atom(CE1, this, atoms.size()));
+              if (!has_atom(CE2))
+                  atoms.push_back(new Atom(CE2, this, atoms.size()));
+              if (!has_atom(CZ))
+                  atoms.push_back(new Atom(CZ, this, atoms.size()));
+              if (!has_atom(OH))
+                  atoms.push_back(new Atom(OH, this, atoms.size()));
+              break;
+          //Phosphorylated aminoacids - END
+
           case THR:
                if (!has_atom(OG1))
                     atoms.push_back(new Atom(OG1, this, atoms.size(), UNINITIALIZED, chi[0]));    
