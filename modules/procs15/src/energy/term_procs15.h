@@ -99,7 +99,7 @@ public:
                                         }
                                         break;
                                    }
-                                    //Added by MJ: CHECK FOR SEP
+                                   
                                    case AcceptorAlcohol: {
 
                                         const Vector_3D h_pos = (*res1)[H]->position;
@@ -164,7 +164,7 @@ public:
                                    }
                               break;
                               }
-
+                              
                               case AcceptorAlcohol: {
                                    const Vector_3D h_pos = (*res1)[get_ha_atom_type(res1->residue_type)]->position;
                                    const Vector_3D o_pos = acceptor->acceptor_oxygen->position;

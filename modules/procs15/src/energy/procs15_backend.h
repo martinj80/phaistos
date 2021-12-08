@@ -1041,6 +1041,8 @@ public:
 
                HBondAcceptor acceptor1;
                HBondAcceptor acceptor2;
+               //Added by MJ 
+               HBondAcceptor acceptor3;
 
                case SER:{
                    acceptor1.acceptor_oxygen      = (res1)[OG];
@@ -1052,14 +1054,37 @@ public:
                    break;}
 
                //Added by MJ           
-               case SEP: {
-                   acceptor1.acceptor_oxygen = (res1)[OG];
-                   acceptor1.acceptor_second_atom = (res1)[CB];
-                   acceptor1.acceptor_third_atom = (res1)[P];
-                   acceptor1.acceptor_type = AcceptorAlcohol;
+               case SEP: 
+               {
+                   acceptor1.acceptor_oxygen = (res1)[OG]; //OP
+                   acceptor1.acceptor_second_atom = (res1)[CB]; //P
+                   acceptor1.acceptor_third_atom = (res1)[P]; //OG
+                   acceptor1.acceptor_type = AcceptorAlcohol; //AcceptorCarboxylate
 
                    hbond_acceptors.push_back(acceptor1);
                    break; }
+               /*{
+                   // Closest to phosphate as acceptor is carboxylate group
+                   acceptor1.acceptor_oxygen = (res1)[O1P];
+                   acceptor1.acceptor_second_atom = (res1)[P];
+                   acceptor1.acceptor_third_atom = (res1)[OG];
+                   acceptor1.acceptor_type = AcceptorCarboxylate;
+
+                   acceptor2.acceptor_oxygen = (res1)[O2P];
+                   acceptor2.acceptor_second_atom = (res1)[P];
+                   acceptor2.acceptor_third_atom = (res1)[OG];
+                   acceptor2.acceptor_type = AcceptorCarboxylate;
+
+                   acceptor3.acceptor_oxygen = (res1)[O3P];
+                   acceptor3.acceptor_second_atom = (res1)[P];
+                   acceptor3.acceptor_third_atom = (res1)[OG];
+                   acceptor3.acceptor_type = AcceptorCarboxylate;
+
+                   hbond_acceptors.push_back(acceptor1);
+                   hbond_acceptors.push_back(acceptor2);
+                   hbond_acceptors.push_back(acceptor3);
+                   break; }
+               */
                
 
                case THR:{
@@ -1080,6 +1105,27 @@ public:
 
                    hbond_acceptors.push_back(acceptor1);
                    break; }
+                /*{
+                    acceptor1.acceptor_oxygen = (res1)[O1P];
+                    acceptor1.acceptor_second_atom = (res1)[P];
+                    acceptor1.acceptor_third_atom = (res1)[OG];
+                    acceptor1.acceptor_type = AcceptorCarboxylate;
+
+                    acceptor2.acceptor_oxygen = (res1)[O2P];
+                    acceptor2.acceptor_second_atom = (res1)[P];
+                    acceptor2.acceptor_third_atom = (res1)[OG];
+                    acceptor2.acceptor_type = AcceptorCarboxylate;
+
+                    acceptor3.acceptor_oxygen = (res1)[O3P];
+                    acceptor3.acceptor_second_atom = (res1)[P];
+                    acceptor3.acceptor_third_atom = (res1)[OG];
+                    acceptor3.acceptor_type = AcceptorCarboxylate;
+
+                    hbond_acceptors.push_back(acceptor1);
+                    hbond_acceptors.push_back(acceptor2);
+                    hbond_acceptors.push_back(acceptor3);
+                    break; }
+                */
 
                case TYR:{
                    acceptor1.acceptor_oxygen      = (res1)[OH];
@@ -1089,16 +1135,37 @@ public:
 
                    hbond_acceptors.push_back(acceptor1);
                    break;}
+
                 //Added by MJ:
                case PTR: {
                    acceptor1.acceptor_oxygen = (res1)[OH];
                    acceptor1.acceptor_second_atom = (res1)[CZ];
-                   acceptor1.acceptor_third_atom = (res1)[P];//???
+                   acceptor1.acceptor_third_atom = (res1)[P];
                    acceptor1.acceptor_type = AcceptorAlcohol;
 
                    hbond_acceptors.push_back(acceptor1);
                    break; }
+                /*{
+                    acceptor1.acceptor_oxygen = (res1)[O1P];
+                    acceptor1.acceptor_second_atom = (res1)[P];
+                    acceptor1.acceptor_third_atom = (res1)[OG];
+                    acceptor1.acceptor_type = AcceptorCarboxylate;
 
+                    acceptor2.acceptor_oxygen = (res1)[O2P];
+                    acceptor2.acceptor_second_atom = (res1)[P];
+                    acceptor2.acceptor_third_atom = (res1)[OG];
+                    acceptor2.acceptor_type = AcceptorCarboxylate;
+
+                    acceptor3.acceptor_oxygen = (res1)[O3P];
+                    acceptor3.acceptor_second_atom = (res1)[P];
+                    acceptor3.acceptor_third_atom = (res1)[OG];
+                    acceptor3.acceptor_type = AcceptorCarboxylate;
+
+                    hbond_acceptors.push_back(acceptor1);
+                    hbond_acceptors.push_back(acceptor2);
+                    hbond_acceptors.push_back(acceptor3);
+                    break; }
+                */
 
                case ASN:{
                    acceptor1.acceptor_oxygen      = (res1)[OD1];
@@ -1447,7 +1514,7 @@ public:
                list_of_tables[108] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TRP_ca.npy").get_5d_array(),gridsize5d); loaded_tables[108] = true;
                list_of_tables[114] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TYR_ca.npy").get_5d_array(),gridsize5d); loaded_tables[114] = true;
                list_of_tables[120] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_ca.npy").get_4d_array()); loaded_tables[120] = true; //should be 4d_ or 5d_array if adding chi from P
-               list_of_tables[126] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "TPO_ca.npy").get_5d_array(), gridsize5d); loaded_tables[126] = true; //should be 5d_ or 6d_array if adding chi from P
+               list_of_tables[126] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "TPO_ca.npy").get_5d_array(), gridsize5d); loaded_tables[126] = true; //should be 5d_ (gridsize5d = 20, gridsize4d = 5) or 6d_array if adding chi from P
                list_of_tables[132] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "PTR_ca.npy").get_5d_array(), gridsize5d); loaded_tables[132] = true; //should be 5d_ or 6d_array if adding chi from P
           }
 
