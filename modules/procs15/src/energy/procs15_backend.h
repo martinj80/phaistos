@@ -1053,18 +1053,19 @@ public:
                    hbond_acceptors.push_back(acceptor1);
                    break;}
 
-               //Added by MJ           
+               //Added by MJ: closest to phosphate as acceptor is carboxylate group           
                case SEP: 
-               {
-                   acceptor1.acceptor_oxygen = (res1)[OG]; //OP
-                   acceptor1.acceptor_second_atom = (res1)[CB]; //P
-                   acceptor1.acceptor_third_atom = (res1)[P]; //OG
-                   acceptor1.acceptor_type = AcceptorAlcohol; //AcceptorCarboxylate
+               //{
+               //    acceptor1.acceptor_oxygen = (res1)[OG];        //OP
+               //    acceptor1.acceptor_second_atom = (res1)[CB];   //P
+               //    acceptor1.acceptor_third_atom = (res1)[P];     //OG
+               //    acceptor1.acceptor_type = AcceptorAlcohol;     //AcceptorCarboxylate
 
-                   hbond_acceptors.push_back(acceptor1);
-                   break; }
-               /*{
-                   // Closest to phosphate as acceptor is carboxylate group
+               //    hbond_acceptors.push_back(acceptor1);
+               //    break;
+               //}
+               
+               {
                    acceptor1.acceptor_oxygen = (res1)[O1P];
                    acceptor1.acceptor_second_atom = (res1)[P];
                    acceptor1.acceptor_third_atom = (res1)[OG];
@@ -1084,7 +1085,6 @@ public:
                    hbond_acceptors.push_back(acceptor2);
                    hbond_acceptors.push_back(acceptor3);
                    break; }
-               */
                
 
                case THR:{
@@ -1097,35 +1097,38 @@ public:
                    break;}
 
                 //Added by MJ:
-               case TPO: {
-                   acceptor1.acceptor_oxygen = (res1)[OG1];
-                   acceptor1.acceptor_second_atom = (res1)[CB];
-                   acceptor1.acceptor_third_atom = (res1)[P];
-                   acceptor1.acceptor_type = AcceptorAlcohol;
+               case TPO:
+               //{
+               //    acceptor1.acceptor_oxygen = (res1)[OG1];
+               //    acceptor1.acceptor_second_atom = (res1)[CB];
+               //    acceptor1.acceptor_third_atom = (res1)[P];
+               //    acceptor1.acceptor_type = AcceptorAlcohol;
 
-                   hbond_acceptors.push_back(acceptor1);
-                   break; }
-                /*{
+               //    hbond_acceptors.push_back(acceptor1);
+               //    break;
+               //}
+               
+                {
                     acceptor1.acceptor_oxygen = (res1)[O1P];
                     acceptor1.acceptor_second_atom = (res1)[P];
-                    acceptor1.acceptor_third_atom = (res1)[OG];
+                    acceptor1.acceptor_third_atom = (res1)[OG1];
                     acceptor1.acceptor_type = AcceptorCarboxylate;
 
                     acceptor2.acceptor_oxygen = (res1)[O2P];
                     acceptor2.acceptor_second_atom = (res1)[P];
-                    acceptor2.acceptor_third_atom = (res1)[OG];
+                    acceptor2.acceptor_third_atom = (res1)[OG1];
                     acceptor2.acceptor_type = AcceptorCarboxylate;
 
                     acceptor3.acceptor_oxygen = (res1)[O3P];
                     acceptor3.acceptor_second_atom = (res1)[P];
-                    acceptor3.acceptor_third_atom = (res1)[OG];
+                    acceptor3.acceptor_third_atom = (res1)[OG1];
                     acceptor3.acceptor_type = AcceptorCarboxylate;
 
                     hbond_acceptors.push_back(acceptor1);
                     hbond_acceptors.push_back(acceptor2);
                     hbond_acceptors.push_back(acceptor3);
                     break; }
-                */
+
 
                case TYR:{
                    acceptor1.acceptor_oxygen      = (res1)[OH];
@@ -1137,35 +1140,38 @@ public:
                    break;}
 
                 //Added by MJ:
-               case PTR: {
+               case PTR:
+               /*{
                    acceptor1.acceptor_oxygen = (res1)[OH];
                    acceptor1.acceptor_second_atom = (res1)[CZ];
                    acceptor1.acceptor_third_atom = (res1)[P];
                    acceptor1.acceptor_type = AcceptorAlcohol;
 
                    hbond_acceptors.push_back(acceptor1);
-                   break; }
-                /*{
+                   break;
+               }*/
+               
+               {
                     acceptor1.acceptor_oxygen = (res1)[O1P];
                     acceptor1.acceptor_second_atom = (res1)[P];
-                    acceptor1.acceptor_third_atom = (res1)[OG];
+                    acceptor1.acceptor_third_atom = (res1)[OH];
                     acceptor1.acceptor_type = AcceptorCarboxylate;
 
                     acceptor2.acceptor_oxygen = (res1)[O2P];
                     acceptor2.acceptor_second_atom = (res1)[P];
-                    acceptor2.acceptor_third_atom = (res1)[OG];
+                    acceptor2.acceptor_third_atom = (res1)[OH];
                     acceptor2.acceptor_type = AcceptorCarboxylate;
 
                     acceptor3.acceptor_oxygen = (res1)[O3P];
                     acceptor3.acceptor_second_atom = (res1)[P];
-                    acceptor3.acceptor_third_atom = (res1)[OG];
+                    acceptor3.acceptor_third_atom = (res1)[OH];
                     acceptor3.acceptor_type = AcceptorCarboxylate;
 
                     hbond_acceptors.push_back(acceptor1);
                     hbond_acceptors.push_back(acceptor2);
                     hbond_acceptors.push_back(acceptor3);
                     break; }
-                */
+
 
                case ASN:{
                    acceptor1.acceptor_oxygen      = (res1)[OD1];
