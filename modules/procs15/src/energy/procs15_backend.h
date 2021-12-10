@@ -34,7 +34,6 @@ class ProCS15Backend {
 
 public:
 
-
      //! Vector of pointers to array wrappers that hold numpy data
      std::vector< ArrayWrapper *> list_of_tables;
 
@@ -453,6 +452,18 @@ public:
           phi = ((phi*rad_to_degrees) > 0.0) ? floor( (phi*rad_to_degrees)  + 0.5) : 360 + ceil((phi*rad_to_degrees)  - 0.5);
           FPtype psi = res1.get_psi();
           psi = ((psi*rad_to_degrees) > 0.0) ? floor( (psi*rad_to_degrees)  + 0.5) : 360 + ceil((psi*rad_to_degrees)  - 0.5);
+          
+          //Added by MJ: For debuging purposes only
+          if (
+              res1.residue_type == SEP
+              || res1.residue_type == TPO
+              || res1.residue_type == PTR
+              )
+          {
+              std::cout << "\nDEBUG3: reading " << res1.residue_type << " in procs15_backend.h" << std::endl;
+              std::cout << "phi = " << phi << std::endl;
+              std::cout << "psi = " << psi << std::endl;
+          }
 
           return vector_utils::make_vector<unsigned int>(phi, psi);
      }
@@ -620,7 +631,7 @@ public:
               return r;
               break;
 
-              //Added by MJ:
+           //Added by MJ:
            case TPO:
           {
                 const Vector_3D n_pos = (R)[N]->position;
@@ -641,9 +652,11 @@ public:
                 const unsigned int chi2_int = ((chi2_double * rad_to_degrees) > 0.0) ? floor((chi2_double * rad_to_degrees) + 0.5) : 360 + ceil((chi2_double * rad_to_degrees) - 0.5);
                 r.push_back(chi2_int);
 
-                std::cout << "\nDEBUG2: Reading TPO chi in procs15_backend.h" << std::endl;
+                std::cout << "DEBUG2: Reading TPO chi in procs15_backend.h" << std::endl;
+                std::cout << "Manually defined as:" << std::endl;
                 std::cout << "calc_dihedral(n_pos, ca_pos, cb_pos, og_pos) = " << chi1_double << " rad (+" << chi1_int << " deg)" << std::endl;
                 std::cout << "calc_dihedral(ca_pos, cb_pos, og_pos, p_pos) = " << chi2_double << " rad (+" << chi2_int << " deg)" << std::endl;
+                std::cout << "phaistos would give:" << std::endl;
                 std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
 
                 return r;
@@ -657,8 +670,7 @@ public:
 
             //Added by MJ:
             case SEP:
-            {                
-                //should be as const?
+            {    
                 const Vector_3D n_pos = (R)[N]->position;
                 const Vector_3D ca_pos = (R)[CA]->position;
                 const Vector_3D cb_pos = (R)[CB]->position;
@@ -672,7 +684,9 @@ public:
                 r.push_back(chi1_int);
 
                 std::cout << "\nDEBUG2: Reading SEP chi in procs15_backend.h" << std::endl;
+                std::cout << "Manually defined as:" << std::endl;
                 std::cout << "calc_dihedral(n_pos, ca_pos, cb_pos, og_pos) = " << chi1_double << " rad (+" << chi1_int << " deg)" << std::endl;
+                std::cout << "phaistos would give:" << std::endl;
                 std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
 
                 //const Vector_3D p_pos = (R)[P]->position;
@@ -736,8 +750,10 @@ public:
                 r.push_back(chi2_int);
 
                 std::cout << "\nDEBUG2: Reading PTR chi in procs15_backend.h" << std::endl;
+                std::cout << "Manually defined as:" << std::endl;
                 std::cout << "calc_dihedral(n_pos, ca_pos, cb_pos, cg_pos) = " << chi1_double << " rad (+" << chi1_int << " deg)" << std::endl;
                 std::cout << "calc_dihedral(ca_pos, cb_pos, cg_pos, cd_pos) = " << chi2_double << " rad (+" << chi2_int << " deg)" << std::endl;
+                std::cout << "phaistos would give:" << std::endl;
                 std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
 
                 return r;

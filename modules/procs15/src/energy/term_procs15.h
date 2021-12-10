@@ -446,23 +446,28 @@ public:
 
                //Added by MJ: For debuging purposes only
                if (
-                   res1->residue_type == SEP || res1->residue_type == SER
-                   || res1->residue_type == THR || res1->residue_type == TPO
-                   || res1->residue_type == TYR || res1->residue_type == PTR
+                   res1->residue_type == SEP
+                   //|| res1->residue_type == SER
+                   || res1->residue_type == TPO
+                   //|| res1->residue_type == THR
+                   || res1->residue_type == PTR
+                   //|| res1->residue_type == TYR
                    )
                {
-                   std::cout << "\nDEBUG1: reading (Phosphorylated)SER/THR/TYR in term_procs15.h" << std::endl;
-                   std::cout << res1 << "\n(chi values for SEP are incorrect, procs15 has correct calculations defined manually.)" << std::endl;
+                   std::cout << "\nDEBUG1: reading " << res1->residue_type << " in term_procs15.h" << std::endl;
+                   std::cout << res1
+                             << "\n(chi values for " << res1->residue_type << " are incorrect, procs15 has correct calculations defined manually.)"
+                             << std::endl;
 
-                   std::cout << "chi_atoms:" << res1->chi_atoms << std::endl;
-                   std::cout << "minor_dof_atoms:" << res1->minor_dof_atoms << std::endl;
-                   std::cout << "sidechain_status:" << res1->sidechain_status << std::endl;
-                   std::cout << "has_sidechain:" << res1->has_sidechain() << std::endl;
+                   //std::cout << "chi_atoms:" << res1->chi_atoms << std::endl;
+                   //std::cout << "minor_dof_atoms:" << res1->minor_dof_atoms << std::endl;
+                   //std::cout << "sidechain_status:" << res1->sidechain_status << std::endl;
+                   //std::cout << "has_sidechain:" << res1->has_sidechain() << std::endl;
 
-                   std::cout << "primary_h_bond_corrections:" << primary_h_bond_corrections << std::endl;
-                   std::cout << "secondary_h_bond_corrections:" << secondary_h_bond_corrections << std::endl;
-                   std::cout << "ring_current_corrections" << ring_current_corrections << std::endl;
-                   std::cout << "shieldings" << shieldings << std::endl;
+                   //std::cout << "primary_h_bond_corrections:" << primary_h_bond_corrections << std::endl;
+                   //std::cout << "secondary_h_bond_corrections:" << secondary_h_bond_corrections << std::endl;
+                   //std::cout << "ring_current_corrections" << ring_current_corrections << std::endl;
+                   //std::cout << "shieldings" << shieldings << std::endl;
                }
 
                if ((settings.load_hn) && (settings.use_water_correction == true) && (std::abs(primary_h_bond_corrections[4]) < 0.000001) && (res1->residue_type != PRO)) {
