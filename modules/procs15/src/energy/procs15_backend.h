@@ -1589,9 +1589,9 @@ public:
                list_of_tables[104] = new ArrayWrapperInterpolate(cnpy::npy_load(path+"VAL_co.npy").get_4d_array(),gridsize4d); loaded_tables[104] = true;
                list_of_tables[110] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TRP_co.npy").get_5d_array(),gridsize5d); loaded_tables[110] = true;
                list_of_tables[116] =  new ArrayWrapperInterpolate(cnpy::npy_load(path+"TYR_co.npy").get_5d_array(),gridsize5d); loaded_tables[116] = true;
-               list_of_tables[122] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_cb.npy").get_4d_array()); loaded_tables[122] = true;             //should be 4d_ or 5d_array if adding chi from P
-               list_of_tables[128] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "TPO_cb.npy").get_5d_array(), gridsize5d); loaded_tables[128] = true; //should be 5d_ or 6d_array if adding chi from P
-               list_of_tables[134] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "PTR_cb.npy").get_5d_array(), gridsize5d); loaded_tables[134] = true; //should be 5d_ or 6d_array if adding chi from P
+               list_of_tables[122] = new ArrayWrapperStandard(cnpy::npy_load(path + "SEP_co.npy").get_4d_array()); loaded_tables[122] = true;             //should be 4d_ or 5d_array if adding chi from P
+               list_of_tables[128] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "TPO_co.npy").get_5d_array(), gridsize5d); loaded_tables[128] = true; //should be 5d_ or 6d_array if adding chi from P
+               list_of_tables[134] = new ArrayWrapperInterpolate(cnpy::npy_load(path + "PTR_co.npy").get_5d_array(), gridsize5d); loaded_tables[134] = true; //should be 5d_ or 6d_array if adding chi from P
           }
           if (load_n){
                std::cout << "N " << std::flush;
