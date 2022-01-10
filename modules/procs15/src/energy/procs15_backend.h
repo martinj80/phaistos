@@ -575,6 +575,12 @@ public:
 
      }
 
+     //Added by MJ: Convert dihedral angles from rad to degrees (used only if the problem with dihedrals persists)
+     //unsigned int convert_to_int_angle (const double &chi_angle) const{ // made a const method - cannot change the values of chi_angle
+     //   unsigned int chi_int = ((chi_angle * rad_to_degrees) > 0.0) ? floor((chi_angle * rad_to_degrees) + 0.5) : 360 + ceil((chi_angle * rad_to_degrees) - 0.5);
+     //   return chi_int;
+     //}
+     
 
      std::vector<unsigned int> get_chi(phaistos::ResidueFB& R){ //resize vectors with chi,
           //using namespace definitions;
@@ -605,7 +611,7 @@ public:
 
                   const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, cg1_pos);
                   const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
-
+                  
 
                   r.push_back(chi1_int);
 
@@ -646,10 +652,12 @@ public:
                 //Is it because of atom sorting?
                 const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, og_pos);
                 const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
+                //const unsigned int chi1_int = convert_to_int_angle(chi1_double);
                 r.push_back(chi1_int);
 
                 const FPtype chi2_double = calc_dihedral(ca_pos, cb_pos, og_pos, p_pos);
                 const unsigned int chi2_int = ((chi2_double * rad_to_degrees) > 0.0) ? floor((chi2_double * rad_to_degrees) + 0.5) : 360 + ceil((chi2_double * rad_to_degrees) - 0.5);
+                //const unsigned int chi2_int = convert_to_int_angle(chi2_double);
                 r.push_back(chi2_int);
 
                 std::cout << "DEBUG2: Reading TPO chi in procs15_backend.h" << std::endl;
@@ -681,6 +689,7 @@ public:
                 //Is it because of atom sorting?
                 const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, og_pos);
                 const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
+                //const unsigned int chi1_int = convert_to_int_angle(chi1_double);
                 r.push_back(chi1_int);
 
                 std::cout << "\nDEBUG2: Reading SEP chi in procs15_backend.h" << std::endl;
@@ -743,10 +752,12 @@ public:
                 //Is it because of atom sorting?
                 const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, cg_pos);
                 const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
+                //const unsigned int chi1_int = convert_to_int_angle(chi1_double);
                 r.push_back(chi1_int);
 
                 const FPtype chi2_double = calc_dihedral(ca_pos, cb_pos, cg_pos, cd_pos);
                 const unsigned int chi2_int = ((chi2_double * rad_to_degrees) > 0.0) ? floor((chi2_double * rad_to_degrees) + 0.5) : 360 + ceil((chi2_double * rad_to_degrees) - 0.5);
+                //const unsigned int chi2_int = convert_to_int_angle(chi2_double);
                 r.push_back(chi2_int);
 
                 std::cout << "\nDEBUG2: Reading PTR chi in procs15_backend.h" << std::endl;

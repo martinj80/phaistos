@@ -253,7 +253,7 @@
 					]
 				}
 			],
-			"name" : "Release",
+			"name" : "Debug",
 			"projects" : 
 			[
 				{
@@ -296,56 +296,56 @@
 				{
 					"directoryIndex" : 8,
 					"id" : "dbn::@1c029e03495d1025642a",
-					"jsonFile" : "target-dbn-Release-fa566c33c73a46a1ab22.json",
+					"jsonFile" : "target-dbn-Debug-a0cd100741639e5f0e4e.json",
 					"name" : "dbn",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 6,
 					"id" : "integrate::@a59c19397c03636135b9",
-					"jsonFile" : "target-integrate-Release-3275135b19e7cdc1adc5.json",
+					"jsonFile" : "target-integrate-Debug-f07c7af3fb41a8799339.json",
 					"name" : "integrate",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 4,
 					"id" : "libphaistos::@145eef247bfb46b6828c",
-					"jsonFile" : "target-libphaistos-Release-27bc42367537e43c411d.json",
+					"jsonFile" : "target-libphaistos-Debug-3b99b4b91902829cd39b.json",
 					"name" : "libphaistos",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 3,
 					"id" : "muninn::@9178704d702a84e07399",
-					"jsonFile" : "target-muninn-Release-e47670c86c6cfb242e14.json",
+					"jsonFile" : "target-muninn-Debug-bbe7f32756e3c1f81c8d.json",
 					"name" : "muninn",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 13,
 					"id" : "phaistos::@e628bcccdf63903ef89b",
-					"jsonFile" : "target-phaistos-Release-4269bc456f17468f2d87.json",
+					"jsonFile" : "target-phaistos-Debug-96ac0d470a42a0ae97d0.json",
 					"name" : "phaistos",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 16,
 					"id" : "procs15_predictor::@a13fbd7a9091ea420391",
-					"jsonFile" : "target-procs15_predictor-Release-2d1b400b796eda2b3673.json",
+					"jsonFile" : "target-procs15_predictor-Debug-2945402e15ed1060c100.json",
 					"name" : "procs15_predictor",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 0,
 					"id" : "svnrev::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-svnrev-Release-c5b923be20f00f04b052.json",
+					"jsonFile" : "target-svnrev-Debug-c5b923be20f00f04b052.json",
 					"name" : "svnrev",
 					"projectIndex" : 0
 				},
 				{
 					"directoryIndex" : 9,
 					"id" : "test_optimization::@36f028580bb02cc8272a",
-					"jsonFile" : "target-test_optimization-Release-2b8efb52d5a62a5660a8.json",
+					"jsonFile" : "target-test_optimization-Debug-6a57c5ee66c193196dcf.json",
 					"name" : "test_optimization",
 					"projectIndex" : 0
 				}

@@ -47,7 +47,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : "-funroll-all-loops -fno-f2c -O3  "
+					"fragment" : "-fno-f2c -O0 -g  "
 				}
 			],
 			"defines" : 
@@ -109,7 +109,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : " -Wall -O3  "
+					"fragment" : " -Wall -O0 -ggdb  "
 				}
 			],
 			"defines" : 

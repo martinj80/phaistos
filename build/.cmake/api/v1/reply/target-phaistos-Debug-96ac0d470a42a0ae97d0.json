@@ -76,7 +76,7 @@
 			"compileCommandFragments" : 
 			[
 				{
-					"fragment" : " -Wall -O3  "
+					"fragment" : " -Wall -O0 -ggdb  "
 				}
 			],
 			"defines" : 
@@ -174,7 +174,7 @@
 		"commandFragments" : 
 		[
 			{
-				"fragment" : "-Wall -O3",
+				"fragment" : "-Wall -O0 -ggdb",
 				"role" : "flags"
 			},
 			{

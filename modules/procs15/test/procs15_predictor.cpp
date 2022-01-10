@@ -22,6 +22,7 @@
 #include <cmath>
 #include <string.h>
 #include <fstream>
+#include <unistd.h> //Added by MJ
 
 #include <boost/type_traits/is_base_of.hpp>
 
@@ -138,7 +139,13 @@ void get_command_line(int &argc, char *argv[],
      }
 }
 
-
+//Added by MJ: for debugging purposes
+std::string get_current_dir() {
+    char buff[FILENAME_MAX]; //create string buffer to hold path
+    getcwd(buff, FILENAME_MAX);
+    std::string current_working_dir(buff);
+    return current_working_dir;
+}
 
 int main(int argc, char *argv[]) {
 
@@ -153,6 +160,10 @@ int main(int argc, char *argv[]) {
 
      std::vector< std::string > pdbfiles;
      TermProCS15::Settings settings;
+
+     std::string cwd = get_current_dir();
+
+     std::cout << "Current working directory: " << cwd << std::endl;
 
      get_command_line(argc, argv, settings, pdbfiles);
 
