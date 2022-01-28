@@ -5692,6 +5692,458 @@ Atom *Atom::get_neighbour_constants(int &offset, definitions::IterateEnum iterat
           default: return NULL; 
           }
           break;
+
+     //Added by MJ: case PTR, TPO, SEP, so far with missing P, O1P-O3P
+    case PTR:
+        switch (atom_type) {
+        case CG:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CB];
+                case -2: offset = 0; return (*residue)[CA];
+                case -3: offset = -1; return (*residue)[CA];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 2;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case CD1:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CG];
+                case -2: offset = 0; return (*residue)[CB];
+                case -3: offset = 0; return (*residue)[CA];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CG];
+                case -2: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 3;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case CD2:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CG];
+                case -2: offset = 0; return (*residue)[CD1];
+                case -3: offset = 0; return (*residue)[CB];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CG];
+                case -2: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 3;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case CE1:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CD1];
+                case -2: offset = 0; return (*residue)[CG];
+                case -3: offset = 0; return (*residue)[CD2];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CD1];
+                case -2: offset = 0; return (*residue)[CG];
+                case -3: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 4;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case CE2:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CD2];
+                case -2: offset = 0; return (*residue)[CG];
+                case -3: offset = 0; return (*residue)[CD1];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CD2];
+                case -2: offset = 0; return (*residue)[CG];
+                case -3: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 4;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case CZ:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CE1];
+                case -2: offset = 0; return (*residue)[CD1];
+                case -3: offset = 0; return (*residue)[CG];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CE1];
+                case -2: offset = 0; return (*residue)[CD1];
+                case -3: offset = 0; return (*residue)[CG];
+                case -4: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 5;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case OH:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CZ];
+                case -2: offset = 0; return (*residue)[CE1];
+                case -3: offset = 0; return (*residue)[CD1];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CZ];
+                case -2: offset = 0; return (*residue)[CE1];
+                case -3: offset = 0; return (*residue)[CD1];
+                case -4: offset = 0; return (*residue)[CG];
+                case -5: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 6;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case HB2:
+        case HB3:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CG];
+                case -2: offset = 0; return (*residue)[CA];
+                case -3: offset = 0; return (*residue)[CB];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 2;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case HD1:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CE1];
+                case -2: offset = 0; return (*residue)[CG];
+                case -3: offset = 0; return (*residue)[CD1];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CD1];
+                case -2: offset = 0; return (*residue)[CG];
+                case -3: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 4;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case HD2:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CE2];
+                case -2: offset = 0; return (*residue)[CG];
+                case -3: offset = 0; return (*residue)[CD2];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CD2];
+                case -2: offset = 0; return (*residue)[CG];
+                case -3: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 4;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case HE1:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CZ];
+                case -2: offset = 0; return (*residue)[CD1];
+                case -3: offset = 0; return (*residue)[CE1];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CE1];
+                case -2: offset = 0; return (*residue)[CD1];
+                case -3: offset = 0; return (*residue)[CG];
+                case -4: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 5;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case HE2:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CZ];
+                case -2: offset = 0; return (*residue)[CD2];
+                case -3: offset = 0; return (*residue)[CE2];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CE2];
+                case -2: offset = 0; return (*residue)[CD2];
+                case -3: offset = 0; return (*residue)[CG];
+                case -4: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 5;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case HH: //replace with P??
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[OH];
+                case -2: offset = 0; return (*residue)[CZ];
+                case -3: offset = 0; return (*residue)[CE1];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[OH];
+                case -2: offset = 0; return (*residue)[CZ];
+                case -3: offset = 0; return (*residue)[CE1];
+                case -4: offset = 0; return (*residue)[CD1];
+                case -5: offset = 0; return (*residue)[CG];
+                case -6: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 7;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        default: return NULL;
+        }
+        break;
+        //PTR END
+    case TPO:
+        switch (atom_type) {
+        case OG1:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CB];
+                case -2: offset = 0; return (*residue)[CA];
+                case -3: offset = -1; return (*residue)[CA];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 2;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case CG2:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CB];
+                case -2: offset = 0; return (*residue)[CA];
+                case -3: offset = 0; return (*residue)[OG1];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 2;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case HB:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[OG1];
+                case -2: offset = 0; return (*residue)[CA];
+                case -3: offset = 0; return (*residue)[CB];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 2;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case HG1: //replace with P?
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[OG1];
+                case -2: offset = 0; return (*residue)[CB];
+                case -3: offset = 0; return (*residue)[CA];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[OG1];
+                case -2: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 3;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case HG21:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CG2];
+                case -2: offset = 0; return (*residue)[CB];
+                case -3: offset = 0; return (*residue)[CA];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CG2];
+                case -2: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 3;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case HG22:
+        case HG23:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CG2];
+                case -2: offset = 0; return (*residue)[CB];
+                case -3: offset = 0; return (*residue)[HG21];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CG2];
+                case -2: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 3;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        default: return NULL;
+        }
+        break;
+        //TPO END
+    case SEP:
+        switch (atom_type) {
+        case OG:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CB];
+                case -2: offset = 0; return (*residue)[CA];
+                case -3: offset = -1; return (*residue)[CA];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 2;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case HB2:
+        case HB3:
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[OG];
+                case -2: offset = 0; return (*residue)[CA];
+                case -3: offset = 0; return (*residue)[CB];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 2;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        case HG: //replace with P?
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[OG];
+                case -2: offset = 0; return (*residue)[CB];
+                case -3: offset = 0; return (*residue)[CA];
+                default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                case -1: offset = 0; return (*residue)[OG];
+                case -2: offset = 0; return (*residue)[CB];
+                default:
+                    if (offset < 0) offset += 3;
+                    return (*residue)[CA];
+                }
+            }
+            break;
+        default: return NULL;
+        }
+        break;
+        //SEP END
+
      default: break;
      }
      

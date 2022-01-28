@@ -455,9 +455,9 @@ public:
           
           //Added by MJ: For debuging purposes only
           if (
-              res1.residue_type == SEP
-              || res1.residue_type == TPO
-              || res1.residue_type == PTR
+              res1.residue_type == SEP || res1.residue_type == SER
+              || res1.residue_type == TPO || res1.residue_type == THR
+              || res1.residue_type == PTR || res1.residue_type == TYR
               )
           {
               std::cout << "\nDEBUG3: reading " << res1.residue_type << " in procs15_backend.h" << std::endl;
