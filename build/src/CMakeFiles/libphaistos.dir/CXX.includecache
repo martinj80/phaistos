@@ -8184,14 +8184,6 @@ iterators/residue_iterator.h
 chaintree.h
 /mnt/c/Users/juhasm/Documents/phaistos/src/protein/chaintree.h
 
-/mnt/c/Users/juhasm/Documents/phaistos/src/protein/chain_ca.h
-chain.h
-/mnt/c/Users/juhasm/Documents/phaistos/src/protein/chain.h
-
-/mnt/c/Users/juhasm/Documents/phaistos/src/protein/chain_fb.h
-chain.h
-/mnt/c/Users/juhasm/Documents/phaistos/src/protein/chain.h
-
 /mnt/c/Users/juhasm/Documents/phaistos/src/protein/chaintree.h
 stack
 -
@@ -8235,18 +8227,6 @@ protein/chain_fb.h
 /mnt/c/Users/juhasm/Documents/phaistos/src/protein/iterators/protein/chain_fb.h
 protein/chain_ca.h
 /mnt/c/Users/juhasm/Documents/phaistos/src/protein/iterators/protein/chain_ca.h
-
-/mnt/c/Users/juhasm/Documents/phaistos/src/protein/residue.cpp
-residue.h
-/mnt/c/Users/juhasm/Documents/phaistos/src/protein/residue.h
-chain.h
-/mnt/c/Users/juhasm/Documents/phaistos/src/protein/chain.h
-chain_ca.h
-/mnt/c/Users/juhasm/Documents/phaistos/src/protein/chain_ca.h
-chain_fb.h
-/mnt/c/Users/juhasm/Documents/phaistos/src/protein/chain_fb.h
-protein/protein_ideal_values.h
-/mnt/c/Users/juhasm/Documents/phaistos/src/protein/protein/protein_ideal_values.h
 
 /mnt/c/Users/juhasm/Documents/phaistos/src/protein/residue.h
 atom.h

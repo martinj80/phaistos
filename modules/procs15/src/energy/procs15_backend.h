@@ -634,6 +634,12 @@ public:
           case THR:
               r = read_chi_index(R);
               r.resize(2);
+
+              //Added by MJ for debug only
+              std::cout << "DEBUG2: Reading THR chi in procs15_backend.h" << std::endl;
+              std::cout << "phaistos would give:" << std::endl;
+              std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
+
               return r;
               break;
 
@@ -673,6 +679,12 @@ public:
             case SER:
                 r = read_chi_index(R);
                 r.resize(1);
+
+                //Added by MJ for debug only
+                std::cout << "DEBUG2: Reading SER chi in procs15_backend.h" << std::endl;
+                std::cout << "phaistos would give:" << std::endl;
+                std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
+
                 return r;
                 break;
 
@@ -735,6 +747,12 @@ public:
             case TYR:
                 r = read_chi_index(R);
                 r.resize(2);
+
+                //Added by MJ for debug only
+                std::cout << "DEBUG2: Reading TYR chi in procs15_backend.h" << std::endl;
+                std::cout << "phaistos would give:" << std::endl;
+                std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
+
                 return r;
                 break;
 
