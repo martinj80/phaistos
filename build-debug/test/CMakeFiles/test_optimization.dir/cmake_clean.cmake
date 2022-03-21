@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/test_optimization.dir/test_optimization.cpp.o"
+  "CMakeFiles/test_optimization.dir/test_optimization.cpp.o.d"
   "test_optimization"
   "test_optimization.pdb"
 )

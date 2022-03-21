@@ -1,4 +1,4 @@
-# Install script for directory: /mnt/c/Users/juhasm/Documents/phaistos
+# Install script for directory: /home/martinjuhas/CLionProjects/phaistos
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -37,27 +37,32 @@ if(NOT DEFINED CMAKE_CROSSCOMPILING)
   set(CMAKE_CROSSCOMPILING "FALSE")
 endif()
 
-if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/." TYPE DIRECTORY FILES "/mnt/c/Users/juhasm/Documents/phaistos/data" REGEX ".svn" EXCLUDE)
+# Set default install directory permissions.
+if(NOT DEFINED CMAKE_OBJDUMP)
+  set(CMAKE_OBJDUMP "/usr/bin/objdump")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/." TYPE DIRECTORY FILES "/mnt/c/Users/juhasm/Documents/phaistos/scripts" REGEX ".svn" EXCLUDE)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/." TYPE DIRECTORY FILES "/home/martinjuhas/CLionProjects/phaistos/data" REGEX ".svn" EXCLUDE)
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/." TYPE DIRECTORY FILES "/home/martinjuhas/CLionProjects/phaistos/scripts" REGEX ".svn" EXCLUDE)
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/doc" TYPE FILE FILES
-    "/mnt/c/Users/juhasm/Documents/phaistos/COPYING"
-    "/mnt/c/Users/juhasm/Documents/phaistos/ChangeLog"
+    "/home/martinjuhas/CLionProjects/phaistos/COPYING"
+    "/home/martinjuhas/CLionProjects/phaistos/ChangeLog"
     )
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/mnt/c/Users/juhasm/Documents/phaistos/build-debug/modules/.phase1/cmake_install.cmake")
-  include("/mnt/c/Users/juhasm/Documents/phaistos/build-debug/src/cmake_install.cmake")
-  include("/mnt/c/Users/juhasm/Documents/phaistos/build-debug/bin/cmake_install.cmake")
-  include("/mnt/c/Users/juhasm/Documents/phaistos/build-debug/modules/cmake_install.cmake")
+  include("/home/martinjuhas/CLionProjects/phaistos/build-debug/modules/.phase1/cmake_install.cmake")
+  include("/home/martinjuhas/CLionProjects/phaistos/build-debug/src/cmake_install.cmake")
+  include("/home/martinjuhas/CLionProjects/phaistos/build-debug/bin/cmake_install.cmake")
+  include("/home/martinjuhas/CLionProjects/phaistos/build-debug/modules/cmake_install.cmake")
 
 endif()
 
@@ -69,5 +74,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/mnt/c/Users/juhasm/Documents/phaistos/build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/martinjuhas/CLionProjects/phaistos/build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
