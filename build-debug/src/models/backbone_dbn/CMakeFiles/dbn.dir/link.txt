@@ -1,2 +1,2 @@
-/usr/bin/ar qc ../../../libs/libdbn.a  CMakeFiles/dbn.dir/nodes/fb5.cpp.o CMakeFiles/dbn.dir/nodes/torus.cpp.o CMakeFiles/dbn.dir/nodes/discrete.cpp.o CMakeFiles/dbn.dir/nodes/vonmises.cpp.o CMakeFiles/dbn.dir/nodes/gaussian.cpp.o
+/usr/bin/ar qc ../../../libs/libdbn.a CMakeFiles/dbn.dir/nodes/fb5.cpp.o CMakeFiles/dbn.dir/nodes/torus.cpp.o CMakeFiles/dbn.dir/nodes/discrete.cpp.o CMakeFiles/dbn.dir/nodes/vonmises.cpp.o CMakeFiles/dbn.dir/nodes/gaussian.cpp.o
 /usr/bin/ranlib ../../../libs/libdbn.a

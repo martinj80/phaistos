@@ -1,1 +1,0 @@
-/usr/bin/g++-5   -Wall -O3  -rdynamic CMakeFiles/procs15_predictor.dir/procs15_predictor.cpp.o  -o ../../../test/procs15_predictor  ../../../libs/libphaistos.a ../../../libs/libdbn.a -llapack -lblas 

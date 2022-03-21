@@ -1604,7 +1604,7 @@ void Atom::init(AtomEnum atom_type, Residue *residue, int index) {
              break;
 
          case O1P:
-             //// Chi 3
+             // Chi 3
              residue->set_chi_atom(this, 2);
              residue->sidechain_status = true;
              residue->set_minor_dof_atom(this, ANGLE);

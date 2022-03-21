@@ -1,30 +1,20 @@
+
+# Consider dependencies only in project.
+set(CMAKE_DEPENDS_IN_PROJECT_ONLY OFF)
+
 # The set of languages for which implicit dependencies are needed:
 set(CMAKE_DEPENDS_LANGUAGES
-  "CXX"
-  )
-# The set of files for implicit dependencies of each language:
-set(CMAKE_DEPENDS_CHECK_CXX
-  "/mnt/c/Users/juhasm/Documents/phaistos/modules/procs15/test/procs15_predictor.cpp" "/mnt/c/Users/juhasm/Documents/phaistos/build-debug/modules/procs15/test/CMakeFiles/procs15_predictor.dir/procs15_predictor.cpp.o"
-  )
-set(CMAKE_CXX_COMPILER_ID "GNU")
-
-# Preprocessor definitions for this target.
-set(CMAKE_TARGET_DEFINITIONS_CXX
-  "HAVE_MUNINNLIB"
   )
 
-# The include file search paths:
-set(CMAKE_CXX_TARGET_INCLUDE_PATH
-  "../src"
-  "../src/models/backbone_dbn"
-  "../modules/procs15/test/../src"
-  "/home/juhasm/boost-1.58/include"
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/martinjuhas/CLionProjects/phaistos/modules/procs15/test/procs15_predictor.cpp" "modules/procs15/test/CMakeFiles/procs15_predictor.dir/procs15_predictor.cpp.o" "gcc" "modules/procs15/test/CMakeFiles/procs15_predictor.dir/procs15_predictor.cpp.o.d"
   )
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/mnt/c/Users/juhasm/Documents/phaistos/build-debug/src/CMakeFiles/libphaistos.dir/DependInfo.cmake"
-  "/mnt/c/Users/juhasm/Documents/phaistos/build-debug/src/models/backbone_dbn/CMakeFiles/dbn.dir/DependInfo.cmake"
+  "/home/martinjuhas/CLionProjects/phaistos/build-debug/src/CMakeFiles/libphaistos.dir/DependInfo.cmake"
+  "/home/martinjuhas/CLionProjects/phaistos/build-debug/src/models/backbone_dbn/CMakeFiles/dbn.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.
