@@ -452,18 +452,6 @@ public:
           phi = ((phi*rad_to_degrees) > 0.0) ? floor( (phi*rad_to_degrees)  + 0.5) : 360 + ceil((phi*rad_to_degrees)  - 0.5);
           FPtype psi = res1.get_psi();
           psi = ((psi*rad_to_degrees) > 0.0) ? floor( (psi*rad_to_degrees)  + 0.5) : 360 + ceil((psi*rad_to_degrees)  - 0.5);
-          
-          //Added by MJ: For debuging purposes only
-          if (
-              res1.residue_type == SEP || res1.residue_type == SER
-              || res1.residue_type == TPO || res1.residue_type == THR
-              || res1.residue_type == PTR || res1.residue_type == TYR
-              )
-          {
-              std::cout << "\nDEBUG3: reading " << res1.residue_type << " in procs15_backend.h" << std::endl;
-              std::cout << "phi = " << phi << std::endl;
-              std::cout << "psi = " << psi << std::endl;
-          }
 
           return vector_utils::make_vector<unsigned int>(phi, psi);
      }
@@ -575,12 +563,6 @@ public:
 
      }
 
-     //Added by MJ: Convert dihedral angles from rad to degrees (used only if the problem with dihedrals persists)
-     //unsigned int convert_to_int_angle (const double &chi_angle) const{ // made a const method - cannot change the values of chi_angle
-     //   unsigned int chi_int = ((chi_angle * rad_to_degrees) > 0.0) ? floor((chi_angle * rad_to_degrees) + 0.5) : 360 + ceil((chi_angle * rad_to_degrees) - 0.5);
-     //   return chi_int;
-     //}
-     
 
      std::vector<unsigned int> get_chi(phaistos::ResidueFB& R){ //resize vectors with chi,
           //using namespace definitions;
@@ -638,7 +620,8 @@ public:
               //Added by MJ for debug only
               std::cout << "DEBUG2: Reading THR chi in procs15_backend.h" << std::endl;
               std::cout << "phaistos would give:" << std::endl;
-              std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
+              std::cout << "r = read_chi_index(R) = " << read_chi_index(R) << std::endl;
+              std::cout << "r.resize(2) = " << r << std::endl;
 
               return r;
               break;
@@ -646,24 +629,26 @@ public:
            //Added by MJ:
            case TPO:
           {
+              //chi1:N-CA-CB-OG1
+              //chi2:CA-CB-OG1-P
+              //chi3:CA-CB-CG2-HG21
+              //chi4:CB-OG1-P-O1P, not fully defined in atom.cpp, not used
+                //r = read_chi_index(R);
+                //r.resize(2);
+
+                //TEMPORARY
                 const Vector_3D n_pos = (R)[N]->position;
                 const Vector_3D ca_pos = (R)[CA]->position;
                 const Vector_3D cb_pos = (R)[CB]->position;
                 const Vector_3D og_pos = (R)[OG1]->position;
                 const Vector_3D p_pos = (R)[P]->position;
-                //const Vector_3D hg_pos = (R)[HG21]->position;
 
-                //Why does it give correct chi angle value only with manual calculation as indicated below?
-                //If used with read_chi_index(R), which effectively uses Residue::get_sidechain_dof_values() the value is incorrect.
-                //Is it because of atom sorting?
                 const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, og_pos);
                 const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
-                //const unsigned int chi1_int = convert_to_int_angle(chi1_double);
                 r.push_back(chi1_int);
 
                 const FPtype chi2_double = calc_dihedral(ca_pos, cb_pos, og_pos, p_pos);
                 const unsigned int chi2_int = ((chi2_double * rad_to_degrees) > 0.0) ? floor((chi2_double * rad_to_degrees) + 0.5) : 360 + ceil((chi2_double * rad_to_degrees) - 0.5);
-                //const unsigned int chi2_int = convert_to_int_angle(chi2_double);
                 r.push_back(chi2_int);
 
                 std::cout << "DEBUG2: Reading TPO chi in procs15_backend.h" << std::endl;
@@ -671,8 +656,9 @@ public:
                 std::cout << "calc_dihedral(n_pos, ca_pos, cb_pos, og_pos) = " << chi1_double << " rad (+" << chi1_int << " deg)" << std::endl;
                 std::cout << "calc_dihedral(ca_pos, cb_pos, og_pos, p_pos) = " << chi2_double << " rad (+" << chi2_int << " deg)" << std::endl;
                 std::cout << "phaistos would give:" << std::endl;
-                std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
-
+                std::cout << "r = read_chi_index(R) = " << read_chi_index(R) << std::endl;
+                std::cout << "r(should be r.resize(3)!) = " << read_chi_index(R) << std::endl;
+                //END OF TEMPORARY
                 return r;
                 break;
           }
@@ -680,43 +666,40 @@ public:
                 r = read_chi_index(R);
                 r.resize(1);
 
-                //Added by MJ for debug only
-                std::cout << "DEBUG2: Reading SER chi in procs15_backend.h" << std::endl;
-                std::cout << "phaistos would give:" << std::endl;
-                std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
-
                 return r;
                 break;
 
             //Added by MJ:
             case SEP:
-            {    
+            {
+                //r = read_chi_index(R)
+                //r.resize(2)
+
+                //TEMPORARY
                 const Vector_3D n_pos = (R)[N]->position;
                 const Vector_3D ca_pos = (R)[CA]->position;
                 const Vector_3D cb_pos = (R)[CB]->position;
                 const Vector_3D og_pos = (R)[OG]->position;
-                    
-		        //Why does it give correct chi angle value only with manual calculation as indicated below?
-                //If used with read_chi_index(R), which effectively uses Residue::get_sidechain_dof_values() the value is incorrect.
-                //Is it because of atom sorting?
+
                 const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, og_pos);
                 const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
-                //const unsigned int chi1_int = convert_to_int_angle(chi1_double);
                 r.push_back(chi1_int);
 
                 std::cout << "\nDEBUG2: Reading SEP chi in procs15_backend.h" << std::endl;
                 std::cout << "Manually defined as:" << std::endl;
                 std::cout << "calc_dihedral(n_pos, ca_pos, cb_pos, og_pos) = " << chi1_double << " rad (+" << chi1_int << " deg)" << std::endl;
-                std::cout << "phaistos would give:" << std::endl;
-                std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
 
-                //const Vector_3D p_pos = (R)[P]->position;
-                //const FPtype chi2_double = calc_dihedral(ca_pos, cb_pos, og_pos, p_pos);
-                //const unsigned int chi2_int = ((chi2_double * rad_to_degrees) > 0.0) ? floor((chi2_double * rad_to_degrees) + 0.5) : 360 + ceil((chi2_double * rad_to_degrees) - 0.5);
+                const Vector_3D p_pos = (R)[P]->position;
+                const FPtype chi2_double = calc_dihedral(ca_pos, cb_pos, og_pos, p_pos);
+                const unsigned int chi2_int = ((chi2_double * rad_to_degrees) > 0.0) ? floor((chi2_double * rad_to_degrees) + 0.5) : 360 + ceil((chi2_double * rad_to_degrees) - 0.5);
                 //r.push_back(chi2_int);
                     
-                //std::cout << "chi2 = " << chi2_double << " rad (" << chi2_int << " deg)" << std::endl;
-                    
+                std::cout << "chi2 = " << chi2_double << " rad (" << chi2_int << " deg)" << std::endl;
+                std::cout << "phaistos would give:" << std::endl;
+                std::cout << "r = read_chi_index(R) = " << read_chi_index(R) << std::endl;
+                std::cout << "r(should be r.resize(2)!) = " << read_chi_index(R) << std::endl;
+                //END OF TEMPORARY
+
                 return r;
                 break;
             }
@@ -748,34 +731,28 @@ public:
                 r = read_chi_index(R);
                 r.resize(2);
 
-                //Added by MJ for debug only
-                std::cout << "DEBUG2: Reading TYR chi in procs15_backend.h" << std::endl;
-                std::cout << "phaistos would give:" << std::endl;
-                std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
-
                 return r;
                 break;
 
             //added by MJ:
             case PTR:
             {
+                //r = read_chi_index(R);
+                //r.resize(2);
+
+                //TEMPORARY
                 const Vector_3D n_pos = (R)[N]->position;
                 const Vector_3D ca_pos = (R)[CA]->position;
                 const Vector_3D cb_pos = (R)[CB]->position;
                 const Vector_3D cg_pos = (R)[CG]->position;
                 const Vector_3D cd_pos = (R)[CD1]->position;
 
-                //Why does it give correct chi angle value only with manual calculation as indicated below?
-                //If used with read_chi_index(R), which effectively uses Residue::get_sidechain_dof_values() the value is incorrect.
-                //Is it because of atom sorting?
                 const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, cg_pos);
                 const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
-                //const unsigned int chi1_int = convert_to_int_angle(chi1_double);
                 r.push_back(chi1_int);
 
                 const FPtype chi2_double = calc_dihedral(ca_pos, cb_pos, cg_pos, cd_pos);
                 const unsigned int chi2_int = ((chi2_double * rad_to_degrees) > 0.0) ? floor((chi2_double * rad_to_degrees) + 0.5) : 360 + ceil((chi2_double * rad_to_degrees) - 0.5);
-                //const unsigned int chi2_int = convert_to_int_angle(chi2_double);
                 r.push_back(chi2_int);
 
                 std::cout << "\nDEBUG2: Reading PTR chi in procs15_backend.h" << std::endl;
@@ -784,6 +761,7 @@ public:
                 std::cout << "calc_dihedral(ca_pos, cb_pos, cg_pos, cd_pos) = " << chi2_double << " rad (+" << chi2_int << " deg)" << std::endl;
                 std::cout << "phaistos would give:" << std::endl;
                 std::cout << "read_chi_index(R) = " << read_chi_index(R) << std::endl;
+                //END OF TEMPORARY
 
                 return r;
                 break;

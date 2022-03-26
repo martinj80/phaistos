@@ -161,9 +161,7 @@ int main(int argc, char *argv[]) {
      std::vector< std::string > pdbfiles;
      TermProCS15::Settings settings;
 
-     std::string cwd = get_current_dir();
-
-     std::cout << "Current working directory: " << cwd << std::endl;
+     std::cout << "Current working directory: " << get_current_dir() << std::endl;
 
      get_command_line(argc, argv, settings, pdbfiles);
 

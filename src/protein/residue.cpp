@@ -190,9 +190,6 @@ void Residue::standardize_atoms() {
           }
 
           break;
-    //Added by MJ: possibly add for SEP and others
-     case SEP:
-         break;
      case ILE:
           if (has_atom(HG11)) {
                rename_atom(HG11, make_vector(HG12, HG13), HG12);
@@ -244,7 +241,14 @@ void Residue::standardize_atoms() {
           if (has_atom(HB1)) {
                rename_atom(HB1, make_vector(HB2, HB3), HB2);
           }
-          break;          
+          break;
+     //Added by MJ: possibly add for SEP, TPO, PTR
+     case SEP:
+         break;
+     case TPO:
+         break;
+     case PTR:
+         break;
      default:
           break;
      }
@@ -877,40 +881,6 @@ void Residue::add_sidechain(AtomSelectionEnum atom_selection, const std::vector<
                if (!has_atom(OG))
                     atoms.push_back(new Atom(OG, this, atoms.size(), UNINITIALIZED, chi[0]));     
                break;
-
-          //Phosphorylated aminoacids - START
-           //Added by MJ: possibly add for SEP and others
-          case SEP:
-              if (!has_atom(OG))
-                  atoms.push_back(new Atom(OG, this, atoms.size(), UNINITIALIZED, chi[0]));
-              break;
-
-          case TPO:
-              if (!has_atom(OG1))
-                  atoms.push_back(new Atom(OG1, this, atoms.size(), UNINITIALIZED, chi[0]));
-              if (!has_atom(CG2))
-                  atoms.push_back(new Atom(CG2, this, atoms.size()));
-              break;
-
-          case PTR:
-
-              if (!has_atom(CG))
-                  atoms.push_back(new Atom(CG, this, atoms.size(), UNINITIALIZED, chi[0]));
-              if (!has_atom(CD1))
-                  atoms.push_back(new Atom(CD1, this, atoms.size(), UNINITIALIZED, chi[1]));
-              if (!has_atom(CD2))
-                  atoms.push_back(new Atom(CD2, this, atoms.size()));
-              if (!has_atom(CE1))
-                  atoms.push_back(new Atom(CE1, this, atoms.size()));
-              if (!has_atom(CE2))
-                  atoms.push_back(new Atom(CE2, this, atoms.size()));
-              if (!has_atom(CZ))
-                  atoms.push_back(new Atom(CZ, this, atoms.size()));
-              if (!has_atom(OH))
-                  atoms.push_back(new Atom(OH, this, atoms.size()));
-              break;
-          //Phosphorylated aminoacids - END
-
           case THR:
                if (!has_atom(OG1))
                     atoms.push_back(new Atom(OG1, this, atoms.size(), UNINITIALIZED, chi[0]));    
@@ -959,6 +929,36 @@ void Residue::add_sidechain(AtomSelectionEnum atom_selection, const std::vector<
                if (!has_atom(OH))
                     atoms.push_back(new Atom(OH, this, atoms.size()));
                break;
+          //Added by MJ: add P, O1P-O3P for SEP, TPO, PTR
+          case SEP:
+              if (!has_atom(OG))
+                  atoms.push_back(new Atom(OG, this, atoms.size(), UNINITIALIZED, chi[0]));
+              break;
+
+          case TPO:
+              if (!has_atom(OG1))
+                  atoms.push_back(new Atom(OG1, this, atoms.size(), UNINITIALIZED, chi[0]));
+              if (!has_atom(CG2))
+                  atoms.push_back(new Atom(CG2, this, atoms.size()));
+              break;
+
+          case PTR:
+
+              if (!has_atom(CG))
+                  atoms.push_back(new Atom(CG, this, atoms.size(), UNINITIALIZED, chi[0]));
+              if (!has_atom(CD1))
+                  atoms.push_back(new Atom(CD1, this, atoms.size(), UNINITIALIZED, chi[1]));
+              if (!has_atom(CD2))
+                  atoms.push_back(new Atom(CD2, this, atoms.size()));
+              if (!has_atom(CE1))
+                  atoms.push_back(new Atom(CE1, this, atoms.size()));
+              if (!has_atom(CE2))
+                  atoms.push_back(new Atom(CE2, this, atoms.size()));
+              if (!has_atom(CZ))
+                  atoms.push_back(new Atom(CZ, this, atoms.size()));
+              if (!has_atom(OH))
+                  atoms.push_back(new Atom(OH, this, atoms.size()));
+              break;
           default:
                break;
           }
@@ -2136,6 +2136,43 @@ void ResidueFB::add_hydrogens(AtomSelectionEnum atom_selection, bool execute_sor
                     if (!has_atom(HH))
                          atoms.push_back(new Atom(HH, this, atoms.size()));            
                     break;
+                //Added by MJ
+               case SEP:
+                   if (!has_atom(HA))
+                       atoms.push_back(new Atom(HA, this, atoms.size()));
+                   if (!has_atom(HB2))
+                       atoms.push_back(new Atom(HB2, this, atoms.size()));
+                   if (!has_atom(HB3))
+                       atoms.push_back(new Atom(HB3, this, atoms.size()));
+                   break;
+               case TPO:
+                   if (!has_atom(HA))
+                       atoms.push_back(new Atom(HA, this, atoms.size()));
+                   if (!has_atom(HB))
+                       atoms.push_back(new Atom(HB, this, atoms.size()));
+                   if (!has_atom(HG21))
+                       atoms.push_back(new Atom(HG21, this, atoms.size()));
+                   if (!has_atom(HG22))
+                       atoms.push_back(new Atom(HG22, this, atoms.size()));
+                   if (!has_atom(HG23))
+                       atoms.push_back(new Atom(HG23, this, atoms.size()));
+                   break;
+               case PTR:
+                   if (!has_atom(HA))
+                       atoms.push_back(new Atom(HA, this, atoms.size()));
+                   if (!has_atom(HB2))
+                       atoms.push_back(new Atom(HB2, this, atoms.size()));
+                   if (!has_atom(HB3))
+                       atoms.push_back(new Atom(HB3, this, atoms.size()));
+                   if (!has_atom(HD1))
+                       atoms.push_back(new Atom(HD1, this, atoms.size()));
+                   if (!has_atom(HD2))
+                       atoms.push_back(new Atom(HD2, this, atoms.size()));
+                   if (!has_atom(HE1))
+                       atoms.push_back(new Atom(HE1, this, atoms.size()));
+                   if (!has_atom(HE2))
+                       atoms.push_back(new Atom(HE2, this, atoms.size()));
+                   break;
                default:
                     break;
                }

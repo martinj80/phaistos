@@ -450,13 +450,14 @@ public:
                    || res1->residue_type == SER
                    || res1->residue_type == TPO
                    || res1->residue_type == THR
-                   || res1->residue_type == PTR
-                   || res1->residue_type == TYR
+                   //|| res1->residue_type == PTR
+                   //|| res1->residue_type == TYR
                    )
                {
                    std::cout << "\nDEBUG1: reading " << res1->residue_type << " in term_procs15.h" << std::endl;
                    std::cout << res1
-                             << "\n(chi values for " << res1->residue_type << " are incorrect, procs15 has correct calculations defined manually.)"
+                             << "\n(chi values for SEP/TPO/PTR need to be check based on 3D,"
+                             << "procs15 has correct calculations defined manually, should be the same as those by phaistos.)"
                              << std::endl;
 
                    //std::cout << "chi_atoms:" << res1->chi_atoms << std::endl;
