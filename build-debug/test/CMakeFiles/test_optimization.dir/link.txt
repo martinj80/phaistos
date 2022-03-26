@@ -1,0 +1,1 @@
+/usr/bin/g++-5  -Wall -O0 -ggdb -rdynamic CMakeFiles/test_optimization.dir/test_optimization.cpp.o -o test_optimization   -L/home/martinjuhas/CLionProjects/phaistos/build-debug/libs  -Wl,-rpath,/home/martinjuhas/CLionProjects/phaistos/build-debug/libs ../libs/libphaistos.a 

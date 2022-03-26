@@ -99,7 +99,7 @@ public:
                                         }
                                         break;
                                    }
-                                    //Added by MJ: CHECK FOR SEP
+                                   
                                    case AcceptorAlcohol: {
 
                                         const Vector_3D h_pos = (*res1)[H]->position;
@@ -164,7 +164,7 @@ public:
                                    }
                               break;
                               }
-
+                              
                               case AcceptorAlcohol: {
                                    const Vector_3D h_pos = (*res1)[get_ha_atom_type(res1->residue_type)]->position;
                                    const Vector_3D o_pos = acceptor->acceptor_oxygen->position;
@@ -445,23 +445,30 @@ public:
                shieldings = get_shieldings(res1);
 
                //Added by MJ: For debuging purposes only
-               if (res1->residue_type == SEP
+               if (
+                   res1->residue_type == SEP
                    || res1->residue_type == SER
-                   //|| res1->residue_type == THR
-                   //|| res1->residue_type == THR //pthr
+                   || res1->residue_type == TPO
+                   || res1->residue_type == THR
+                   //|| res1->residue_type == PTR
+                   //|| res1->residue_type == TYR
                    )
                {
-                   std::cout << "\nDEBUG1: reading SER or SEP in term_procs15.h" << std::endl;
-                   std::cout << res1 << "\n(chi values for SEP are incorrect, correct values are defined only in procs15 calculation.)" << std::endl;
+                   std::cout << "\nDEBUG1: reading " << res1->residue_type << " in term_procs15.h" << std::endl;
+                   std::cout << res1
+                             << "\n(chi values for SEP/TPO/PTR need to be check based on 3D,"
+                             << "procs15 has correct calculations defined manually, should be the same as those by phaistos.)"
+                             << std::endl;
 
-                   std::cout << "chi_atoms:" << res1->chi_atoms << std::endl;
-                   std::cout << "minor_dof_atoms:" << res1->minor_dof_atoms << std::endl;
-                   std::cout << "sidechain_status:" << res1->sidechain_status << std::endl;
-                   std::cout << "has_sidechain:" << res1->has_sidechain() << std::endl;
-                   std::cout << "primary_h_bond_corrections:" << primary_h_bond_corrections << std::endl;
-                   std::cout << "secondary_h_bond_corrections:" << secondary_h_bond_corrections << std::endl;
-                   std::cout << "ring_current_corrections" << ring_current_corrections << std::endl;
-                   std::cout << "shieldings" << shieldings << std::endl;
+                   //std::cout << "chi_atoms:" << res1->chi_atoms << std::endl;
+                   //std::cout << "minor_dof_atoms:" << res1->minor_dof_atoms << std::endl;
+                   //std::cout << "sidechain_status:" << res1->sidechain_status << std::endl;
+                   //std::cout << "has_sidechain:" << res1->has_sidechain() << std::endl;
+
+                   //std::cout << "primary_h_bond_corrections:" << primary_h_bond_corrections << std::endl;
+                   //std::cout << "secondary_h_bond_corrections:" << secondary_h_bond_corrections << std::endl;
+                   //std::cout << "ring_current_corrections" << ring_current_corrections << std::endl;
+                   //std::cout << "shieldings" << shieldings << std::endl;
                }
 
                if ((settings.load_hn) && (settings.use_water_correction == true) && (std::abs(primary_h_bond_corrections[4]) < 0.000001) && (res1->residue_type != PRO)) {

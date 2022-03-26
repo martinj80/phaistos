@@ -81,7 +81,10 @@ namespace cs_parser {
                if ((residue_type_chain == definitions::VAL) && (res_type != "VAL")) contains_bugs = true;
                if ((residue_type_chain == definitions::TRP) && (res_type != "TRP")) contains_bugs = true;
                if ((residue_type_chain == definitions::TYR) && (res_type != "TYR")) contains_bugs = true;
+               //Added by MJ
                if ((residue_type_chain == definitions::SEP) && (res_type != "SEP")) contains_bugs = true;
+               if ((residue_type_chain == definitions::TPO) && (res_type != "TPO")) contains_bugs = true;
+               if ((residue_type_chain == definitions::PTR) && (res_type != "PTR")) contains_bugs = true;
 
                if (contains_bugs) {
                     std::cerr << "ProCS15 ERROR: CS-data mismatch in " << residue_type_chain << residue_index - 1 << std::endl;
