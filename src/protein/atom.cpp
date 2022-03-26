@@ -1776,7 +1776,7 @@ void Atom::init(AtomEnum atom_type, Residue *residue, int index) {
              break;
 
          case O1P:
-             //// Chi 4
+             // Chi 4
              residue->set_chi_atom(this, 3);
              residue->sidechain_status = true;
              residue->set_minor_dof_atom(this, ANGLE);
@@ -2182,7 +2182,7 @@ void Atom::init(AtomEnum atom_type, Residue *residue, int index) {
                break;
           }
           break;
-          //Added by MJ:
+      //Added by MJ:
      case PTR:
           switch (atom_type) {
               case CB:
@@ -5693,7 +5693,7 @@ Atom *Atom::get_neighbour_constants(int &offset, definitions::IterateEnum iterat
           }
           break;
 
-     //Added by MJ: case PTR, TPO, SEP, so far with missing P, O1P-O3P
+     //Added by MJ: cases for PTR, TPO, SEP, O1P-O3P not added yet, as they are not used during interpolation
     case PTR:
         switch (atom_type) {
         case CG:
@@ -5936,7 +5936,7 @@ Atom *Atom::get_neighbour_constants(int &offset, definitions::IterateEnum iterat
                 }
             }
             break;
-        case HH: //replace with P??
+        case P: //O1P-O3P not added yet, as they are not used during interpolation
             if (iteration_type == POSITIONING) {
                 switch (offset) {
                 case -1: offset = 0; return (*residue)[OH];
@@ -5959,6 +5959,30 @@ Atom *Atom::get_neighbour_constants(int &offset, definitions::IterateEnum iterat
                 }
             }
             break;
+//        case O1P: //same for O2P and O3P
+//            if (iteration_type == POSITIONING) {
+//                switch (offset) {
+//                    case -1: offset = 0; return (*residue)[P];
+//                    case -2: offset = 0; return (*residue)[OH];
+//                    case -3: offset = 0; return (*residue)[CZ];
+//                    default: offset = 0; return NULL;
+//                }
+//            }
+//            else {
+//                switch (offset) {
+//                    case -1: offset = 0; return (*residue)[P];
+//                    case -2: offset = 0; return (*residue)[OH];
+//                    case -3: offset = 0; return (*residue)[CZ];
+//                    case -4: offset = 0; return (*residue)[CE1];
+//                    case -5: offset = 0; return (*residue)[CD1];
+//                    case -6: offset = 0; return (*residue)[CG];
+//                    case -7: offset = 0; return (*residue)[CB];
+//                    default:
+//                        if (offset < 0) offset += 8;
+//                        return (*residue)[CA];
+//                }
+//            }
+//            break;
         default: return NULL;
         }
         break;
@@ -6019,7 +6043,7 @@ Atom *Atom::get_neighbour_constants(int &offset, definitions::IterateEnum iterat
                 }
             }
             break;
-        case HG1: //replace with P?
+        case P: //O1P-O3P not added yet, as they are not used during interpolation
             if (iteration_type == POSITIONING) {
                 switch (offset) {
                 case -1: offset = 0; return (*residue)[OG1];
@@ -6038,6 +6062,26 @@ Atom *Atom::get_neighbour_constants(int &offset, definitions::IterateEnum iterat
                 }
             }
             break;
+//        case O1P: //same for O2P and O3P
+//            if (iteration_type == POSITIONING) {
+//                switch (offset) {
+//                    case -1: offset = 0; return (*residue)[P];
+//                    case -2: offset = 0; return (*residue)[OG1];
+//                    case -3: offset = 0; return (*residue)[CB];
+//                    default: offset = 0; return NULL;
+//                }
+//            }
+//            else {
+//                switch (offset) {
+//                    case -1: offset = 0; return (*residue)[P];
+//                    case -2: offset = 0; return (*residue)[OG1];
+//                    case -3: offset = 0; return (*residue)[CB];
+//                    default:
+//                        if (offset < 0) offset += 4;
+//                        return (*residue)[CA];
+//                }
+//            }
+//            break;
         case HG21:
             if (iteration_type == POSITIONING) {
                 switch (offset) {
@@ -6081,7 +6125,7 @@ Atom *Atom::get_neighbour_constants(int &offset, definitions::IterateEnum iterat
         }
         break;
         //TPO END
-    case SEP:
+    case SEP: //O1P-O3P not added yet, as they are not used during interpolation
         switch (atom_type) {
         case OG:
             if (iteration_type == POSITIONING) {
@@ -6120,7 +6164,7 @@ Atom *Atom::get_neighbour_constants(int &offset, definitions::IterateEnum iterat
                 }
             }
             break;
-        case HG: //replace with P?
+        case P:
             if (iteration_type == POSITIONING) {
                 switch (offset) {
                 case -1: offset = 0; return (*residue)[OG];
@@ -6139,6 +6183,26 @@ Atom *Atom::get_neighbour_constants(int &offset, definitions::IterateEnum iterat
                 }
             }
             break;
+//            case P:
+//                if (iteration_type == POSITIONING) {
+//                    switch (offset) {
+//                        case -1: offset = 0; return (*residue)[P];
+//                        case -2: offset = 0; return (*residue)[OG];
+//                        case -3: offset = 0; return (*residue)[CB];
+//                        default: offset = 0; return NULL;
+//                    }
+//                }
+//                else {
+//                    switch (offset) {
+//                        case -1: offset = 0; return (*residue)[P];
+//                        case -2: offset = 0; return (*residue)[OG];
+//                        case -3: offset = 0; return (*residue)[CB];
+//                        default:
+//                            if (offset < 0) offset += 4;
+//                            return (*residue)[CA];
+//                    }
+//                }
+//                break;
         default: return NULL;
         }
         break;
