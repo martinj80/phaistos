@@ -42,7 +42,7 @@ const static double atom_s_weight = 32.0655;
 const static double atom_p_weight = 30.9738;
 //@}
 
-//Added by MJ: options for P, O1P, O2P, O3P
+//Modified by MJ: Added P, O1P, O2P, O3P
 //! Atom type enumeration
 //! PS: pseudo atom placed at the sidechain centre of mass
 //! H1, H2, H3: 	N-terminal
@@ -85,7 +85,6 @@ const static AtomEnum atom_type_wildcards[6][atom_type_wildcards_size] = {
     { CA,   C,  CB,  CG, CG1, CG2,  CD, CD1, CD2,  CE, CE1, CE2,  CE3,   CZ,  CZ2,  CZ3,  CH2,   XC,  XC,  XC,  XC,   XC,   XC,   XC,   XC,   XC,   XC, XC,  XC,  XC,  XC,   XC,   XC, XC,  XC,   XC,   XC,   XC,   XC, XC,  XC,  XC,  XC, XC, XC, XC},
     {  H,  HA, HA2, HA3,  HB, HB1, HB2, HB3,  HG, HG1, HG2, HG3, HG11, HG12, HG13, HG21, HG22, HG23, HD1, HD2, HD3, HD11, HD12, HD13, HD21, HD22, HD23, HE, HE1, HE2, HE3, HE21, HE22, HH, HH2, HH11, HH12, HH21, HH22, HZ, HZ1, HZ2, HZ3, H1, H2, H3}};
 
-// Added by MJ: map P to something else?
 //! Translation table to translate from different naming conventions
 const std::map<std::string, std::map<std::string,std::string> > atom_name_translation_map = 
      boost::assign::map_list_of<std::string, std::map<std::string, std::string> >
@@ -189,7 +188,7 @@ inline bool is_atom_XH(AtomEnum atom_type) {
      return atom_type_XH[atom_type];
 }
 
-//Added by MJ
+//Modified by MJ: Added option for P, not implemented further
 //! Check if atom is a phosphorus
 //!
 //! \param atom_type Type of atom
@@ -293,7 +292,7 @@ inline std::istream &operator>>(std::istream &input, AtomEnum &a) {
 //////////////////////// Residue ///////////////////////////
 ////////////////////////////////////////////////////////////
 
-//Added by MJ: SEP: Ser-PO3, TPO: Thr-PO3, PTR: Tyr-PO3 residues
+//Modified by MJ: Moved SEP, TPO and PTR with other natural amino acids
 //! Residue type enumeration
 enum ResidueEnum {ALA=0,CYS,ASP,GLU,PHE,GLY,
 		          HIS,ILE,LYS,LEU,MET,ASN,
@@ -303,7 +302,7 @@ enum ResidueEnum {ALA=0,CYS,ASP,GLU,PHE,GLY,
 		          // Special residue names from ASTRAL RAF
 		          _2AS,  _3AH,  _5HP,  ACL,  AGM,  AIB,  ALM,  ALO,  ALY,  ARM,  ASA,  ASB,  ASK,  ASL,  ASQ,  ASX,  AYA,  BCS,  BHD,  BMT,  BNN,  BUC,  BUG,  C5C,  C6C,  CCS,  CEA,  CGU,  CHG,  CLE,  CME,  CSD,  CSO,  CSP,  CSS,  CSW,  CSX,  CXM,  CY1,  CY3,  CYG,  CYM,  CYQ,  DAH,  DAL,  DAR,  DAS,  DCY,  DGL,  DGN,  DHA,  DHI,  DIL,  DIV,  DLE,  DLY,  DNP,  DPN,  DPR,  DSN,  DSP,  DTH,  DTR,  DTY,  DVA,  EFC,  FLA,  FME,  GGL,  GL3,  GLX,  GLZ,  GMA,  GSC,  HAC,  HAR,  HIC,  HIP,  HMR,  HPQ,  HTR,  HYP,  IIL,  IYR,  KCX,  LLP,  LLY,  LTR,  LYM,  LYZ,  MAA,  MEN,  MHS,  MIS,  MLE,  MPQ,  MSA,  MSE,  MVA,  NEM,  NEP,  NLE,  NLN,  NLP,  NMC,  OAS,  OCS,  OMT,  PAQ,  PCA,  PEC,  PHI,  PHL,  PR3,  PRR,    SAC,  SAR,  SCH,  SCS,  SCY,  SEL,  SET,  SHC,  SHR,  SMC,  SOC,  STY,  SVA,  TIH,  TPL,  TPQ,  TRG,  TRO,  TYB,  TYQ,  TYS,  TYY,  UNK, RESIDUE_ENUM_SIZE};
 
-
+//Modified by MJ: Moved three-letter codes for SEP, TPO and PTR close to other natural amino acids
 //! Three-letter residue names
 const static char *residue_name[RESIDUE_ENUM_SIZE]={"ALA","CYS","ASP","GLU","PHE","GLY",
                                                     "HIS","ILE","LYS","LEU","MET","ASN",
@@ -313,7 +312,7 @@ const static char *residue_name[RESIDUE_ENUM_SIZE]={"ALA","CYS","ASP","GLU","PHE
             // Special residue names from ASTRAL RAF
             "2AS",  "3AH",  "5HP",  "ACL",  "AGM",  "AIB",  "ALM",  "ALO",  "ALY",  "ARM",  "ASA",  "ASB",  "ASK",  "ASL",  "ASQ",  "ASX",  "AYA",  "BCS",  "BHD",  "BMT",  "BNN",  "BUC",  "BUG",  "C5C",  "C6C",  "CCS",  "CEA",  "CGU",  "CHG",  "CLE",  "CME",  "CSD",  "CSO",  "CSP",  "CSS",  "CSW",  "CSX",  "CXM",  "CY1",  "CY3",  "CYG",  "CYM",  "CYQ",  "DAH",  "DAL",  "DAR",  "DAS",  "DCY",  "DGL",  "DGN",  "DHA",  "DHI",  "DIL",  "DIV",  "DLE",  "DLY",  "DNP",  "DPN",  "DPR",  "DSN",  "DSP",  "DTH",  "DTR",  "DTY",  "DVA",  "EFC",  "FLA",  "FME",  "GGL",  "GL3",  "GLX",  "GLZ",  "GMA",  "GSC",  "HAC",  "HAR",  "HIC",  "HIP",  "HMR",  "HPQ",  "HTR",  "HYP",  "IIL",  "IYR",  "KCX",  "LLP",  "LLY",  "LTR",  "LYM",  "LYZ",  "MAA",  "MEN",  "MHS",  "MIS",  "MLE",  "MPQ",  "MSA",  "MSE",  "MVA",  "NEM",  "NEP",  "NLE",  "NLN",  "NLP",  "NMC",  "OAS",  "OCS",  "OMT",  "PAQ",  "PCA",  "PEC",  "PHI",  "PHL",  "PR3",  "PRR",  "SAC",  "SAR",  "SCH",  "SCS",  "SCY",  "SEL",  "SET",  "SHC",  "SHR",  "SMC",  "SOC",  "STY",  "SVA",  "TIH",  "TPL",   "TPQ",  "TRG",  "TRO",  "TYB",  "TYQ",  "TYS",  "TYY",  "UNK"};
 
-//Added by MJ: S corresponding to SEP enum - maybe causes problems???
+//Modified by MJ: Moved one-letter codes to be consistent with three-letters
 //! One-letter residue names
 const static char *residue_name_short[RESIDUE_ENUM_SIZE] = {"A","C","D","E","F","G","H","I","K","L","M","N","P","Q","R","S","T","V","W","Y","S","T","Y","X",
 
@@ -336,7 +335,7 @@ inline std::ostream &operator<<(std::ostream &o, ResidueEnum a) {
      return o;
 }
 
-//Added by MJ: SEP map
+//Modified by MJ: Added comments
 //! String to three-letter-code residue conversion
 static const class StrToAa {
 

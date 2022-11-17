@@ -242,7 +242,8 @@ void Residue::standardize_atoms() {
                rename_atom(HB1, make_vector(HB2, HB3), HB2);
           }
           break;
-     //Added by MJ: possibly add for SEP, TPO, PTR
+
+     //Modified by MJ: Possibly add more error checking for SEP, TPO, PTR
      case SEP:
          break;
      case TPO:
@@ -929,7 +930,8 @@ void Residue::add_sidechain(AtomSelectionEnum atom_selection, const std::vector<
                if (!has_atom(OH))
                     atoms.push_back(new Atom(OH, this, atoms.size()));
                break;
-          //Added by MJ: add P, O1P-O3P for SEP, TPO, PTR
+
+          //Modified by MJ: Maybe also add P, O1P-O3P for SEP, TPO, PTR?
           case SEP:
               if (!has_atom(OG))
                   atoms.push_back(new Atom(OG, this, atoms.size(), UNINITIALIZED, chi[0]));
@@ -2136,7 +2138,8 @@ void ResidueFB::add_hydrogens(AtomSelectionEnum atom_selection, bool execute_sor
                     if (!has_atom(HH))
                          atoms.push_back(new Atom(HH, this, atoms.size()));            
                     break;
-                //Added by MJ
+
+               //Modified by MJ> Maybe add more error checking
                case SEP:
                    if (!has_atom(HA))
                        atoms.push_back(new Atom(HA, this, atoms.size()));

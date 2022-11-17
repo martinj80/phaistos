@@ -81,7 +81,7 @@ namespace cs_parser {
                if ((residue_type_chain == definitions::VAL) && (res_type != "VAL")) contains_bugs = true;
                if ((residue_type_chain == definitions::TRP) && (res_type != "TRP")) contains_bugs = true;
                if ((residue_type_chain == definitions::TYR) && (res_type != "TYR")) contains_bugs = true;
-               //Added by MJ
+               //Modified by MJ: Added basic options for SEP, TPO and PTR
                if ((residue_type_chain == definitions::SEP) && (res_type != "SEP")) contains_bugs = true;
                if ((residue_type_chain == definitions::TPO) && (res_type != "TPO")) contains_bugs = true;
                if ((residue_type_chain == definitions::PTR) && (res_type != "PTR")) contains_bugs = true;
