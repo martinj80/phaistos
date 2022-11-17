@@ -565,7 +565,6 @@ namespace phaistos {
                         const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, cg1_pos);
                         const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
 
-
                         r.push_back(chi1_int);
 
                         return r;
@@ -573,7 +572,6 @@ namespace phaistos {
 
                         const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, cg2_pos);
                         const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
-
 
                         r.push_back(chi1_int);
 
@@ -589,14 +587,32 @@ namespace phaistos {
                     return r;
                     break;
 
-                    //Modified by MJ: Added chi calculation for TPO
-                case TPO: {
+                //Modified by MJ: Added chi calculation for TPO
+                case TPO:{
                     //chi1:N-CA-CB-OG1
                     //chi2:CA-CB-OG1-P
-                    //chi3:CA-CB-CG2-HG21, not used by procs15
+                    //chi3:CA-CB-CG2-HG21, not used
                     //chi4:CB-OG1-P-O1P, not fully defined in atom.cpp, not used
                     r = read_chi_index(R);
                     r.resize(2);
+                    //TEMPORARY TESTING INFO
+                    const Vector_3D n_pos = (R)[N]->position;
+                    const Vector_3D ca_pos = (R)[CA]->position;
+                    const Vector_3D cb_pos = (R)[CB]->position;
+                    const Vector_3D og_pos = (R)[OG1]->position;
+                    const Vector_3D p_pos = (R)[P]->position;
+
+                    const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, og_pos);
+                    const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
+                    const FPtype chi2_double = calc_dihedral(ca_pos, cb_pos, og_pos, p_pos);
+                    const unsigned int chi2_int = ((chi2_double * rad_to_degrees) > 0.0) ? floor((chi2_double * rad_to_degrees) + 0.5) : 360 + ceil((chi2_double * rad_to_degrees) - 0.5);
+                    std::cout << "\nDEBUG2: Reading TPO chi in procs15_backend.h" << std::endl;
+                    std::cout << "calc_dihedral(n_pos, ca_pos, cb_pos, og_pos) = " << chi1_double << " rad (+" << chi1_int << " deg)" << std::endl;
+                    std::cout << "calc_dihedral(ca_pos, cb_pos, og_pos, p_pos) = " << chi2_double << " rad (+" << chi2_int << " deg)" << std::endl;
+                    std::cout << "r = read_chi_index(R) = " << read_chi_index(R) << std::endl;
+                    std::cout << "r.resize(2) = " << r << std::endl;
+                    //END OF TEMPORARY
+
                     return r;
                     break;
                 }
@@ -604,16 +620,34 @@ namespace phaistos {
                 case SER:
                     r = read_chi_index(R);
                     r.resize(1);
-
                     return r;
                     break;
 
-                    //Modified by MJ: Added chi calculation for SEP
+                //Modified by MJ: Added chi calculation for SEP
                 case SEP: {
                     //chi1:N-CA-CB-OG1
                     //chi2:CA-CB-OG1-P
                     r = read_chi_index(R);
                     r.resize(2);
+
+                    //TEMPORARY TESTING INFO
+                    const Vector_3D n_pos = (R)[N]->position;
+                    const Vector_3D ca_pos = (R)[CA]->position;
+                    const Vector_3D cb_pos = (R)[CB]->position;
+                    const Vector_3D og_pos = (R)[OG]->position;
+                    const Vector_3D p_pos = (R)[P]->position;
+
+                    const FPtype chi1_double = calc_dihedral(n_pos, ca_pos, cb_pos, og_pos);
+                    const unsigned int chi1_int = ((chi1_double * rad_to_degrees) > 0.0) ? floor((chi1_double * rad_to_degrees) + 0.5) : 360 + ceil((chi1_double * rad_to_degrees) - 0.5);
+                    const FPtype chi2_double = calc_dihedral(ca_pos, cb_pos, og_pos, p_pos);
+                    const unsigned int chi2_int = ((chi2_double * rad_to_degrees) > 0.0) ? floor((chi2_double * rad_to_degrees) + 0.5) : 360 + ceil((chi2_double * rad_to_degrees) - 0.5);
+                    std::cout << "\nDEBUG2: Reading SEP chi in procs15_backend.h" << std::endl;
+                    std::cout << "calc_dihedral(n_pos, ca_pos, cb_pos, og_pos) = " << chi1_double << " rad (+" << chi1_int << " deg)" << std::endl;
+                    std::cout << "calc_dihedral(ca_pos, cb_pos, og_pos, cppos) = " << chi2_double << " rad (+" << chi2_int << " deg)" << std::endl;
+                    std::cout << "r = read_chi_index(R) = " << read_chi_index(R) << std::endl;
+                    std::cout << "r.resize(2) = " << r << std::endl;
+                    //END OF TEMPORARY
+
                     return r;
                     break;
                 }
@@ -645,11 +679,10 @@ namespace phaistos {
                 case TYR:
                     r = read_chi_index(R);
                     r.resize(2);
-
                     return r;
                     break;
 
-                    //Modified by MJ: Added chi calculation for PTR
+                //Modified by MJ: Added chi calculation for PTR
                 case PTR: {
                     r = read_chi_index(R);
                     r.resize(2);
@@ -675,6 +708,7 @@ namespace phaistos {
                     return r;
                     break;
                 }
+
                 case PRO:
                     r = read_chi_index(R);
                     r.resize(0);
