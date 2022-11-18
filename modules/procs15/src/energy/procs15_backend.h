@@ -591,8 +591,8 @@ namespace phaistos {
                 case TPO:{
                     //chi1:N-CA-CB-OG1
                     //chi2:CA-CB-OG1-P
-                    //chi3:CA-CB-CG2-HG21, not used
-                    //chi4:CB-OG1-P-O1P, not fully defined in atom.cpp, not used
+                    //chi3:not used (CA-CB-CG2-HG21)
+                    //chi4:not used (not fully defined in atom.cpp)
                     r = read_chi_index(R);
                     r.resize(2);
                     //TEMPORARY TESTING INFO

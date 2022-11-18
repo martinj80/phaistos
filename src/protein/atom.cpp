@@ -1743,7 +1743,7 @@ void Atom::init(AtomEnum atom_type, Residue *residue, int index) {
              residue->set_minor_dof_atom(this, ANGLE);
 
              covalent_neighbours.push_back(std::pair<AtomEnum, int>(CB, 0));
-             covalent_neighbours.push_back(std::pair<AtomEnum, int>(HG1, 0));
+             covalent_neighbours.push_back(std::pair<AtomEnum, int>(P, 0));
              this->mass = definitions::atom_o_weight;
              break;
          case CG2:
@@ -5755,27 +5755,27 @@ Atom *Atom::get_neighbour_constants(int &offset, definitions::IterateEnum iterat
                 }
             }
             break;
-//        case O1P: //correct?
-//            if (iteration_type == POSITIONING) {
-//                switch (offset) {
-//                    case -1: offset = 0; return (*residue)[P];
-//                    case -2: offset = 0; return (*residue)[OG];
-//                    case -3: offset = 0; return (*residue)[CB];
-//                    default: offset = 0; return NULL;
-//                }
-//            }
-//            else {
-//                switch (offset) {
-//                    case -1: offset = 0; return (*residue)[P];
-//                    case -2: offset = 0; return (*residue)[OG];
-//                    case -3: offset = 0; return (*residue)[CB];
-//                    default:
-//                        if (offset < 0) offset += 4;
-//                        return (*residue)[CA];
-//                }
-//            }
-//            break;
-//        case O2P: //correct?
+        case O1P: //seems correct for calculation of dihedral CB-OG-P-O1P (chi3 - not used)
+            if (iteration_type == POSITIONING) {
+                switch (offset) {
+                    case -1: offset = 0; return (*residue)[P];
+                    case -2: offset = 0; return (*residue)[OG];
+                    case -3: offset = 0; return (*residue)[CB];
+                    default: offset = 0; return NULL;
+                }
+            }
+            else {
+                switch (offset) {
+                    case -1: offset = 0; return (*residue)[P];
+                    case -2: offset = 0; return (*residue)[OG];
+                    case -3: offset = 0; return (*residue)[CB];
+                    default:
+                        if (offset < 0) offset += 4;
+                        return (*residue)[CA];
+                }
+            }
+            break;
+//        case O2P:
 //            if (iteration_type == POSITIONING) {
 //                switch (offset) {
 //                    case -1: offset = 0; return (*residue)[P];
@@ -5795,7 +5795,7 @@ Atom *Atom::get_neighbour_constants(int &offset, definitions::IterateEnum iterat
 //                }
 //            }
 //            break;
-//        case O3P: //correct?
+//        case O3P:
 //            if (iteration_type == POSITIONING) {
 //                switch (offset) {
 //                    case -1: offset = 0; return (*residue)[P];
@@ -5895,27 +5895,27 @@ Atom *Atom::get_neighbour_constants(int &offset, definitions::IterateEnum iterat
                  }
              }
              break;
-    //        case O1P: //correct?
-    //            if (iteration_type == POSITIONING) {
-    //                switch (offset) {
-    //                    case -1: offset = 0; return (*residue)[P];
-    //                    case -2: offset = 0; return (*residue)[OG1];
-    //                    case -3: offset = 0; return (*residue)[CB];
-    //                    default: offset = 0; return NULL;
-    //                }
-    //            }
-    //            else {
-    //                switch (offset) {
-    //                    case -1: offset = 0; return (*residue)[P];
-    //                    case -2: offset = 0; return (*residue)[OG1];
-    //                    case -3: offset = 0; return (*residue)[CB];
-    //                    default:
-    //                        if (offset < 0) offset += 4;
-    //                        return (*residue)[CA];
-    //                }
-    //            }
-    //            break;
-    //        case O2P: //correct?
+            case O1P: //seems correct for calculation of dihedral CB-OG1-P-O1P (chi4 - not used)
+                if (iteration_type == POSITIONING) {
+                    switch (offset) {
+                        case -1: offset = 0; return (*residue)[P];
+                        case -2: offset = 0; return (*residue)[OG1];
+                        case -3: offset = 0; return (*residue)[CB];
+                        default: offset = 0; return NULL;
+                    }
+                }
+                else {
+                    switch (offset) {
+                        case -1: offset = 0; return (*residue)[P];
+                        case -2: offset = 0; return (*residue)[OG1];
+                        case -3: offset = 0; return (*residue)[CB];
+                        default:
+                            if (offset < 0) offset += 4;
+                            return (*residue)[CA];
+                    }
+                }
+                break;
+    //        case O2P:
     //            if (iteration_type == POSITIONING) {
     //                switch (offset) {
     //                    case -1: offset = 0; return (*residue)[P];
@@ -5935,7 +5935,7 @@ Atom *Atom::get_neighbour_constants(int &offset, definitions::IterateEnum iterat
     //                }
     //            }
     //            break;
-    //        case O3P: //correct?
+    //        case O3P:
     //            if (iteration_type == POSITIONING) {
     //                switch (offset) {
     //                    case -1: offset = 0; return (*residue)[P];
