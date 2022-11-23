@@ -154,7 +154,7 @@ int main(int argc, char *argv[]) {
                    << "\nfileX.pdb is PDB structures to predict. Prediction of an atom type can by disabled by"
                    << " including \n--load-Y 0, \nwhere Y can be (ha, ca, cb, co, h, n)"
                    << "\nDetailed output can be printed with --details 1"
-                   << "\nMemory usage for predictions with all atom types is approximately 29 GB of RAM. - CHANGES AFTER ADDITION OF PHOSPHORYLATED SER, THR, TYR" << std::endl;
+                   << "\nMemory usage for predictions with all atom types is approximately 43 GB of RAM." << std::endl;
           exit(1);
      }
 
