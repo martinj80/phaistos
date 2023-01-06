@@ -118,6 +118,7 @@ public:
 
                                         break;
                                    }
+
                                    case AcceptorCarboxylate: {
 
                                         const Vector_3D h_pos = (*res1)[H]->position;

@@ -596,6 +596,7 @@ namespace phaistos {
                     r = read_chi_index(R);
                     r.resize(2);
                     //TEMPORARY TESTING INFO
+                    /*
                     const Vector_3D n_pos = (R)[N]->position;
                     const Vector_3D ca_pos = (R)[CA]->position;
                     const Vector_3D cb_pos = (R)[CB]->position;
@@ -611,6 +612,7 @@ namespace phaistos {
                     std::cout << "calc_dihedral(ca_pos, cb_pos, og_pos, p_pos) = " << chi2_double << " rad (+" << chi2_int << " deg)" << std::endl;
                     std::cout << "r = read_chi_index(R) = " << read_chi_index(R) << std::endl;
                     std::cout << "r.resize(2) = " << r << std::endl;
+                    */
                     //END OF TEMPORARY
 
                     return r;
@@ -631,6 +633,7 @@ namespace phaistos {
                     r.resize(2);
 
                     //TEMPORARY TESTING INFO
+                    /*
                     const Vector_3D n_pos = (R)[N]->position;
                     const Vector_3D ca_pos = (R)[CA]->position;
                     const Vector_3D cb_pos = (R)[CB]->position;
@@ -646,6 +649,7 @@ namespace phaistos {
                     std::cout << "calc_dihedral(ca_pos, cb_pos, og_pos, cppos) = " << chi2_double << " rad (+" << chi2_int << " deg)" << std::endl;
                     std::cout << "r = read_chi_index(R) = " << read_chi_index(R) << std::endl;
                     std::cout << "r.resize(2) = " << r << std::endl;
+                    */
                     //END OF TEMPORARY
 
                     return r;
@@ -688,6 +692,7 @@ namespace phaistos {
                     r.resize(2);
 
                     //TEMPORARY TESTING INFO
+                    /*
                     const Vector_3D n_pos = (R)[N]->position;
                     const Vector_3D ca_pos = (R)[CA]->position;
                     const Vector_3D cb_pos = (R)[CB]->position;
@@ -703,6 +708,7 @@ namespace phaistos {
                     std::cout << "calc_dihedral(ca_pos, cb_pos, cg_pos, cd_pos) = " << chi2_double << " rad (+" << chi2_int << " deg)" << std::endl;
                     std::cout << "r = read_chi_index(R) = " << read_chi_index(R) << std::endl;
                     std::cout << "r.resize(2) = " << r << std::endl;
+                    */
                     //END OF TEMPORARY
 
                     return r;
