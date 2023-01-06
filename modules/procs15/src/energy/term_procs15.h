@@ -446,6 +446,7 @@ public:
                shieldings = get_shieldings(res1);
 
                //Modified by MJ: Some printing for debugging purposes
+               /*
                if (
                    //res1->residue_type == SEP || res1->residue_type == SER
                    res1->residue_type == TPO || res1->residue_type == THR
@@ -465,6 +466,7 @@ public:
                    //std::cout << "ring_current_corrections" << ring_current_corrections << std::endl;
                    //std::cout << "shieldings" << shieldings << std::endl;
                }
+               */
 
                if ((settings.load_hn) && (settings.use_water_correction == true) && (std::abs(primary_h_bond_corrections[4]) < 0.000001) && (res1->residue_type != PRO)) {
                      contributions[res1->index][8][2] = -water_bonding_correction;
